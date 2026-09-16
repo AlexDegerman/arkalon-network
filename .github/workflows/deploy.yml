@@ -2,8 +2,14 @@ name: Deploy
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+
+concurrency:
+  group: network-production-deploy
+  cancel-in-progress: false
 
 jobs:
   ci:
@@ -12,50 +18,45 @@ jobs:
   deploy:
     needs: ci
     runs-on: ubuntu-latest
-    environment: production
-
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Set deploy SHA
+      - name: Get short SHA
         id: sha
-        run: echo "sha=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+        run: echo "short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
 
-      - name: Transfer source to VPS
+      # Preserve server-managed files (.env) during sync
+      - name: Deploy source code to VPS
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
-          source: '.,!node_modules,!.next,!.git,!.env,!.env.local,!*.log'
-          target: /opt/arkalon/arkalon-network/releases/${{ steps.sha.outputs.sha }}
-          strip_components: 0
+          source: '.,!node_modules,!.next,!.git,!.env*,!*.log,!.github,!.vscode'
+          target: /opt/arkalon/arkalon-network/
+          overwrite: true
+          rm: false
 
       - name: Build and restart on VPS
-        uses: appleboy/ssh-action@v1.0.3
+        uses: appleboy/ssh-action@v1
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
           script: |
-            set -e
+            set -euo pipefail
+            cd /opt/arkalon/arkalon-network
+            export DEPLOY_SHA="${{ steps.sha.outputs.short }}"
 
-            DEPLOY_SHA=${{ steps.sha.outputs.sha }}
-            RELEASE_DIR=/opt/arkalon/arkalon-network/releases/${DEPLOY_SHA}
-            APP_DIR=/opt/arkalon/arkalon-network
+            echo "Building image for commit: ${DEPLOY_SHA}"
+            docker build -t "arkalon-network:${DEPLOY_SHA}" .
 
-            cd ${RELEASE_DIR}
+            echo "Restarting container with new image..."
+            docker compose up -d --force-recreate
 
-            docker build -t arkalon-network:${DEPLOY_SHA} .
+            echo "Waiting 10s for Next.js healthcheck..."
+            sleep 10
 
-            cd ${APP_DIR}
+            docker exec arkalon-network node -e "fetch('http://localhost:3000').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))"
 
-            DEPLOY_SHA=${DEPLOY_SHA} docker compose up -d
-
-            sleep 5
-
-            STATUS=$(docker inspect --format='{{.State.Health.Status}}' arkalon-network 2>/dev/null || echo 'unknown')
-            echo "Container health: ${STATUS}"
-
-            docker logs arkalon-network --tail 20
+            echo "Deployment of ${DEPLOY_SHA} complete and healthy!"
