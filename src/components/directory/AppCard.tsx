@@ -12,6 +12,26 @@ type Props = {
   app: ArkalonApp
 }
 
+const APP_TITLE_STYLES: Record<string, string> = {
+  rps: 'title-rps',
+  daily: 'title-daily',
+  labs: 'title-labs',
+  'tower-defense': 'title-tower-defense',
+  realms: 'title-realms',
+  'chaos-racing': 'title-chaos-racing',
+  market: 'title-market',
+  dungeons: 'title-dungeons',
+  nexus: 'title-nexus',
+  ai: 'title-ai',
+  party: 'title-party',
+  colony: 'title-colony',
+  arena: 'title-arena',
+  dreadwood: 'title-dreadwood',
+  raids: 'title-raids',
+  auction: 'title-auction',
+  dispatch: 'title-dispatch'
+}
+
 function AppCardInner({ app }: Props) {
   const [expanded, setExpanded] = useState(false)
 
@@ -41,8 +61,8 @@ function AppCardInner({ app }: Props) {
       >
         <span className="flex flex-col gap-0.5 min-w-0">
           <span
-            className="text-[1.125rem] font-semibold leading-snug"
-            style={{ color: 'var(--text-primary)', wordBreak: 'break-word' }}
+            className={`text-[1.125rem] font-black leading-snug tracking-wide ${APP_TITLE_STYLES[app.slug] ?? ''}`}
+            style={{ wordBreak: 'break-word' }}
           >
             {app.name.toUpperCase()}
           </span>

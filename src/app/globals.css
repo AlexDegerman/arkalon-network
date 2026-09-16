@@ -69,3 +69,275 @@
     transition-duration: 0.01ms !important;
   }
 }
+
+@keyframes dqg-sweep {
+  to { background-position-x: 200%; }
+}
+
+@keyframes dqg-shard1 {
+  0%, 100% { 
+    transform: rotateZ(0deg) translateY(0px) scale(1); 
+    filter: drop-shadow(0 0 3px rgba(236, 72, 153, 0.6)) brightness(1); 
+  }
+  50% { 
+    transform: rotateZ(18deg) translateY(-4px) scale(1.1); 
+    filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.8)) brightness(1.3); 
+  }
+}
+
+@keyframes dqg-shard2 {
+  0%, 100% { 
+    transform: rotateZ(0deg) translateY(0px) scale(1); 
+    filter: drop-shadow(0 0 3px rgba(168, 85, 247, 0.6)) brightness(1); 
+  }
+  35% { 
+    transform: rotateZ(-22deg) translateY(-3px) scale(1.08); 
+    filter: drop-shadow(0 0 7px rgba(255, 215, 0, 0.75)) brightness(1.3); 
+  }
+}
+
+.g-dqgs {
+  transform: translateZ(0);
+  display: inline-block;
+  position: relative;
+  padding: 0 0.15em;
+  isolation: isolate;
+
+  background: 
+    repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.18) 0px, rgba(255, 255, 255, 0.18) 2px, transparent 2px, transparent 5px),
+    linear-gradient(90deg, #6b21a8 0%, #a855f7 25%, #fffbeb 50%, #ec4899 75%, #9333ea 100%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+
+  -webkit-text-stroke: 0.5px rgba(255, 255, 255, 0.35);
+
+  filter:
+    drop-shadow(0 0 4px rgba(236, 72, 153, 0.8))
+    drop-shadow(0 0 14px rgba(168, 85, 247, 0.55))
+    drop-shadow(0 0 28px rgba(147, 51, 234, 0.3));
+
+  animation: dqg-sweep 6s linear infinite;
+}
+
+@keyframes title-sweep-linear {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+
+@keyframes title-sweep-300 {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 300% 50%; }
+}
+
+@keyframes title-pulse-breathe {
+  0%, 100% { filter: drop-shadow(0 0 3px rgba(0, 255, 102, 0.8)) drop-shadow(0 0 10px rgba(0, 255, 102, 0.35)); }
+  50% { filter: drop-shadow(0 0 7px rgba(0, 255, 102, 1)) drop-shadow(0 0 18px rgba(0, 255, 102, 0.55)) brightness(1.2); }
+}
+
+@keyframes title-arena-glow {
+  0%, 100% { filter: drop-shadow(0 0 4px rgba(0, 255, 136, 0.7)) drop-shadow(0 0 10px rgba(255, 68, 34, 0.5)); }
+  50% { filter: drop-shadow(0 0 7px rgba(0, 255, 136, 0.95)) drop-shadow(0 0 16px rgba(255, 68, 34, 0.8)) brightness(1.15); }
+}
+
+@keyframes title-auction-glow {
+  0%, 100% { filter: drop-shadow(0 0 4px rgba(255, 215, 0, 0.75)) drop-shadow(0 0 12px rgba(124, 58, 237, 0.4)); }
+  50% { filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.95)) drop-shadow(0 0 20px rgba(168, 85, 247, 0.7)); }
+}
+
+.title-rps {
+  background: linear-gradient(90deg, #b45309 0%, #d97706 15%, #f59e0b 30%, #fffbeb 45%, #ffffff 50%, #fffbeb 55%, #fbbf24 70%, #d97706 85%, #b45309 100%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+  -webkit-text-stroke: 0.5px #78350f;
+  filter: drop-shadow(0 0 3px rgba(251, 191, 36, 0.85)) drop-shadow(0 0 10px rgba(255, 234, 117, 0.3));
+  animation: title-sweep-linear 4s linear infinite;
+}
+
+.title-daily {
+  color: #00ff66 !important;
+  -webkit-text-fill-color: #00ff66 !important;
+  -webkit-text-stroke: 0.5px #003311;
+  animation: title-pulse-breathe 3s ease-in-out infinite;
+}
+
+.title-labs {
+  background: linear-gradient(90deg, #00f0ff 0%, #ffffff 25%, #00f0ff 40%, #0077b6 65%, #00f0ff 85%, #ffffff 100%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+  -webkit-text-stroke: 0.5px #ff00dc;
+  filter: drop-shadow(0 0 4px rgba(0, 240, 255, 0.85)) drop-shadow(0 0 12px rgba(255, 0, 220, 0.45));
+  animation: title-sweep-linear 3.5s linear infinite;
+}
+
+.title-tower-defense {
+  background: linear-gradient(90deg, #1e0b36 0%, #6d28d9 20%, #a78bfa 40%, #ffffff 50%, #c084fc 60%, #4c1d95 80%, #1e0b36 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+  -webkit-text-stroke: 0.5px rgba(250, 245, 255, 0.85);
+  filter: drop-shadow(0 0 6px rgba(109, 40, 217, 0.75)) drop-shadow(0 0 14px rgba(167, 139, 250, 0.35));
+  animation: title-sweep-linear 3s linear infinite;
+}
+
+.title-realms {
+  background: linear-gradient(270deg, #0b132b 0%, #1c2541 30%, #5bc0be 50%, #1c2541 70%, #0b132b 100%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+  -webkit-text-stroke: 0.4px rgba(34, 211, 238, 0.95);
+  filter: drop-shadow(0 0 5px rgba(34, 211, 238, 0.75)) drop-shadow(0 0 12px rgba(91, 192, 190, 0.35));
+  animation: title-sweep-linear 5s linear infinite;
+}
+
+.title-chaos-racing {
+  background: linear-gradient(90deg, #ffcc00 0%, #ff6a00 30%, #e03500 50%, #ff4400 70%, #ffcc00 100%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+  -webkit-text-stroke: 0.5px #7f1d1d;
+  filter: drop-shadow(0 0 5px #ff6a00) drop-shadow(0 0 14px #dc2626);
+  animation: title-sweep-linear 2.5s ease-in-out infinite;
+}
+
+.title-market {
+  background: linear-gradient(90deg, #022c22 0%, #059669 20%, #10b981 40%, #ffffff 50%, #10b981 60%, #047857 80%, #022c22 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+  -webkit-text-stroke: 0.4px rgba(167, 243, 208, 0.95);
+  filter: drop-shadow(0 0 6px rgba(16, 185, 129, 0.85)) drop-shadow(0 0 16px rgba(5, 150, 105, 0.5));
+  animation: title-sweep-linear 3s linear infinite;
+}
+
+.title-dungeons {
+  background: linear-gradient(135deg, #1e053a 0%, #7c2d12 25%, #ea580c 48%, #fbbf24 65%, #c084fc 82%, #1e053a 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+  -webkit-text-stroke: 0.5px #3b0707;
+  filter: drop-shadow(0 0 5px rgba(234, 88, 12, 0.75)) drop-shadow(0 0 14px rgba(139, 92, 246, 0.4));
+  animation: title-sweep-linear 3s linear infinite;
+}
+
+.title-nexus {
+  background: linear-gradient(90deg, #ffffff 0%, #7dd3fc 35%, #0ea5e9 60%, #ffffff 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+  -webkit-text-stroke: 0.4px rgba(14, 165, 233, 0.8);
+  filter: drop-shadow(0 0 6px rgba(14, 165, 233, 0.9)) drop-shadow(0 0 16px rgba(56, 189, 248, 0.5));
+  animation: title-sweep-linear 2.5s ease-in-out infinite;
+}
+
+.title-ai {
+  background: linear-gradient(135deg, #ffffff 0%, #faf5ff 25%, #d8b4fe 45%, #ffffff 55%, #c084fc 70%, #ffffff 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+  -webkit-text-stroke: 0.4px rgba(216, 180, 254, 0.9);
+  filter: drop-shadow(0 0 5px #ffffff) drop-shadow(0 0 14px rgba(168, 85, 247, 0.75));
+  animation: title-sweep-linear 3s ease-in-out infinite;
+}
+
+.title-party {
+  background: linear-gradient(45deg, #ffd700, #ff88cc, #88ffdd, #ffaa00, #cc44ff, #ffd700);
+  background-size: 300% 300%;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+  filter: drop-shadow(0 0 5px #ffd700) drop-shadow(0 0 14px rgba(255, 136, 204, 0.6));
+  animation: title-sweep-300 3s linear infinite;
+}
+
+.title-colony {
+  background: linear-gradient(90deg, #5c1d06 0%, #ea580c 25%, #ffedd5 45%, #fed7aa 55%, #f97316 70%, #9a3412 85%, #5c1d06 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+  -webkit-text-stroke: 0.4px #451a03;
+  filter: drop-shadow(0 0 4px rgba(249, 115, 22, 0.75)) drop-shadow(0 0 12px rgba(234, 88, 12, 0.4));
+  animation: title-sweep-linear 3.5s linear infinite;
+}
+
+.title-arena {
+  background: linear-gradient(90deg, #00ff88 0%, #00ff88 45%, #ffffff 50%, #ff4422 55%, #ff4422 100%);
+  background-size: 100% 100%;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+  -webkit-text-stroke: 0.5px rgba(0, 0, 0, 0.8);
+  animation: title-arena-glow 2.5s ease-in-out infinite;
+}
+
+.title-dreadwood {
+  background: linear-gradient(90deg, #450a0a 0%, #dc2626 30%, #f87171 50%, #991b1b 70%, #450a0a 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+  -webkit-text-stroke: 0.4px #450a0a;
+  filter: drop-shadow(0 0 4px rgba(220, 38, 38, 0.85)) drop-shadow(0 0 14px rgba(127, 29, 29, 0.6));
+  animation: title-sweep-linear 3.5s linear infinite;
+}
+
+.title-raids {
+  background: linear-gradient(135deg, #78350f 0%, #f59e0b 25%, #fef08a 50%, #f59e0b 75%, #78350f 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+  -webkit-text-stroke: 0.5px #78350f;
+  filter: drop-shadow(0 0 5px rgba(245, 158, 11, 0.8)) drop-shadow(0 0 14px rgba(217, 119, 6, 0.5));
+  animation: title-sweep-linear 3s ease-in-out infinite;
+}
+
+.title-auction {
+  background: linear-gradient(180deg, #c084fc 0%, #7c3aed 50%, #4c1d95 100%);
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+  -webkit-text-stroke: 0.5px #ffd700;
+  animation: title-auction-glow 3s ease-in-out infinite;
+}
+
+.title-dispatch {
+  background: linear-gradient(90deg, #334155 0%, #cbd5e1 25%, #ffffff 50%, #94a3b8 75%, #334155 100%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+  -webkit-text-stroke: 0.4px rgba(255, 255, 255, 0.85);
+  filter: drop-shadow(0 0 4px rgba(148, 163, 184, 0.65)) drop-shadow(0 0 12px rgba(203, 213, 225, 0.25));
+  animation: title-sweep-linear 3.5s linear infinite;
+}
