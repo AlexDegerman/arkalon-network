@@ -4,8 +4,9 @@ import { useState } from 'react'
 import type { ArkalonApp } from '@/lib/registry/types'
 import { StatusBadge } from './StatusBadge'
 import { PreviewMedia } from './PreviewMedia'
-import { ChevronDown } from 'lucide-react'
+import { ComingSoonPlaceholder } from './ComingSoonPlaceholder'
 import { CtaButton } from './CtaButton'
+import { ChevronDown } from 'lucide-react'
 
 type Props = {
   app: ArkalonApp
@@ -14,6 +15,10 @@ type Props = {
 export function AppCard({ app }: Props) {
   const [expanded, setExpanded] = useState(false)
 
+  // Determine what to show in the media slot
+  const showPlaceholder =
+    app.status === 'coming_soon' || app.status === 'development'
+  const showMedia = !showPlaceholder && app.previewMediaUrl != null
 
   return (
     <article
@@ -23,7 +28,7 @@ export function AppCard({ app }: Props) {
         borderColor: expanded ? 'var(--border-active)' : 'var(--border-default)'
       }}
     >
-      {/* Header row - always visible, acts as toggle */}
+      {/* Header row */}
       <button
         type="button"
         onClick={() => setExpanded((prev) => !prev)}
@@ -46,7 +51,6 @@ export function AppCard({ app }: Props) {
           ).style.backgroundColor = 'var(--bg-surface)'
         }}
       >
-        {/* Left: name + short description */}
         <span className="flex flex-col gap-0.5 min-w-0">
           <span
             className="text-[1.125rem] font-semibold leading-snug"
@@ -62,7 +66,6 @@ export function AppCard({ app }: Props) {
           </span>
         </span>
 
-        {/* Right: status badge + chevron */}
         <span className="flex items-center gap-2 shrink-0 pt-0.5">
           <StatusBadge status={app.status} />
           <ChevronDown
@@ -98,12 +101,12 @@ export function AppCard({ app }: Props) {
             </p>
           )}
 
-          {/* Preview media - only loaded when card is expanded */}
-          {app.previewMediaUrl && (
-            <PreviewMedia url={app.previewMediaUrl} appName={app.name} />
+          {/* Media slot - placeholder for coming_soon/development, lazy image for online */}
+          {showPlaceholder && <ComingSoonPlaceholder appName={app.name} />}
+          {showMedia && (
+            <PreviewMedia url={app.previewMediaUrl!} appName={app.name} />
           )}
 
-          {/* CTA button */}
           <div className="flex justify-center pt-1">
             <CtaButton label={app.ctaLabel} route={app.route} />
           </div>
