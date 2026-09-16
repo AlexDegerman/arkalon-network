@@ -1,0 +1,61 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  ci:
+    uses: ./.github/workflows/ci.yml
+
+  deploy:
+    needs: ci
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set deploy SHA
+        id: sha
+        run: echo "sha=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+
+      - name: Transfer source to VPS
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          source: '.,!node_modules,!.next,!.git,!.env,!.env.local,!*.log'
+          target: /opt/arkalon/arkalon-network/releases/${{ steps.sha.outputs.sha }}
+          strip_components: 0
+
+      - name: Build and restart on VPS
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          script: |
+            set -e
+
+            DEPLOY_SHA=${{ steps.sha.outputs.sha }}
+            RELEASE_DIR=/opt/arkalon/arkalon-network/releases/${DEPLOY_SHA}
+            APP_DIR=/opt/arkalon/arkalon-network
+
+            cd ${RELEASE_DIR}
+
+            docker build -t arkalon-network:${DEPLOY_SHA} .
+
+            cd ${APP_DIR}
+
+            DEPLOY_SHA=${DEPLOY_SHA} docker compose up -d
+
+            sleep 5
+
+            STATUS=$(docker inspect --format='{{.State.Health.Status}}' arkalon-network 2>/dev/null || echo 'unknown')
+            echo "Container health: ${STATUS}"
+
+            docker logs arkalon-network --tail 20
