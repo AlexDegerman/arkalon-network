@@ -1,3 +1,5 @@
+import 'server-only'
+
 // 256-word bank for recovery code generation
 // WORD-WORD-DIGITS format gives 256 x 256 x 10000 = ~655 million combinations
 export const WORD_BANK: readonly string[] = [

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { memo, useState } from 'react'
 import type { ArkalonApp } from '@/lib/registry/types'
 import { StatusBadge } from './StatusBadge'
 import { PreviewMedia } from './PreviewMedia'
@@ -12,23 +12,21 @@ type Props = {
   app: ArkalonApp
 }
 
-export function AppCard({ app }: Props) {
+function AppCardInner({ app }: Props) {
   const [expanded, setExpanded] = useState(false)
 
-  // Determine what to show in the media slot
   const showPlaceholder =
     app.status === 'coming_soon' || app.status === 'development'
   const showMedia = !showPlaceholder && app.previewMediaUrl != null
 
   return (
     <article
-      className="w-full rounded-lg border transition-colors duration-150"
+      className="w-full rounded-lg border transition-colors duration-150 hover:bg-(--bg-surface-hover)"
       style={{
         backgroundColor: 'var(--bg-surface)',
         borderColor: expanded ? 'var(--border-active)' : 'var(--border-default)'
       }}
     >
-      {/* Header row */}
       <button
         type="button"
         onClick={() => setExpanded((prev) => !prev)}
@@ -40,16 +38,6 @@ export function AppCard({ app }: Props) {
             '--tw-outline-color': 'var(--accent-network)'
           } as React.CSSProperties
         }
-        onMouseEnter={(e) => {
-          ;(
-            e.currentTarget.parentElement as HTMLElement
-          ).style.backgroundColor = 'var(--bg-surface-hover)'
-        }}
-        onMouseLeave={(e) => {
-          ;(
-            e.currentTarget.parentElement as HTMLElement
-          ).style.backgroundColor = 'var(--bg-surface)'
-        }}
       >
         <span className="flex flex-col gap-0.5 min-w-0">
           <span
@@ -80,10 +68,11 @@ export function AppCard({ app }: Props) {
         </span>
       </button>
 
-      {/* Expanded body */}
       {expanded && (
         <div
           id={`card-body-${app.slug}`}
+          role="region"
+          aria-label={`${app.name} details`}
           className="px-4 pb-4 flex flex-col gap-3"
           style={{ animation: 'card-expand 0.15s ease-out both' }}
         >
@@ -101,7 +90,6 @@ export function AppCard({ app }: Props) {
             </p>
           )}
 
-          {/* Media slot - placeholder for coming_soon/development, lazy image for online */}
           {showPlaceholder && <ComingSoonPlaceholder appName={app.name} />}
           {showMedia && (
             <PreviewMedia url={app.previewMediaUrl!} appName={app.name} />
@@ -115,3 +103,5 @@ export function AppCard({ app }: Props) {
     </article>
   )
 }
+
+export const AppCard = memo(AppCardInner)

@@ -7,7 +7,6 @@ import { RecoveryCodeDisplay } from './RecoveryCodeDisplay'
 import { RecoveryCodeEntry } from './RecoveryCodeEntry'
 import {
   validateSessionAction,
-  getRecoveryCodeAction
 } from '@/app/actions/validateSession'
 import { createCoreIdentityAction } from '@/app/actions/createCoreIdentity'
 
@@ -27,6 +26,7 @@ export function SettingsPanel() {
   const [activeTab, setActiveTab] = useState<'identity' | 'restore'>('identity')
   const panelRef = useRef<HTMLDivElement>(null)
   const closeRef = useRef<HTMLButtonElement>(null)
+  const bootstrapInFlight = useRef(false)
 
   // Bootstrap identity and session state when panel opens
   useEffect(() => {
@@ -35,6 +35,8 @@ export function SettingsPanel() {
     let cancelled = false
 
     const bootstrap = async () => {
+      if (bootstrapInFlight.current) return
+      bootstrapInFlight.current = true
       setPanelState({ phase: 'loading' })
 
       // Check for validated session first
@@ -53,10 +55,7 @@ export function SettingsPanel() {
       // No validated session - try to create or detect existing identity
       const identityResult = await createCoreIdentityAction()
 
-      if (cancelled) return
-
       if (identityResult.status === 'created') {
-        // New identity - show recovery code once
         const session2 = await validateSessionAction()
         if (cancelled) return
         setPanelState({
@@ -65,14 +64,10 @@ export function SettingsPanel() {
           displayId: session2.valid ? session2.displayId : '--------'
         })
       } else if (identityResult.status === 'existing') {
-        // Existing identity, no validated session
-        // Get display ID from cookie via action
-        const partial = await import('@/app/actions/createCoreIdentity')
-        const displayId = await partial.getDisplayCoreId()
         if (cancelled) return
         setPanelState({
           phase: 'existing_unvalidated',
-          displayId: displayId ?? '--------'
+          displayId: identityResult.displayId
         })
       } else if (identityResult.status === 'rate_limited') {
         if (cancelled) return
@@ -81,11 +76,14 @@ export function SettingsPanel() {
         if (cancelled) return
         setPanelState({ phase: 'error' })
       }
-    }
+
+        bootstrapInFlight.current = false
+      }
 
     bootstrap()
     return () => {
       cancelled = true
+      bootstrapInFlight.current = false
     }
   }, [settingsPanelOpen])
 

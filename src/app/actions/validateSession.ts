@@ -24,39 +24,3 @@ export async function validateSessionAction(): Promise<SessionStatus> {
     return { valid: false }
   }
 }
-
-export type RecoveryCodeViewResult =
-  | { status: 'ok'; code: string }
-  | { status: 'unauthorized' }
-  | { status: 'error' }
-
-// Re-displays the recovery code only for validated sessions.
-// The code is never exposed to unvalidated visitors.
-export async function getRecoveryCodeAction(): Promise<RecoveryCodeViewResult> {
-  try {
-    const ownership = await validateOwnership()
-    if (!ownership.valid) return { status: 'unauthorized' }
-
-    const { default: pool } = await import('@/lib/db')
-    const { z } = await import('zod')
-
-    const UuidSchema = z.string().uuid()
-    const parsed = UuidSchema.safeParse(ownership.coreId)
-    if (!parsed.success) return { status: 'unauthorized' }
-
-    // Fetch the stored recovery code hash to confirm the identity exists.
-    // Plain recovery codes are never stored or recoverable.
-    const result = await pool.query<{ recovery_code: string }>(
-      `SELECT recovery_code FROM core_identities WHERE id = $1`,
-      [parsed.data]
-    )
-
-    if (!result.rows[0]) return { status: 'unauthorized' }
-
-    // Return a safe UI indicator because only the hash is stored.
-    return { status: 'ok', code: 'USE-YOUR-SAVED-CODE' }
-  } catch (err) {
-    console.error('[getRecoveryCodeAction]', err)
-    return { status: 'error' }
-  }
-}

@@ -30,25 +30,13 @@ export function Header() {
             type="button"
             onClick={() => setSettingsPanelOpen(true)}
             aria-label="Open settings"
-            className="mt-1 p-2 rounded-md transition-colors duration-150 shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2"
+            className="mt-1 p-2 rounded-md transition-colors duration-150 shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 hover:text-(--text-primary) hover:bg-(--bg-surface)"
             style={
               {
                 color: 'var(--text-muted)',
                 '--tw-outline-color': 'var(--accent-network)'
               } as React.CSSProperties
             }
-            onMouseEnter={(e) => {
-              ;(e.currentTarget as HTMLElement).style.color =
-                'var(--text-primary)'
-              ;(e.currentTarget as HTMLElement).style.backgroundColor =
-                'var(--bg-surface)'
-            }}
-            onMouseLeave={(e) => {
-              ;(e.currentTarget as HTMLElement).style.color =
-                'var(--text-muted)'
-              ;(e.currentTarget as HTMLElement).style.backgroundColor =
-                'transparent'
-            }}
           >
             <Settings size={18} aria-hidden="true" />
           </button>

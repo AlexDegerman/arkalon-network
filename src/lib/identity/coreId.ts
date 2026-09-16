@@ -3,7 +3,7 @@ import pool from '@/lib/db'
 
 export type CoreIdentityRow = {
   id: string
-  recovery_code_hash: string
+  recovery_code: string
   created_at: Date
   last_seen_at: Date
 }
@@ -14,13 +14,12 @@ export type NewIdentityResult = {
 }
 
 export async function createCoreIdentity(
-  recoveryCode: string,
   recoveryCodeHash: string
 ): Promise<string> {
   const result = await pool.query<{ id: string }>(
     `INSERT INTO core_identities (id, recovery_code, created_at, last_seen_at)
-      VALUES (gen_random_uuid(), $1, now(), now())
-      RETURNING id`,
+     VALUES (gen_random_uuid(), $1, now(), now())
+     RETURNING id`,
     [recoveryCodeHash]
   )
   return result.rows[0].id

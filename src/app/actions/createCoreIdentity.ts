@@ -1,18 +1,24 @@
 'use server'
 
 import { z } from 'zod'
-import { getCoreIdCookie, setCoreIdCookie } from '@/lib/identity/cookie'
+import {
+  getCoreIdCookie,
+  setCoreIdCookie,
+  setSessionCookie
+} from '@/lib/identity/cookie'
 import { createCoreIdentity, updateLastSeen } from '@/lib/identity/coreId'
 import {
   generateRecoveryCode,
-  hashRecoveryCode
+  hashRecoveryCode,
+  signSessionToken,
+  hashSessionToken
 } from '@/lib/identity/recoveryCode'
 import { checkRateLimit } from '@/lib/identity/rateLimit'
 import { headers } from 'next/headers'
+import pool from '@/lib/db'
 
-// Return shape sent to client - no credentials, no hash, no cookie values
 export type CreateIdentityResult =
-  | { status: 'existing' }
+  | { status: 'existing'; displayId: string }
   | { status: 'created'; recoveryCode: string }
   | { status: 'rate_limited' }
   | { status: 'error'; message: string }
@@ -21,17 +27,16 @@ const UuidSchema = z.string().uuid()
 
 export async function createCoreIdentityAction(): Promise<CreateIdentityResult> {
   try {
-    // If a valid core_id cookie already exists, just refresh last_seen
-    const existingId = await getCoreIdCookie()
+    const existingId = getCoreIdCookie()
     if (existingId) {
       const parsed = UuidSchema.safeParse(existingId)
       if (parsed.success) {
         await updateLastSeen(parsed.data)
-        return { status: 'existing' }
+        const displayId = parsed.data.slice(0, 8).toUpperCase()
+        return { status: 'existing', displayId }
       }
     }
 
-    // Rate limit by IP before creating a new identity
     const headerList = await headers()
     const ip =
       headerList.get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'unknown'
@@ -43,27 +48,28 @@ export async function createCoreIdentityAction(): Promise<CreateIdentityResult> 
     const recoveryCode = generateRecoveryCode()
     const recoveryCodeHash = hashRecoveryCode(recoveryCode)
 
-    const coreId = await createCoreIdentity(recoveryCode, recoveryCodeHash)
+        const coreId = await createCoreIdentity(recoveryCodeHash)
 
-    setCoreIdCookie(coreId)
+    // Issue session token so the new identity has a validated session immediately
+    const sessionToken = signSessionToken(coreId)
+    const sessionTokenHash = hashSessionToken(sessionToken)
+    const expiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
 
-    // Return the plain recovery code once - never stored in plain text after this
+    await pool.query(
+      `INSERT INTO validated_sessions (id, core_id, session_token, created_at, expires_at)
+        VALUES (gen_random_uuid(), $1, $2, now(), $3)`,
+      [coreId, sessionTokenHash, expiresAt]
+    )
+
+    await setCoreIdCookie(coreId)
+    await setSessionCookie(sessionToken)
+    
     return { status: 'created', recoveryCode }
   } catch (err) {
-    // Log server-side only, return safe message to client
     console.error('[createCoreIdentityAction]', err)
     return {
       status: 'error',
       message: 'Identity creation failed. Please try again.'
     }
   }
-}
-
-export async function getDisplayCoreId(): Promise<string | null> {
-  const id = await getCoreIdCookie()
-  if (!id) return null
-  const parsed = UuidSchema.safeParse(id)
-  if (!parsed.success) return null
-  // Return truncated form for display - full UUID is only used server-side
-  return parsed.data.slice(0, 8).toUpperCase()
 }

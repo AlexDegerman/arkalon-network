@@ -2,7 +2,7 @@
 
 import { create } from 'zustand'
 
-type ModalType = 'settings' | 'recovery-entry' | null
+type ModalType = 'settings' | null
 
 type PopupMessage = {
   id: string
@@ -11,23 +11,16 @@ type PopupMessage = {
 }
 
 type UiState = {
-  activeModal: ModalType
   settingsPanelOpen: boolean
   popupQueue: PopupMessage[]
-  openModal: (modal: Exclude<ModalType, null>) => void
-  closeModal: () => void
   setSettingsPanelOpen: (open: boolean) => void
   pushPopup: (popup: Omit<PopupMessage, 'id'>) => void
   dismissPopup: (id: string) => void
 }
 
 export const useUiStore = create<UiState>((set) => ({
-  activeModal: null,
   settingsPanelOpen: false,
   popupQueue: [],
-
-  openModal: (modal) => set({ activeModal: modal }),
-  closeModal: () => set({ activeModal: null }),
 
   setSettingsPanelOpen: (open) => set({ settingsPanelOpen: open }),
 
