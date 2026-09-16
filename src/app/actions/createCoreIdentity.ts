@@ -27,7 +27,7 @@ const UuidSchema = z.string().uuid()
 
 export async function createCoreIdentityAction(): Promise<CreateIdentityResult> {
   try {
-    const existingId = getCoreIdCookie()
+    const existingId = await getCoreIdCookie()
     if (existingId) {
       const parsed = UuidSchema.safeParse(existingId)
       if (parsed.success) {
@@ -48,7 +48,7 @@ export async function createCoreIdentityAction(): Promise<CreateIdentityResult> 
     const recoveryCode = generateRecoveryCode()
     const recoveryCodeHash = hashRecoveryCode(recoveryCode)
 
-        const coreId = await createCoreIdentity(recoveryCodeHash)
+    const coreId = await createCoreIdentity(recoveryCodeHash)
 
     // Issue session token so the new identity has a validated session immediately
     const sessionToken = signSessionToken(coreId)
@@ -63,7 +63,7 @@ export async function createCoreIdentityAction(): Promise<CreateIdentityResult> 
 
     await setCoreIdCookie(coreId)
     await setSessionCookie(sessionToken)
-    
+
     return { status: 'created', recoveryCode }
   } catch (err) {
     console.error('[createCoreIdentityAction]', err)

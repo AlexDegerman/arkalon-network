@@ -4,9 +4,10 @@ export const REGISTRY: ArkalonApp[] = [
   {
     slug: 'rps',
     name: 'RPS League',
-    shortDescription: 'Live-service Rock Paper Scissors prediction platform.',
+    shortDescription: 'Live-service Rock Paper Scissors predicting platform.',
     extendedDescription:
-      'A live-service Rock Paper Scissors prediction platform where players wager cosmetic points, track global rankings, and use an AI-powered assistant for match analysis and game guidance.',
+      'A live-service Rock Paper Scissors predicting platform where players wager cosmetic points, track global rankings, and use an AI-powered assistant for match analysis and game guidance.',
+    previewMediaUrl: '/rpsleaguehalfanniv.mp4',
     status: 'online',
     category: 'live',
     route: 'https://rpsleague.fi',

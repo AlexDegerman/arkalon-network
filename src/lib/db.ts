@@ -7,7 +7,7 @@ const pool = new Pool({
   idleTimeoutMillis: 30_000,
   connectionTimeoutMillis: 5_000,
   ssl:
-    process.env.DATABASE_SSL === 'false' ? false : { rejectUnauthorized: false }
+    process.env.DATABASE_SSL === 'true' ? { rejectUnauthorized: false } : false
 })
 
 export default pool

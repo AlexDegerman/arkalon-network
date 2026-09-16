@@ -39,46 +39,48 @@ export function SettingsPanel() {
       bootstrapInFlight.current = true
       setPanelState({ phase: 'loading' })
 
-      // Check for validated session first
-      const sessionResult = await validateSessionAction()
+      try {
+        // Check for validated session first
+        const sessionResult = await validateSessionAction()
 
-      if (cancelled) return
-
-      if (sessionResult.valid) {
-        setPanelState({
-          phase: 'existing_validated',
-          displayId: sessionResult.displayId
-        })
-        return
-      }
-
-      // No validated session - try to create or detect existing identity
-      const identityResult = await createCoreIdentityAction()
-
-      if (identityResult.status === 'created') {
-        const session2 = await validateSessionAction()
         if (cancelled) return
-        setPanelState({
-          phase: 'created',
-          recoveryCode: identityResult.recoveryCode,
-          displayId: session2.valid ? session2.displayId : '--------'
-        })
-      } else if (identityResult.status === 'existing') {
-        if (cancelled) return
-        setPanelState({
-          phase: 'existing_unvalidated',
-          displayId: identityResult.displayId
-        })
-      } else if (identityResult.status === 'rate_limited') {
-        if (cancelled) return
-        setPanelState({ phase: 'error' })
-      } else {
-        if (cancelled) return
-        setPanelState({ phase: 'error' })
-      }
 
+        if (sessionResult.valid) {
+          setPanelState({
+            phase: 'existing_validated',
+            displayId: sessionResult.displayId
+          })
+          return
+        }
+
+        // No validated session - try to create or detect existing identity
+        const identityResult = await createCoreIdentityAction()
+
+        if (identityResult.status === 'created') {
+          const session2 = await validateSessionAction()
+          if (cancelled) return
+          setPanelState({
+            phase: 'created',
+            recoveryCode: identityResult.recoveryCode,
+            displayId: session2.valid ? session2.displayId : '--------'
+          })
+        } else if (identityResult.status === 'existing') {
+          if (cancelled) return
+          setPanelState({
+            phase: 'existing_unvalidated',
+            displayId: identityResult.displayId
+          })
+        } else if (identityResult.status === 'rate_limited') {
+          if (cancelled) return
+          setPanelState({ phase: 'error' })
+        } else {
+          if (cancelled) return
+          setPanelState({ phase: 'error' })
+        }
+      } finally {
         bootstrapInFlight.current = false
       }
+    }
 
     bootstrap()
     return () => {

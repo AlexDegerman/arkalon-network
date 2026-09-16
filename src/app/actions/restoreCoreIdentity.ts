@@ -55,8 +55,8 @@ export async function restoreCoreIdentityAction(
       [identity.id, sessionTokenHash, expiresAt]
     )
 
-    setCoreIdCookie(identity.id)
-    setSessionCookie(sessionToken)
+    await setCoreIdCookie(identity.id)
+    await setSessionCookie(sessionToken)
 
     return { status: 'restored' }
   } catch (err) {

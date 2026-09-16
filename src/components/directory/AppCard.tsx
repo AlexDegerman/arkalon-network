@@ -81,23 +81,41 @@ function AppCardInner({ app }: Props) {
             style={{ borderColor: 'var(--border-default)' }}
           />
 
-          {app.extendedDescription && (
-            <p
-              className="text-[0.875rem] leading-relaxed"
-              style={{ color: 'var(--text-secondary)' }}
-            >
-              {app.extendedDescription}
-            </p>
+          {showMedia ? (
+            <div className="flex flex-col sm:flex-row gap-4 items-center sm:items-start justify-between">
+              <div className="flex flex-col gap-4 flex-1">
+                {app.extendedDescription && (
+                  <p
+                    className="text-[0.875rem] leading-relaxed"
+                    style={{ color: 'var(--text-secondary)' }}
+                  >
+                    {app.extendedDescription}
+                  </p>
+                )}
+                <div className="flex justify-center sm:justify-start">
+                  <CtaButton label={app.ctaLabel} route={app.route} />
+                </div>
+              </div>
+              <div className="shrink-0">
+                <PreviewMedia url={app.previewMediaUrl!} appName={app.name} />
+              </div>
+            </div>
+          ) : (
+            <>
+              {app.extendedDescription && (
+                <p
+                  className="text-[0.875rem] leading-relaxed"
+                  style={{ color: 'var(--text-secondary)' }}
+                >
+                  {app.extendedDescription}
+                </p>
+              )}
+              {showPlaceholder && <ComingSoonPlaceholder appName={app.name} />}
+              <div className="flex justify-center pt-1">
+                <CtaButton label={app.ctaLabel} route={app.route} />
+              </div>
+            </>
           )}
-
-          {showPlaceholder && <ComingSoonPlaceholder appName={app.name} />}
-          {showMedia && (
-            <PreviewMedia url={app.previewMediaUrl!} appName={app.name} />
-          )}
-
-          <div className="flex justify-center pt-1">
-            <CtaButton label={app.ctaLabel} route={app.route} />
-          </div>
         </div>
       )}
     </article>
