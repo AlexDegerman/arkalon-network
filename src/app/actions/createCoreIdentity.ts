@@ -22,7 +22,7 @@ const UuidSchema = z.string().uuid()
 export async function createCoreIdentityAction(): Promise<CreateIdentityResult> {
   try {
     // If a valid core_id cookie already exists, just refresh last_seen
-    const existingId = getCoreIdCookie()
+    const existingId = await getCoreIdCookie()
     if (existingId) {
       const parsed = UuidSchema.safeParse(existingId)
       if (parsed.success) {
@@ -60,7 +60,7 @@ export async function createCoreIdentityAction(): Promise<CreateIdentityResult> 
 }
 
 export async function getDisplayCoreId(): Promise<string | null> {
-  const id = getCoreIdCookie()
+  const id = await getCoreIdCookie()
   if (!id) return null
   const parsed = UuidSchema.safeParse(id)
   if (!parsed.success) return null
