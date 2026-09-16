@@ -4,8 +4,8 @@ import { useState } from 'react'
 import type { ArkalonApp } from '@/lib/registry/types'
 import { StatusBadge } from './StatusBadge'
 import { PreviewMedia } from './PreviewMedia'
-import { CTA_DISABLED } from '@/constants/status'
 import { ChevronDown } from 'lucide-react'
+import { CtaButton } from './CtaButton'
 
 type Props = {
   app: ArkalonApp
@@ -14,7 +14,6 @@ type Props = {
 export function AppCard({ app }: Props) {
   const [expanded, setExpanded] = useState(false)
 
-  const ctaDisabled = CTA_DISABLED[app.ctaLabel]
 
   return (
     <article
@@ -106,39 +105,7 @@ export function AppCard({ app }: Props) {
 
           {/* CTA button */}
           <div className="flex justify-center pt-1">
-            <a
-              href={ctaDisabled ? undefined : app.route}
-              target={ctaDisabled ? undefined : '_blank'}
-              rel="noopener noreferrer"
-              aria-disabled={ctaDisabled}
-              tabIndex={ctaDisabled ? -1 : undefined}
-              className="inline-flex items-center justify-center px-6 py-2 rounded text-[0.875rem] font-semibold tracking-wider transition-colors duration-150"
-              style={
-                ctaDisabled
-                  ? {
-                      backgroundColor: 'var(--border-default)',
-                      color: 'var(--text-muted)',
-                      cursor: 'not-allowed',
-                      pointerEvents: 'none'
-                    }
-                  : {
-                      backgroundColor: 'var(--accent-network)',
-                      color: '#ffffff'
-                    }
-              }
-              onMouseEnter={(e) => {
-                if (!ctaDisabled)
-                  (e.currentTarget as HTMLElement).style.backgroundColor =
-                    'var(--accent-network-dim)'
-              }}
-              onMouseLeave={(e) => {
-                if (!ctaDisabled)
-                  (e.currentTarget as HTMLElement).style.backgroundColor =
-                    'var(--accent-network)'
-              }}
-            >
-              {app.ctaLabel}
-            </a>
+            <CtaButton label={app.ctaLabel} route={app.route} />
           </div>
         </div>
       )}

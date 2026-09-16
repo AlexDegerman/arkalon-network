@@ -1,6 +1,6 @@
 import type { AppStatus, CtaLabel } from '@/lib/registry/types'
 
-// CSS custom property name per status - used by StatusBadge
+// Color token per status - maps to CSS custom properties
 export const STATUS_COLOR: Record<AppStatus, string> = {
   online: 'var(--status-online)',
   development: 'var(--status-development)',
@@ -9,7 +9,7 @@ export const STATUS_COLOR: Record<AppStatus, string> = {
   private: 'var(--status-coming-soon)'
 }
 
-// Display label per status
+// Display label per status - Section 7.3
 export const STATUS_LABEL: Record<AppStatus, string> = {
   online: 'ONLINE',
   development: 'IN DEV',
@@ -18,7 +18,7 @@ export const STATUS_LABEL: Record<AppStatus, string> = {
   private: 'PRIVATE'
 }
 
-// Whether the status dot is filled or outlined
+// Filled dot vs outlined dot per status - Section 7.3
 export const STATUS_FILLED: Record<AppStatus, boolean> = {
   online: true,
   development: true,
@@ -27,7 +27,7 @@ export const STATUS_FILLED: Record<AppStatus, boolean> = {
   private: false
 }
 
-// Whether the CTA button should be disabled
+// Whether the CTA is interactive
 export const CTA_DISABLED: Record<CtaLabel, boolean> = {
   'PLAY HERE': false,
   'OPEN APP': false,
