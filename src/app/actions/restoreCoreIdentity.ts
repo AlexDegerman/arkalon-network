@@ -1,0 +1,66 @@
+'use server'
+
+import { z } from 'zod'
+import { findIdentityByRecoveryHash } from '@/lib/identity/coreId'
+import {
+  hashRecoveryCode,
+  signSessionToken,
+  hashSessionToken
+} from '@/lib/identity/recoveryCode'
+import { setCoreIdCookie, setSessionCookie } from '@/lib/identity/cookie'
+import { checkRateLimit } from '@/lib/identity/rateLimit'
+import { headers } from 'next/headers'
+import pool from '@/lib/db'
+
+export type RestoreResult =
+  | { status: 'restored' }
+  | { status: 'not_found' }
+  | { status: 'rate_limited' }
+  | { status: 'error' }
+
+// WORD-WORD-DIGITS format, e.g. SWIFT-CRYSTAL-8214
+const RecoveryCodeSchema = z
+  .string()
+  .regex(/^[A-Z]+-[A-Z]+-\d{4}$/, 'Invalid recovery code format')
+
+export async function restoreCoreIdentityAction(
+  code: string
+): Promise<RestoreResult> {
+  try {
+    const headerList = await headers()
+    const ip =
+      headerList.get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'unknown'
+    const allowed = checkRateLimit(ip, 'recovery_entry', 10, 60 * 60 * 1000)
+    if (!allowed) return { status: 'rate_limited' }
+
+    const parsed = RecoveryCodeSchema.safeParse(code.toUpperCase().trim())
+    if (!parsed.success) return { status: 'not_found' }
+
+    const hash = hashRecoveryCode(parsed.data)
+    const identity = await findIdentityByRecoveryHash(hash)
+
+    // Return not_found regardless of whether coreId exists or hash mismatches
+    // - prevents enumeration
+    if (!identity) return { status: 'not_found' }
+
+    // Issue new session token
+    const sessionToken = signSessionToken(identity.id)
+    const sessionTokenHash = hashSessionToken(sessionToken)
+
+    const expiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
+
+    await pool.query(
+      `INSERT INTO validated_sessions (id, core_id, session_token, created_at, expires_at)
+        VALUES (gen_random_uuid(), $1, $2, now(), $3)`,
+      [identity.id, sessionTokenHash, expiresAt]
+    )
+
+    setCoreIdCookie(identity.id)
+    setSessionCookie(sessionToken)
+
+    return { status: 'restored' }
+  } catch (err) {
+    console.error('[restoreCoreIdentityAction]', err)
+    return { status: 'error' }
+  }
+}
