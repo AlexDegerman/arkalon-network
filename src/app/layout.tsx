@@ -25,7 +25,10 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="min-h-screen">{children}</body>
+      <body className="min-h-screen relative">
+        <div className="metallic-sheen" aria-hidden="true" />
+        {children}
+      </body>
     </html>
   )
 }

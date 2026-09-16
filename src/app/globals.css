@@ -341,3 +341,43 @@
   filter: drop-shadow(0 0 4px rgba(148, 163, 184, 0.65)) drop-shadow(0 0 12px rgba(203, 213, 225, 0.25));
   animation: title-sweep-linear 3.5s linear infinite;
 }
+
+.metallic-sheen {
+  position: fixed;
+  inset: 0;
+  z-index: -10;
+  pointer-events: none;
+
+  background:
+    /* broad brushed reflection */
+    linear-gradient(
+      115deg,
+      transparent 15%,
+      rgba(255, 255, 255, 0.045) 35%,
+      transparent 55%
+    ),
+
+    /* secondary metal variation */
+    linear-gradient(
+      35deg,
+      rgba(255,255,255,0.025),
+      transparent 30%,
+      rgba(120,140,170,0.035) 70%,
+      transparent
+    ),
+
+    /* top ambient reflection */
+    radial-gradient(
+      ellipse 90% 55% at 50% -20%,
+      rgba(180,190,210,0.16),
+      transparent 70%
+    ),
+
+    /* dark metal body */
+    linear-gradient(
+      180deg,
+      #151820 0%,
+      #0b0d13 45%,
+      #050609 100%
+    );
+}
