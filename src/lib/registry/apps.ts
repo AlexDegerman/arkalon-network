@@ -4,9 +4,9 @@ export const REGISTRY: ArkalonApp[] = [
   {
     slug: 'rps',
     name: 'RPS League',
-    shortDescription: 'Live-service Rock Paper Scissors betting platform.',
+    shortDescription: 'Live-service Rock Paper Scissors prediction platform.',
     extendedDescription:
-      'A live-service Rock Paper Scissors betting platform where players wager cosmetic points, track global rankings, and use an AI-powered assistant for match analysis and game guidance.',
+      'A live-service Rock Paper Scissors prediction platform where players wager cosmetic points, track global rankings, and use an AI-powered assistant for match analysis and game guidance.',
     status: 'online',
     category: 'live',
     route: 'https://rpsleague.fi',
@@ -14,42 +14,29 @@ export const REGISTRY: ArkalonApp[] = [
     public: true
   },
   {
-    slug: 'labs',
-    name: 'Arkalon Labs',
-    shortDescription:
-      'Incremental idle game — facility optimization and research scaling.',
-    extendedDescription:
-      'An incremental idle game focused on passive facility optimization, research, and long-term infrastructure scaling. Players manage an isolated scientific base to study mathematical anomalies and expand technological output.',
-    status: 'coming_soon',
-    category: 'incremental',
-    route: 'https://labs.rpsleague.fi',
-    ctaLabel: 'OPEN APP',
-    public: true
-  },
-  {
-    slug: 'dispatch',
-    name: 'Arkalon Dispatch',
-    shortDescription:
-      'Tactical idle RPG — squad prep, risk analysis, and permanent consequences.',
-    extendedDescription:
-      'A tactical idle RPG where players equip and send squads on high-stakes expeditions with permanent death and injury. Missions run autonomously once launched, focusing gameplay entirely on pre-mission risk analysis, trait management, and gear configuration.',
-    status: 'coming_soon',
-    category: 'short-session',
-    route: 'https://dispatch.rpsleague.fi',
-    ctaLabel: 'COMING SOON',
-    public: true
-  },
-  {
     slug: 'daily',
     name: 'Arkalon Daily',
     shortDescription:
-      'Daily puzzle platform — one challenge, one attempt per day.',
+      'Daily puzzle platform - one challenge, one attempt per day.',
     extendedDescription:
       'A daily puzzle platform offering exactly one challenge and one attempt per day. It adapts several minigames into quick, competitive logic puzzles solved against a single global seed.',
     status: 'development',
     category: 'short-session',
     route: 'https://daily.rpsleague.fi',
     ctaLabel: 'COMING SOON',
+    public: true
+  },
+  {
+    slug: 'labs',
+    name: 'Arkalon Labs',
+    shortDescription:
+      'Incremental idle game - facility optimization and research scaling.',
+    extendedDescription:
+      'An incremental idle game focused on passive facility optimization, research, and long-term infrastructure scaling. Players manage an isolated scientific base to study mathematical anomalies and expand technological output.',
+    status: 'coming_soon',
+    category: 'incremental',
+    route: 'https://labs.rpsleague.fi',
+    ctaLabel: 'OPEN APP',
     public: true
   },
   {
@@ -66,67 +53,6 @@ export const REGISTRY: ArkalonApp[] = [
     public: true
   },
   {
-    slug: 'market',
-    name: 'Arkalon Market',
-    shortDescription:
-      'Fast-paced economic trading simulation in short sessions.',
-    extendedDescription:
-      'An economic simulation where players trade, manage production, and react to live market changes in 2-to-3-minute sessions. The game has no daily entry limits, allowing players to run sessions back-to-back.',
-    status: 'coming_soon',
-    category: 'short-session',
-    route: 'https://market.rpsleague.fi',
-    ctaLabel: 'COMING SOON',
-    public: true
-  },
-  {
-    slug: 'colony',
-    name: 'Arkalon Colony',
-    shortDescription: 'Idle builder — infrastructure and civilization scaling.',
-    extendedDescription:
-      'An idle builder focused on scaling a small settlement into a massive civilization. Players make high-level infrastructure and population choices during periodic check-ins rather than micromanaging individual citizens.',
-    status: 'coming_soon',
-    category: 'incremental',
-    route: 'https://colony.rpsleague.fi',
-    ctaLabel: 'COMING SOON',
-    public: true
-  },
-  {
-    slug: 'dungeons',
-    name: 'Arkalon Dungeons',
-    shortDescription: 'Solo tactical roguelite 2.5D dungeon crawler.',
-    extendedDescription:
-      'A solo tactical roguelite 2.5D dungeon crawler featuring permanent death and a deep, scaling descent. While active runs cannot be reloaded, players carry forward permanent account-wide progression into future attempts.',
-    status: 'coming_soon',
-    category: 'short-session',
-    route: 'https://dungeons.rpsleague.fi',
-    ctaLabel: 'COMING SOON',
-    public: true
-  },
-  {
-    slug: 'raids',
-    name: 'Arkalon Raids',
-    shortDescription: 'Cooperative 1-to-4 player 2.5D grid-combat boss fights.',
-    extendedDescription:
-      'A 1-to-4 player 2.5D cooperative grid-combat game where players battle single, heavily telegraphed PvE bosses. Success is decided through team positioning, mechanics reading, and coordinated execution with no gear grinds or forced roles (1.0 solo with bots before server funded).',
-    status: 'coming_soon',
-    category: 'multiplayer',
-    route: 'https://raids.rpsleague.fi',
-    ctaLabel: 'COMING SOON',
-    public: true
-  },
-  {
-    slug: 'arena',
-    name: 'Arkalon Arena',
-    shortDescription: 'Competitive 1v1 2.5D tactical grid game.',
-    extendedDescription:
-      'A 2.5D competitive 1v1 tactical grid game featuring simultaneous-turn duels resolved in under two minutes. There is no power progression or gear, leaving matches decided purely by class loadouts and skill (1.0 solo against bots before server funded).',
-    status: 'coming_soon',
-    category: 'multiplayer',
-    route: 'https://arena.rpsleague.fi',
-    ctaLabel: 'COMING SOON',
-    public: true
-  },
-  {
     slug: 'realms',
     name: 'Arkalon Realms',
     shortDescription: 'Browser-based multiplayer 2.5D persistent roguelike.',
@@ -135,31 +61,6 @@ export const REGISTRY: ArkalonApp[] = [
     status: 'coming_soon',
     category: 'multiplayer',
     route: 'https://realms.rpsleague.fi',
-    ctaLabel: 'COMING SOON',
-    public: true
-  },
-  {
-    slug: 'auction',
-    name: 'Arkalon Auction',
-    shortDescription: 'Four-player real-time bidding and valuation game.',
-    extendedDescription:
-      "A four-player real-time bidding game where players use intel tools to uncover hidden data about virtual asset lots before entering five rounds of escalating bids using virtual credits. Performance is graded on the margin between the final winning bid and the asset's true value.",
-    status: 'coming_soon',
-    category: 'multiplayer',
-    route: 'https://auction.rpsleague.fi',
-    ctaLabel: 'COMING SOON',
-    public: true
-  },
-  {
-    slug: 'party',
-    name: 'Arkalon Party',
-    shortDescription:
-      '2.5D physics party game with chaotic multiplayer challenges.',
-    extendedDescription:
-      'A 2.5D physics party game focused on chaotic multiplayer experiences, cooperative challenges, environmental interaction, and hilarious physics-driven failures.',
-    status: 'coming_soon',
-    category: 'multiplayer',
-    route: 'https://party.rpsleague.fi',
     ctaLabel: 'COMING SOON',
     public: true
   },
@@ -177,6 +78,94 @@ export const REGISTRY: ArkalonApp[] = [
     public: true
   },
   {
+    slug: 'market',
+    name: 'Arkalon Market',
+    shortDescription:
+      'Fast-paced economic trading simulation in short sessions.',
+    extendedDescription:
+      'An economic simulation where players trade, manage production, and react to live market changes in 2-to-3-minute sessions. The game has no daily entry limits, allowing players to run sessions back-to-back.',
+    status: 'coming_soon',
+    category: 'short-session',
+    route: 'https://market.rpsleague.fi',
+    ctaLabel: 'COMING SOON',
+    public: true
+  },
+  {
+    slug: 'dungeons',
+    name: 'Arkalon Dungeons',
+    shortDescription: 'Solo tactical roguelite 2.5D dungeon crawler.',
+    extendedDescription:
+      'A solo tactical roguelite 2.5D dungeon crawler featuring permanent death and a deep, scaling descent. While active runs cannot be reloaded, players carry forward permanent account-wide progression into future attempts.',
+    status: 'coming_soon',
+    category: 'short-session',
+    route: 'https://dungeons.rpsleague.fi',
+    ctaLabel: 'COMING SOON',
+    public: true
+  },
+  {
+    slug: 'nexus',
+    name: 'Arkalon Nexus',
+    shortDescription:
+      'Visualized stats hub and analytics across all Arkalon apps.',
+    extendedDescription:
+      'A centralized stats platform that tracks and visualizes live telemetry across the entire Arkalon ecosystem. Players can explore global leaderboards, game analytics, economy graphs, and aggregate performance metrics in interactive dashboards.',
+    status: 'coming_soon',
+    category: 'live',
+    route: 'https://nexus.rpsleague.fi',
+    ctaLabel: 'COMING SOON',
+    public: true
+  },
+  {
+    slug: 'ai',
+    name: 'Arkalon AI',
+    shortDescription:
+      'Ancient prophetic intelligence providing universe-wide ecosystem guidance.',
+    extendedDescription:
+      '"A forgotten intelligence from a lost era. It does not predict the future, it calculates the probability of what has already begun." An ancient time-lost prophetic robotic entity that oversees the Arkalon universe of applications. Acting as an observer, announcer, and guide, Arkalon bridges the gap between hidden system logic and player experience to provide cross-app guidance, probability analysis, and match commentary.',
+    status: 'coming_soon',
+    category: 'live',
+    route: 'https://network.rpsleague.fi/ai',
+    ctaLabel: 'COMING SOON',
+    public: true
+  },
+  {
+    slug: 'party',
+    name: 'Arkalon Party',
+    shortDescription:
+      '2.5D physics party game with chaotic multiplayer challenges.',
+    extendedDescription:
+      'A 2.5D physics party game focused on chaotic multiplayer experiences, cooperative challenges, environmental interaction, and hilarious physics-driven failures.',
+    status: 'coming_soon',
+    category: 'multiplayer',
+    route: 'https://party.rpsleague.fi',
+    ctaLabel: 'COMING SOON',
+    public: true
+  },
+  {
+    slug: 'colony',
+    name: 'Arkalon Colony',
+    shortDescription: 'Idle builder - infrastructure and civilization scaling.',
+    extendedDescription:
+      'An idle builder focused on scaling a small settlement into a massive civilization. Players make high-level infrastructure and population choices during periodic check-ins rather than micromanaging individual citizens.',
+    status: 'coming_soon',
+    category: 'incremental',
+    route: 'https://colony.rpsleague.fi',
+    ctaLabel: 'COMING SOON',
+    public: true
+  },
+  {
+    slug: 'arena',
+    name: 'Arkalon Arena',
+    shortDescription: 'Competitive 1v1 2.5D tactical grid game.',
+    extendedDescription:
+      'A 2.5D competitive 1v1 tactical grid game featuring simultaneous-turn duels resolved in under two minutes. There is no power progression or gear, leaving matches decided purely by class loadouts and skill (1.0 solo against bots before server funded).',
+    status: 'coming_soon',
+    category: 'multiplayer',
+    route: 'https://arena.rpsleague.fi',
+    ctaLabel: 'COMING SOON',
+    public: true
+  },
+  {
     slug: 'dreadwood',
     name: 'Arkalon Dreadwood',
     shortDescription:
@@ -190,38 +179,41 @@ export const REGISTRY: ArkalonApp[] = [
     public: true
   },
   {
-    slug: 'network',
-    name: 'Arkalon Network',
-    shortDescription: 'Mega hub for hosting Arkalon apps.',
+    slug: 'raids',
+    name: 'Arkalon Raids',
+    shortDescription: 'Cooperative 1-to-4 player 2.5D grid-combat boss fights.',
     extendedDescription:
-      'The central portal and mega hub hosting all applications and games across the Arkalon ecosystem.',
-    status: 'online',
-    category: 'live',
-    route: 'https://network.rpsleague.fi',
-    ctaLabel: 'OPEN APP',
+      'A 1-to-4 player 2.5D cooperative grid-combat game where players battle single, heavily telegraphed PvE bosses. Success is decided through team positioning, mechanics reading, and coordinated execution with no gear grinds or forced roles (1.0 solo with bots before server funded).',
+    status: 'coming_soon',
+    category: 'multiplayer',
+    route: 'https://raids.rpsleague.fi',
+    ctaLabel: 'COMING SOON',
     public: true
   },
   {
-    slug: 'nexus',
-    name: 'Arkalon Nexus',
-    shortDescription: 'Mega hub for stats from Arkalon apps.',
+    slug: 'auction',
+    name: 'Arkalon Auction',
+    shortDescription: 'Four-player real-time bidding and valuation game.',
     extendedDescription:
-      'Private mega hub and observability infrastructure aggregating telemetry, analytics, and system statistics across all Arkalon apps.',
-    status: 'private',
-    category: 'live',
-    route: 'https://nexus.rpsleague.fi',
-    ctaLabel: 'OPEN APP',
-    public: false
+      "A four-player real-time bidding game where players use intel tools to uncover hidden data about virtual asset lots before entering five rounds of escalating bids using virtual credits. Performance is graded on the margin between the final winning bid and the asset's true value.",
+    status: 'coming_soon',
+    category: 'multiplayer',
+    route: 'https://auction.rpsleague.fi',
+    ctaLabel: 'COMING SOON',
+    public: true
   },
   {
-    slug: 'ai',
-    name: 'Arkalon AI',
-    shortDescription: 'Ecosystem intelligence layer.',
-    status: 'private',
-    category: 'live',
-    route: 'https://network.rpsleague.fi/ai',
-    ctaLabel: 'OPEN APP',
-    public: false
+    slug: 'dispatch',
+    name: 'Arkalon Dispatch',
+    shortDescription:
+      'Tactical idle RPG - squad prep, risk analysis, and permanent consequences.',
+    extendedDescription:
+      'A tactical idle RPG where players equip and send squads on high-stakes expeditions with permanent death and injury. Missions run autonomously once launched, focusing gameplay entirely on pre-mission risk analysis, trait management, and gear configuration.',
+    status: 'coming_soon',
+    category: 'short-session',
+    route: 'https://dispatch.rpsleague.fi',
+    ctaLabel: 'COMING SOON',
+    public: true
   }
 ]
 
