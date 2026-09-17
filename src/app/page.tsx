@@ -1,6 +1,5 @@
-import { PUBLIC_APPS } from '@/lib/registry/apps'
-import { AppCard } from '@/components/directory/AppCard'
 import { Header } from '@/components/layout/Header'
+import { AppDirectory } from '@/components/directory/AppDirectory'
 
 export default function HomePage() {
   return (
@@ -9,16 +8,7 @@ export default function HomePage() {
       id="applications"
     >
       <Header />
-
-      <section
-        aria-label="Application directory"
-        className="flex flex-col gap-3 flex-1"
-      >
-        {PUBLIC_APPS.map((app) => (
-          <AppCard key={app.slug} app={app} />
-        ))}
-      </section>
-
+      <AppDirectory />
     </main>
   )
 }

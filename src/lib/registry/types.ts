@@ -5,12 +5,6 @@ export type AppStatus =
   | 'maintenance'
   | 'private'
 
-export type AppCategory =
-  | 'live'
-  | 'incremental'
-  | 'short-session'
-  | 'multiplayer'
-
 export type CtaLabel = 'PLAY HERE' | 'OPEN APP' | 'COMING SOON'
 
 export interface ArkalonApp {
@@ -19,7 +13,7 @@ export interface ArkalonApp {
   shortDescription: string
   extendedDescription?: string
   status: AppStatus
-  category: AppCategory
+  categories: string[]
   previewMediaUrl?: string
   route: string
   ctaLabel: CtaLabel

@@ -9,7 +9,7 @@ export const REGISTRY: ArkalonApp[] = [
       'A live-service Rock Paper Scissors predicting platform where players wager cosmetic points, track global rankings, and use an AI-powered assistant for match analysis and game guidance.',
     previewMediaUrl: '/rpsleaguehalfanniv.mp4',
     status: 'online',
-    category: 'live',
+    categories: ['prediction', 'competitive', 'arcade', 'ai'],
     route: 'https://rpsleague.fi',
     ctaLabel: 'PLAY HERE',
     public: true
@@ -22,7 +22,7 @@ export const REGISTRY: ArkalonApp[] = [
     extendedDescription:
       'A daily puzzle platform offering exactly one challenge and one attempt per day. It adapts several minigames into quick, competitive logic puzzles solved against a single global seed.',
     status: 'development',
-    category: 'short-session',
+    categories: ['puzzle', 'logic', 'daily-challenge'],
     route: 'https://daily.rpsleague.fi',
     ctaLabel: 'COMING SOON',
     public: true
@@ -35,9 +35,9 @@ export const REGISTRY: ArkalonApp[] = [
     extendedDescription:
       'An incremental idle game focused on passive facility optimization, research, and long-term infrastructure scaling. Players manage an isolated scientific base to study mathematical anomalies and expand technological output.',
     status: 'coming_soon',
-    category: 'incremental',
+    categories: ['incremental', 'idle', 'simulation', 'strategy'],
     route: 'https://labs.rpsleague.fi',
-    ctaLabel: 'OPEN APP',
+    ctaLabel: 'COMING SOON',
     public: true
   },
   {
@@ -48,7 +48,7 @@ export const REGISTRY: ArkalonApp[] = [
     extendedDescription:
       'A 2.5D browser-based tower defense game with self-contained stages that take 1 to 3 minutes to complete. It favors positioning, path management, and tower synergy over grinding upgrades or memorizing massive rosters.',
     status: 'coming_soon',
-    category: 'short-session',
+    categories: ['tower-defense', 'strategy', 'tactical'],
     route: 'https://td.rpsleague.fi',
     ctaLabel: 'COMING SOON',
     public: true
@@ -60,7 +60,7 @@ export const REGISTRY: ArkalonApp[] = [
     extendedDescription:
       'A browser-based multiplayer roguelike where players explore a dangerous persistent 2.5D world, fight enemies in real time, collect loot and experience, and push deeper for greater rewards while risking permanent death.',
     status: 'coming_soon',
-    category: 'multiplayer',
+    categories: ['multiplayer', 'roguelike', 'action-rpg', 'survival'],
     route: 'https://realms.rpsleague.fi',
     ctaLabel: 'COMING SOON',
     public: true
@@ -73,7 +73,7 @@ export const REGISTRY: ArkalonApp[] = [
     extendedDescription:
       'A 2.5D arcade racing game built around physics-driven mayhem, extreme tracks, and incremental progression. Players race through chaotic environments, chain stunts and risky maneuvers for massive scores, spend points on upgrades, and push toward increasingly absurd numbers.',
     status: 'coming_soon',
-    category: 'short-session',
+    categories: ['racing', 'arcade', 'physics', 'incremental'],
     route: 'https://racing.rpsleague.fi',
     ctaLabel: 'COMING SOON',
     public: true
@@ -86,7 +86,7 @@ export const REGISTRY: ArkalonApp[] = [
     extendedDescription:
       'An economic simulation where players trade, manage production, and react to live market changes in 2-to-3-minute sessions. The game has no daily entry limits, allowing players to run sessions back-to-back.',
     status: 'coming_soon',
-    category: 'short-session',
+    categories: ['economy', 'simulation', 'trading', 'strategy'],
     route: 'https://market.rpsleague.fi',
     ctaLabel: 'COMING SOON',
     public: true
@@ -98,7 +98,7 @@ export const REGISTRY: ArkalonApp[] = [
     extendedDescription:
       'A solo tactical roguelite 2.5D dungeon crawler featuring permanent death and a deep, scaling descent. While active runs cannot be reloaded, players carry forward permanent account-wide progression into future attempts.',
     status: 'coming_soon',
-    category: 'short-session',
+    categories: ['roguelite', 'dungeon-crawler', 'tactical', 'rpg'],
     route: 'https://dungeons.rpsleague.fi',
     ctaLabel: 'COMING SOON',
     public: true
@@ -111,7 +111,7 @@ export const REGISTRY: ArkalonApp[] = [
     extendedDescription:
       'A centralized stats platform that tracks and visualizes live telemetry across the entire Arkalon ecosystem. Players can explore global leaderboards, game analytics, economy graphs, and aggregate performance metrics in interactive dashboards.',
     status: 'coming_soon',
-    category: 'live',
+    categories: ['analytics', 'telemetry', 'leaderboards', 'ecosystem'],
     route: 'https://nexus.rpsleague.fi',
     ctaLabel: 'COMING SOON',
     public: true
@@ -124,7 +124,7 @@ export const REGISTRY: ArkalonApp[] = [
     extendedDescription:
       '"A forgotten intelligence from a lost era. It does not predict the future, it calculates the probability of what has already begun." An ancient time-lost prophetic robotic entity that oversees the Arkalon universe of applications. Acting as an observer, announcer, and guide, Arkalon bridges the gap between hidden system logic and player experience to provide cross-app guidance, probability analysis, and match commentary.',
     status: 'coming_soon',
-    category: 'live',
+    categories: ['ai', 'oracle', 'narrative', 'ecosystem'],
     route: 'https://network.rpsleague.fi/ai',
     ctaLabel: 'COMING SOON',
     public: true
@@ -137,7 +137,7 @@ export const REGISTRY: ArkalonApp[] = [
     extendedDescription:
       'A 2.5D physics party game focused on chaotic multiplayer experiences, cooperative challenges, environmental interaction, and hilarious physics-driven failures.',
     status: 'coming_soon',
-    category: 'multiplayer',
+    categories: ['multiplayer', 'party', 'physics', 'co-op'],
     route: 'https://party.rpsleague.fi',
     ctaLabel: 'COMING SOON',
     public: true
@@ -149,7 +149,7 @@ export const REGISTRY: ArkalonApp[] = [
     extendedDescription:
       'An idle builder focused on scaling a small settlement into a massive civilization. Players make high-level infrastructure and population choices during periodic check-ins rather than micromanaging individual citizens.',
     status: 'coming_soon',
-    category: 'incremental',
+    categories: ['city-builder', 'idle', 'incremental', 'strategy'],
     route: 'https://colony.rpsleague.fi',
     ctaLabel: 'COMING SOON',
     public: true
@@ -161,7 +161,7 @@ export const REGISTRY: ArkalonApp[] = [
     extendedDescription:
       'A 2.5D competitive 1v1 tactical grid game featuring simultaneous-turn duels resolved in under two minutes. There is no power progression or gear, leaving matches decided purely by class loadouts and skill (1.0 solo against bots before server funded).',
     status: 'coming_soon',
-    category: 'multiplayer',
+    categories: ['multiplayer', 'pvp', 'tactical', 'competitive'],
     route: 'https://arena.rpsleague.fi',
     ctaLabel: 'COMING SOON',
     public: true
@@ -174,7 +174,7 @@ export const REGISTRY: ArkalonApp[] = [
     extendedDescription:
       'A 2.5D horror incremental game where players explore a mysterious forest, complete tasks, risk their expedition rewards, and unlock increasingly powerful upgrades and equipment.',
     status: 'coming_soon',
-    category: 'incremental',
+    categories: ['horror', 'exploration', 'incremental', 'survival'],
     route: 'https://dreadwood.rpsleague.fi',
     ctaLabel: 'COMING SOON',
     public: true
@@ -186,7 +186,7 @@ export const REGISTRY: ArkalonApp[] = [
     extendedDescription:
       'A 1-to-4 player 2.5D cooperative grid-combat game where players battle single, heavily telegraphed PvE bosses. Success is decided through team positioning, mechanics reading, and coordinated execution with no gear grinds or forced roles (1.0 solo with bots before server funded).',
     status: 'coming_soon',
-    category: 'multiplayer',
+    categories: ['multiplayer', 'co-op', 'tactical', 'boss-raid'],
     route: 'https://raids.rpsleague.fi',
     ctaLabel: 'COMING SOON',
     public: true
@@ -198,7 +198,7 @@ export const REGISTRY: ArkalonApp[] = [
     extendedDescription:
       "A four-player real-time bidding game where players use intel tools to uncover hidden data about virtual asset lots before entering five rounds of escalating bids using virtual credits. Performance is graded on the margin between the final winning bid and the asset's true value.",
     status: 'coming_soon',
-    category: 'multiplayer',
+    categories: ['multiplayer', 'bidding', 'economy', 'competitive'],
     route: 'https://auction.rpsleague.fi',
     ctaLabel: 'COMING SOON',
     public: true
@@ -211,7 +211,7 @@ export const REGISTRY: ArkalonApp[] = [
     extendedDescription:
       'A tactical idle RPG where players equip and send squads on high-stakes expeditions with permanent death and injury. Missions run autonomously once launched, focusing gameplay entirely on pre-mission risk analysis, trait management, and gear configuration.',
     status: 'coming_soon',
-    category: 'short-session',
+    categories: ['tactical', 'idle', 'rpg', 'strategy'],
     route: 'https://dispatch.rpsleague.fi',
     ctaLabel: 'COMING SOON',
     public: true
