@@ -1,6 +1,6 @@
 'use client'
 
-import { memo, useState } from 'react'
+import { memo } from 'react'
 import type { ArkalonApp } from '@/lib/registry/types'
 import { StatusBadge } from './StatusBadge'
 import { PreviewMedia } from './PreviewMedia'
@@ -10,6 +10,8 @@ import { ChevronDown } from 'lucide-react'
 
 type Props = {
   app: ArkalonApp
+  expanded: boolean
+  onToggle: () => void
 }
 
 const APP_TITLE_STYLES: Record<string, string> = {
@@ -32,9 +34,7 @@ const APP_TITLE_STYLES: Record<string, string> = {
   dispatch: 'title-dispatch'
 }
 
-function AppCardInner({ app }: Props) {
-  const [expanded, setExpanded] = useState(false)
-
+function AppCardInner({ app, expanded, onToggle }: Props) {
   const showPlaceholder =
     app.status === 'coming_soon' || app.status === 'development'
   const showMedia = !showPlaceholder && app.previewMediaUrl != null
@@ -49,7 +49,7 @@ function AppCardInner({ app }: Props) {
     >
       <button
         type="button"
-        onClick={() => setExpanded((prev) => !prev)}
+        onClick={onToggle}
         className="w-full flex flex-col gap-2 px-4 py-3 text-left rounded-lg transition-colors duration-150"
       >
         <div className="flex flex-wrap items-start justify-between gap-x-3 gap-y-1 w-full">

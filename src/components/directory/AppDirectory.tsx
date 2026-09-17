@@ -9,6 +9,7 @@ import { AppCard } from './AppCard'
 export function AppDirectory() {
   const [activeCategory, setActiveCategory] = useState<string>('all')
   const [isOpen, setIsOpen] = useState(false)
+  const [expandedApp, setExpandedApp] = useState<string | null>(null)
   const dropdownRef = useRef<HTMLDivElement>(null)
 
   const counts = useMemo(() => {
@@ -46,7 +47,22 @@ export function AppDirectory() {
   return (
     <div className="flex flex-col flex-1 min-w-0 w-full">
       {/* Filter bar with dropdown */}
-      <div className="relative mb-3 z-30 flex justify-end" ref={dropdownRef}>
+      <div
+        className="relative mb-4 z-30 flex items-center justify-between"
+        ref={dropdownRef}
+      >
+        <a
+          href="/ai"
+          className="inline-flex items-center px-3 py-1.5 rounded-md text-[0.75rem] font-semibold tracking-wider transition-colors duration-150 cursor-pointer hover:bg-(--bg-surface-hover)"
+          style={{
+            backgroundColor: 'var(--bg-surface)',
+            border: '1px solid var(--border-default)',
+            color: 'var(--accent-network)',
+            fontFamily: "'JetBrains Mono', monospace"
+          }}
+        >
+          ASK AI
+        </a>
         <button
           type="button"
           onClick={() => setIsOpen((prev) => !prev)}
@@ -146,7 +162,14 @@ export function AppDirectory() {
         className="flex flex-col gap-3 flex-1"
       >
         {filteredApps.map((app) => (
-          <AppCard key={app.slug} app={app} />
+          <AppCard
+            key={app.slug}
+            app={app}
+            expanded={expandedApp === app.slug}
+            onToggle={() =>
+              setExpandedApp((prev) => (prev === app.slug ? null : app.slug))
+            }
+          />
         ))}
       </section>
     </div>
