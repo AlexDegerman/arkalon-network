@@ -272,14 +272,14 @@ export function SettingsPanel() {
 
                   <div className="flex items-center gap-2">
                     <div
-                      className={`flex-1 min-w-0 px-3.5 py-2.5 rounded-md text-[0.875rem] font-semibold tracking-wider transition-all border truncate ${
-                        !codeRevealed ? 'blur-xs select-none' : ''
-                      }`}
+                      className="flex-1 min-w-0 px-3.5 py-2.5 rounded-md text-[0.875rem] font-semibold tracking-wider transition-all border truncate"
                       style={{
                         backgroundColor: 'var(--bg-primary)',
                         borderColor: 'var(--border-default)',
                         color: 'var(--text-primary)',
-                        fontFamily: "'JetBrains Mono', monospace"
+                        fontFamily: "'JetBrains Mono', monospace",
+                        filter: !codeRevealed ? 'blur(6px)' : 'none',
+                        userSelect: !codeRevealed ? 'none' : 'text'
                       }}
                     >
                       {identity.recoveryCode}

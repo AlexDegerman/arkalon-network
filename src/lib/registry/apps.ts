@@ -42,7 +42,7 @@ export const REGISTRY: ArkalonApp[] = [
   },
   {
     slug: 'tower-defense',
-    name: 'Arkalon Tower Defense',
+    name: 'Arkalon TD',
     shortDescription:
       '2.5D browser tower defense with fast 1-to-3 minute stages.',
     extendedDescription:

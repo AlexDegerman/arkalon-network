@@ -50,42 +50,34 @@ function AppCardInner({ app }: Props) {
       <button
         type="button"
         onClick={() => setExpanded((prev) => !prev)}
-        aria-expanded={expanded}
-        aria-controls={`card-body-${app.slug}`}
-        className="w-full flex items-start justify-between gap-3 px-4 py-3 text-left rounded-lg transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2"
-        style={
-          {
-            '--tw-outline-color': 'var(--accent-network)'
-          } as React.CSSProperties
-        }
+        className="w-full flex flex-col gap-2 px-4 py-3 text-left rounded-lg transition-colors duration-150"
       >
-        <span className="flex flex-col gap-0.5 min-w-0">
+        <div className="flex flex-wrap items-start justify-between gap-x-3 gap-y-1 w-full">
           <span
-            className={`text-[1.125rem] font-black leading-snug tracking-wide ${APP_TITLE_STYLES[app.slug] ?? ''}`}
-            style={{ wordBreak: 'break-word' }}
+            className={`min-w-0 flex-1 text-[1.125rem] font-black leading-snug tracking-wide wrap-break-word ${APP_TITLE_STYLES[app.slug] ?? ''}`}
           >
             {app.name.toUpperCase()}
           </span>
-          <span
-            className="text-[0.875rem] leading-snug"
-            style={{ color: 'var(--text-secondary)' }}
-          >
-            {app.shortDescription}
-          </span>
-        </span>
 
-        <span className="flex items-center gap-2 shrink-0 pt-0.5">
-          <StatusBadge status={app.status} />
-          <ChevronDown
-            size={16}
-            aria-hidden="true"
-            className="transition-transform duration-200 shrink-0"
-            style={{
-              color: 'var(--text-muted)',
-              transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)'
-            }}
-          />
-        </span>
+          <div className="flex items-center gap-2 ml-auto shrink-0">
+            <StatusBadge status={app.status} />
+            <ChevronDown
+              size={16}
+              className="transition-transform duration-200 shrink-0"
+              style={{
+                color: 'var(--text-muted)',
+                transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)'
+              }}
+            />
+          </div>
+        </div>
+
+        <p
+          className="text-[0.875rem] leading-snug wrap-break-word w-full"
+          style={{ color: 'var(--text-secondary)' }}
+        >
+          {app.shortDescription}
+        </p>
       </button>
 
       {expanded && (

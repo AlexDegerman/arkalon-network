@@ -46,7 +46,7 @@ export function AppDirectory() {
   return (
     <div className="flex flex-col flex-1 min-w-0 w-full">
       {/* Filter bar with dropdown */}
-      <div className="relative mb-4 z-30 flex justify-end" ref={dropdownRef}>
+      <div className="relative mb-3 z-30 flex justify-end" ref={dropdownRef}>
         <button
           type="button"
           onClick={() => setIsOpen((prev) => !prev)}
