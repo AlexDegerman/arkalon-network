@@ -1,11 +1,10 @@
 'use server'
 
 import { validateOwnership } from '@/lib/identity/validateOwnership'
-import { updateLastSeen } from '@/lib/identity/coreId'
+import { findIdentityById, updateLastSeen } from '@/lib/identity/coreId'
+import type { SessionStatus } from '@/types/identity'
 
-export type SessionStatus =
-  | { valid: true; displayId: string }
-  | { valid: false }
+export type { SessionStatus }
 
 // Returns whether the current request has a validated session.
 // Also refreshes last_seen_at on the identity record.
@@ -16,9 +15,16 @@ export async function validateSessionAction(): Promise<SessionStatus> {
     if (!result.valid) return { valid: false }
 
     await updateLastSeen(result.coreId)
+    const identity = await findIdentityById(result.coreId)
+    if (!identity) return { valid: false }
 
-    const displayId = result.coreId.slice(0, 8).toUpperCase()
-    return { valid: true, displayId }
+    return {
+      valid: true,
+      coreId: identity.id,
+      shortId: identity.short_id || identity.id.slice(0, 10),
+      nickname: identity.nickname || 'Unknown Player',
+      recoveryCode: identity.recovery_code
+    }
   } catch (err) {
     console.error('[validateSessionAction]', err)
     return { valid: false }

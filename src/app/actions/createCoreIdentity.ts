@@ -6,22 +6,23 @@ import {
   setCoreIdCookie,
   setSessionCookie
 } from '@/lib/identity/cookie'
-import { createCoreIdentity, updateLastSeen } from '@/lib/identity/coreId'
+import {
+  createCoreIdentity,
+  findIdentityById,
+  updateLastSeen
+} from '@/lib/identity/coreId'
 import {
   generateRecoveryCode,
-  hashRecoveryCode,
   signSessionToken,
   hashSessionToken
 } from '@/lib/identity/recoveryCode'
+import { generateNickname, generateShortId } from '@/lib/identity/nicknames'
 import { checkRateLimit } from '@/lib/identity/rateLimit'
 import { headers } from 'next/headers'
 import pool from '@/lib/db'
+import type { CreateIdentityResult } from '@/types/identity'
 
-export type CreateIdentityResult =
-  | { status: 'existing'; displayId: string }
-  | { status: 'created'; recoveryCode: string }
-  | { status: 'rate_limited' }
-  | { status: 'error'; message: string }
+export type { CreateIdentityResult }
 
 const UuidSchema = z.string().uuid()
 
@@ -32,8 +33,16 @@ export async function createCoreIdentityAction(): Promise<CreateIdentityResult> 
       const parsed = UuidSchema.safeParse(existingId)
       if (parsed.success) {
         await updateLastSeen(parsed.data)
-        const displayId = parsed.data.slice(0, 8).toUpperCase()
-        return { status: 'existing', displayId }
+        const identity = await findIdentityById(parsed.data)
+        if (identity) {
+          return {
+            status: 'existing',
+            coreId: identity.id,
+            shortId: identity.short_id || identity.id.slice(0, 10),
+            nickname: identity.nickname || 'Unknown Player',
+            recoveryCode: identity.recovery_code
+          }
+        }
       }
     }
 
@@ -46,9 +55,10 @@ export async function createCoreIdentityAction(): Promise<CreateIdentityResult> 
     }
 
     const recoveryCode = generateRecoveryCode()
-    const recoveryCodeHash = hashRecoveryCode(recoveryCode)
+    const nickname = generateNickname()
+    const shortId = generateShortId()
 
-    const coreId = await createCoreIdentity(recoveryCodeHash)
+    const coreId = await createCoreIdentity(recoveryCode, nickname, shortId)
 
     // Issue session token so the new identity has a validated session immediately
     const sessionToken = signSessionToken(coreId)
@@ -64,7 +74,13 @@ export async function createCoreIdentityAction(): Promise<CreateIdentityResult> 
     await setCoreIdCookie(coreId)
     await setSessionCookie(sessionToken)
 
-    return { status: 'created', recoveryCode }
+    return {
+      status: 'created',
+      coreId,
+      shortId,
+      nickname,
+      recoveryCode
+    }
   } catch (err) {
     console.error('[createCoreIdentityAction]', err)
     return {

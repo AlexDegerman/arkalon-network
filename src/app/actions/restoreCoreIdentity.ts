@@ -1,12 +1,8 @@
 'use server'
 
 import { z } from 'zod'
-import { findIdentityByRecoveryHash } from '@/lib/identity/coreId'
-import {
-  hashRecoveryCode,
-  signSessionToken,
-  hashSessionToken
-} from '@/lib/identity/recoveryCode'
+import { findIdentityByRecoveryCode } from '@/lib/identity/coreId'
+import { signSessionToken, hashSessionToken } from '@/lib/identity/recoveryCode'
 import { setCoreIdCookie, setSessionCookie } from '@/lib/identity/cookie'
 import { checkRateLimit } from '@/lib/identity/rateLimit'
 import { headers } from 'next/headers'
@@ -21,7 +17,7 @@ export type RestoreResult =
 // WORD-WORD-DIGITS format, e.g. SWIFT-CRYSTAL-8214
 const RecoveryCodeSchema = z
   .string()
-  .regex(/^[A-Z]+-[A-Z]+-\d{4}$/, 'Invalid recovery code format')
+  .regex(/^[A-Za-z]+-[A-Za-z]+-\d{4}$/, 'Invalid recovery code format')
 
 export async function restoreCoreIdentityAction(
   code: string
@@ -33,11 +29,10 @@ export async function restoreCoreIdentityAction(
     const allowed = checkRateLimit(ip, 'recovery_entry', 10, 60 * 60 * 1000)
     if (!allowed) return { status: 'rate_limited' }
 
-    const parsed = RecoveryCodeSchema.safeParse(code.toUpperCase().trim())
+    const parsed = RecoveryCodeSchema.safeParse(code.trim())
     if (!parsed.success) return { status: 'not_found' }
 
-    const hash = hashRecoveryCode(parsed.data)
-    const identity = await findIdentityByRecoveryHash(hash)
+    const identity = await findIdentityByRecoveryCode(parsed.data.toLowerCase())
 
     // Return not_found regardless of whether coreId exists or hash mismatches
     // - prevents enumeration

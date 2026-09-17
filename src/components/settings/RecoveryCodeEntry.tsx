@@ -3,19 +3,23 @@
 import { useState, useRef } from 'react'
 import { restoreCoreIdentityAction } from '@/app/actions/restoreCoreIdentity'
 
+type Props = {
+  onRestored?: () => void
+}
+
 type State =
   | { phase: 'idle' }
   | { phase: 'loading' }
   | { phase: 'success' }
   | { phase: 'error'; message: string }
 
-export function RecoveryCodeEntry() {
+export function RecoveryCodeEntry({ onRestored }: Props) {
   const [code, setCode] = useState('')
   const [state, setState] = useState<State>({ phase: 'idle' })
   const inputRef = useRef<HTMLInputElement>(null)
 
   const handleSubmit = async () => {
-    const trimmed = code.trim().toUpperCase()
+    const trimmed = code.trim().toLowerCase()
     if (!trimmed) return
 
     setState({ phase: 'loading' })
@@ -25,6 +29,9 @@ export function RecoveryCodeEntry() {
     if (result.status === 'restored') {
       setState({ phase: 'success' })
       setCode('')
+      if (onRestored) {
+        onRestored()
+      }
     } else if (result.status === 'rate_limited') {
       setState({
         phase: 'error',
@@ -63,15 +70,15 @@ export function RecoveryCodeEntry() {
           type="text"
           value={code}
           onChange={(e) => {
-            setCode(e.target.value.toUpperCase())
+            setCode(e.target.value.toLowerCase())
             if (state.phase === 'error') setState({ phase: 'idle' })
           }}
           onKeyDown={handleKeyDown}
-          placeholder="WORD-WORD-0000"
+          placeholder="word-word-0000"
           aria-label="Recovery code"
           autoComplete="off"
           autoCorrect="off"
-          autoCapitalize="characters"
+          autoCapitalize="none"
           spellCheck={false}
           disabled={state.phase === 'loading' || state.phase === 'success'}
           className="w-full rounded-md px-3 py-2 text-[0.875rem] tracking-widest transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2"
