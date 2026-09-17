@@ -1,17 +1,6 @@
 import 'server-only'
 import { Pool, PoolConfig } from 'pg'
-// --- TEMPORARY DEBUG ---
-console.log('[db debug] DATABASE_URL exists?:', !!process.env.DATABASE_URL)
-if (process.env.DATABASE_URL) {
-  try {
-    const parsed = new URL(process.env.DATABASE_URL)
-    console.log('[db debug] Host:', parsed.host)
-    console.log('[db debug] User:', parsed.username)
-    console.log('[db debug] Password present?:', parsed.password ? `YES (${parsed.password.length} chars)` : 'NO - EMPTY/UNDEFINED')
-  } catch (e) {
-    console.log('[db debug] URL parsing error:', (e as Error).message)
-  }
-}
+
 function getPoolConfig(): PoolConfig {
   const connectionString = process.env.DATABASE_URL
   if (!connectionString) {

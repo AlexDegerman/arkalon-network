@@ -125,6 +125,7 @@ The directory serves as the centralized portal for exploring the Arkalon ecosyst
 - **Embedded Media Showcase**: Integrated preview player featuring custom scrubber timeline controls, responsive audio ducking, mute toggles, and cross-browser fullscreen handling.
 - **Modular Categorization**: Structural tagging enabling swift filtering across instant-action challenges, deep progression loops, and synchronized multiplayer arenas.
 - **Priority Navigation**: Direct routing to active production deployments (`PLAY HERE`), staged staging builds (`OPEN APP`), and work-in-progress sandboxes (`COMING SOON`).
+- **Silent Interest Telemetry**: Private feedback mechanism allowing users to signal development interest without exposing public popularity metrics or influencing community perception.
 
 ---
 

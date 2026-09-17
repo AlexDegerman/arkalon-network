@@ -6,6 +6,7 @@ import { StatusBadge } from './StatusBadge'
 import { PreviewMedia } from './PreviewMedia'
 import { ComingSoonPlaceholder } from './ComingSoonPlaceholder'
 import { CtaButton } from './CtaButton'
+import { HypeSelector } from './HypeSelector'
 import { ChevronDown } from 'lucide-react'
 
 type Props = {
@@ -128,6 +129,7 @@ function AppCardInner({ app, expanded, onToggle }: Props) {
               </div>
             </>
           )}
+          <HypeSelector appSlug={app.slug} />
         </div>
       )}
     </article>
