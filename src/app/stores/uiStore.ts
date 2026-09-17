@@ -2,8 +2,6 @@
 
 import { create } from 'zustand'
 
-type ModalType = 'settings' | null
-
 type PopupMessage = {
   id: string
   text: string

@@ -7,12 +7,7 @@ import { setCoreIdCookie, setSessionCookie } from '@/lib/identity/cookie'
 import { checkRateLimit } from '@/lib/identity/rateLimit'
 import { headers } from 'next/headers'
 import pool from '@/lib/db'
-
-export type RestoreResult =
-  | { status: 'restored' }
-  | { status: 'not_found' }
-  | { status: 'rate_limited' }
-  | { status: 'error' }
+import { RestoreResult } from '@/types/identity'
 
 // WORD-WORD-DIGITS format, e.g. SWIFT-CRYSTAL-8214
 const RecoveryCodeSchema = z

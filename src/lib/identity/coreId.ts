@@ -10,11 +10,6 @@ export type CoreIdentityRow = {
   last_seen_at: Date
 }
 
-export type NewIdentityResult = {
-  coreId: string
-  recoveryCode: string
-}
-
 export async function createCoreIdentity(
   recoveryCode: string,
   nickname: string,
@@ -22,8 +17,8 @@ export async function createCoreIdentity(
 ): Promise<string> {
   const result = await pool.query<{ id: string }>(
     `INSERT INTO core_identities (id, short_id, nickname, recovery_code, created_at, last_seen_at)
-     VALUES (gen_random_uuid(), $1, $2, $3, now(), now())
-     RETURNING id`,
+      VALUES (gen_random_uuid(), $1, $2, $3, now(), now())
+      RETURNING id`,
     [shortId, nickname, recoveryCode.toLowerCase().trim()]
   )
   return result.rows[0].id

@@ -14,32 +14,27 @@ The central hub and identity platform for the **Arkalon application ecosystem**,
 
 ---
 
-## 📑 Table of Contents
-
-### 🕹️ Core Systems
-
+## 🧩 Table of Contents
+### 🧱 Core Systems
 - [Arkalon Core: Unified Account System](#-arkalon-core-unified-account-system)
 - [AI Arkalon: The Ecosystem Overseer](#-ai-arkalon-the-ecosystem-overseer)
 
-### 🚀 Ecosystem Directory
-
+### 🗂️ Ecosystem Directory
 - [Active & In Development](#-active--in-development)
 - [Future Experiences](#-future-experiences)
 - [Status Lifecycle Engine](#-status-lifecycle-engine)
 - [Application Registry & Discovery](#-application-registry--discovery)
 
-### 🏗️ Engineering & Architecture
-
-- [Architecture & Tech Stack](#️-architecture--tech-stack)
+### ⚙️ Engineering & Architecture
+- [Architecture & Tech Stack](#-architecture--tech-stack)
 - [System Data Flow](#-system-data-flow)
-- [Single-Tab Guard & Concurrency](#-single-tab-guard--concurrency)
 - [Visual Shader & Typography Engine](#-visual-shader--typography-engine)
 - [Cryptographic Session & Security Model](#-cryptographic-session--security-model)
+- [Test Suite](#-test-suite)
 
 ### 📦 Meta
-
 - [Device Compatibility](#-device-compatibility)
-- [Disclaimer](#️-disclaimer)
+- [Disclaimer](#-disclaimer)
 - [Privacy, Telemetry & Security](#-privacy-telemetry--security)
 - [License](#-license)
 
@@ -167,17 +162,6 @@ The directory serves as the centralized portal for exploring the Arkalon ecosyst
               │                        │ Game Telemetry &
               └────────────────────────┘ Progress Tables
 ```
-
----
-
-## 🛡️ Single-Tab Guard & Concurrency
-
-To preserve connection stability and prevent cross-tab state desynchronization, Arkalon Network incorporates browser-native broadcast channel guarding:
-
-- **Collision Detection**: Real-time communication via `BroadcastChannel` checks for redundant open tabs under the same origin.
-- **Heartbeat Handshake**: Outgoing tabs send discovery pings on mount; existing active instances respond with authoritative pong acknowledgments.
-- **Graceful Isolation**: Flags duplicate instances to halt redundant polling, socket connections, or server-sent event streams, preventing browser memory leaks and server connection exhaustion.
-
 ---
 
 ## 🎨 Visual Shader & Typography Engine
@@ -201,19 +185,27 @@ Security is maintained through strict separation between public identifiers and 
 
 ---
 
+## 🧪 Test Suite
+
+Comprehensive Vitest coverage across identity flows, session security, directory state management, and UI interactions.
+
+👉 [View full Test Suite Documentation →](./tests.md)
+
+---
+
 ## 📱 Device Compatibility
 
-Arkalon Network is built using modern web standards and responsive layout architectures:
+Arkalon Network is built as a responsive, hardware-accelerated web portal:
 
-- **Desktop & Mobile Responsive**: Optimized flex and grid layouts tailored for seamless navigation on mobile viewports, tablets, and wide desktop displays.
-- **Hardware Acceleration**: Transitions and animations leverage GPU-accelerated transforms (`transform`, `opacity`) to guarantee stable 60 FPS rendering across standard modern browsers.
+- **Responsive Portal Design**: Optimized flex and grid layouts ensure seamless directory navigation, media playback, and modal interactions across mobile viewports, tablets, and wide desktop displays.
+- **Hardware Acceleration**: Custom CSS transitions and title shaders leverage GPU-accelerated transforms (`transform`, `opacity`) to guarantee stable 60 FPS rendering.
 - **Supported Browsers**: Chrome, Firefox, Safari, and Edge (current modern releases).
 
 ---
 
 ## ⚠️ Disclaimer
 
-Arkalon Network and all associated applications are entertainment and simulation experiences.
+Arkalon Network serves as the central portal for the wider Arkalon ecosystem. All linked applications and experiences are strictly for entertainment and simulation purposes.
 
 All points, virtual credits, ratings, cosmetics, and rewards are purely virtual and hold no real-world monetary value. No real-money gambling, cash payouts, or withdrawable balances are supported or offered anywhere in the ecosystem.
 
@@ -223,9 +215,9 @@ All points, virtual credits, ratings, cosmetics, and rewards are purely virtual 
 
 Arkalon Network adheres to privacy-by-design principles across all systems:
 
-- **Subnet Masking**: Audit and error logs store only masked IP subnets (e.g. `203.0.113.x`) to evaluate service health without tracking individuals.
-- **No Third-Party Tracking**: The platform operates with no third-party behavioral advertising trackers, data brokers, or marketing profiling scripts.
-- **Credential Hygiene**: Recovery codes and session secrets are managed with constant-time cryptographic comparisons and isolated from public frontend exposure.
+- **Ephemeral IP Handling**: IP addresses are used transiently in memory strictly for sliding-window rate limiting and are never persisted to databases, files, or audit logs.
+- **No Third-Party Tracking**: The platform operates with zero third-party behavioral advertising trackers, data brokers, or marketing profiling scripts.
+- **Credential Hygiene**: Recovery codes and session secrets are managed with constant-time cryptographic comparisons and are strictly isolated from public frontend exposure.
 
 ---
 

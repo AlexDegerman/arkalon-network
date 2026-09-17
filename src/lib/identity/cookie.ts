@@ -46,15 +46,3 @@ export async function getSessionCookie(): Promise<string | undefined> {
   const cookieStore = await cookies()
   return cookieStore.get(SESSION_COOKIE)?.value
 }
-
-export async function clearSessionCookie(): Promise<void> {
-  const cookieStore = await cookies()
-  cookieStore.set(SESSION_COOKIE, '', {
-    httpOnly: true,
-    secure: true,
-    sameSite: 'lax',
-    domain: cookieDomain(),
-    path: '/',
-    maxAge: 0
-  })
-}
