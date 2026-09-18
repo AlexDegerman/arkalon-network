@@ -6,9 +6,11 @@ import { useUiStore } from '@/app/stores/uiStore'
 import { SettingsPanel } from '@/components/settings/SettingsPanel'
 import { validateSessionAction } from '@/app/actions/validateSession'
 import { createCoreIdentityAction } from '@/app/actions/createCoreIdentity'
+import { WelcomeModal } from '@/components/modals/WelcomeModal'
 
 export function Header() {
   const setSettingsPanelOpen = useUiStore((s) => s.setSettingsPanelOpen)
+  const setShowWelcomeModal = useUiStore((s) => s.setShowWelcomeModal) 
   const bootstrapped = useRef(false)
 
   // Auto-creates identity on first visit
@@ -22,13 +24,20 @@ export function Header() {
         if (!session.valid) {
           await createCoreIdentityAction()
         }
+
+        if (
+          typeof window !== 'undefined' &&
+          localStorage.getItem('arkalon_welcomed') !== '1'
+        ) {
+          setShowWelcomeModal(true)
+        }
       } catch (err) {
         console.error('[Header] Auto-provisioning failed:', err)
       }
     }
 
     ensureIdentity()
-  }, [])
+  }, [setShowWelcomeModal])
 
   return (
     <>
@@ -62,6 +71,7 @@ export function Header() {
       </header>
 
       <SettingsPanel />
+      <WelcomeModal />
     </>
   )
 }

@@ -176,17 +176,25 @@ export function SettingsPanel() {
 
               <div className="flex items-center justify-between gap-2">
                 <span
-                  className="text-[1.25rem] font-black tracking-tight leading-tight truncate"
-                  style={{ color: 'var(--text-primary)' }}
+                  className="flex-1 whitespace-nowrap font-black tracking-tight leading-tight"
+                  style={{
+                    color: 'var(--text-primary)',
+                    fontSize:
+                      identity.nickname.length > 18
+                        ? '14px'
+                        : identity.nickname.length > 13
+                          ? '16px'
+                          : '1.25rem' // 20px base size
+                  }}
                 >
-                  {identity.nickname}
+                  {isRerolling ? '...' : identity.nickname}
                 </span>
                 <button
                   type="button"
                   onClick={handleReroll}
                   disabled={isRerolling}
                   title="Reroll procedural nickname"
-                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded text-[0.6875rem] font-bold tracking-wider transition-all duration-150 border shrink-0 cursor-pointer disabled:opacity-50"
+                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded text-[0.6875rem] font-bold tracking-wider border shrink-0 cursor-pointer"
                   style={{
                     backgroundColor: 'var(--bg-primary)',
                     borderColor: 'var(--border-active)',
@@ -194,10 +202,7 @@ export function SettingsPanel() {
                     fontFamily: "'JetBrains Mono', monospace"
                   }}
                 >
-                  <Dices
-                    size={13}
-                    className={isRerolling ? 'animate-spin' : ''}
-                  />
+                  <Dices size={13} />
                   <span>REROLL</span>
                 </button>
               </div>
