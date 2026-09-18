@@ -22,6 +22,9 @@ Unit and integration tests covering Arkalon Network identity flows, session secu
 - **App Card**: Tests rendering of app metadata (name, description, status), CTA button rendering based on status, and proper propagation of the onToggle/onClick event.
 - **Hype Selector**: Tests optimistic UI updates, active state toggling (hyped vs not_interested vs null), and loading state placeholders during server action submission.
 - **Status Badge**: Tests correct color coding and text rendering for 'online', 'development', and 'coming_soon' statuses.
+- **Feedback Form**: Tests form rendering, dynamic category visibility, contextual placeholders, server action submission, status transitions, and pending submission states.
+- **Welcome Modal**: Tests conditional rendering, session validation, nickname provisioning, reroll interactions, dismissal flow, and recovery code information.
+- **News Modal**: Tests transmission log rendering, item count display, news content output, close actions, and backdrop dismissal behavior.
 - **Settings Panel**: Validates panel open/close state, tab switching (identity vs restore), focus trap/Escape key dismissal behavior, procedural nickname rerolls, and recovery code reveal/copy functionality.
 - **Arkalon Oracle Terminal**: Verifies suggestion pill execution, adaptive view height, 3-turn sequence enforcement, response rendering, and terminal reset functionality.
 - **Recovery Code Entry**: Tests input formatting (auto-lowercase), validation feedback, and submission trigger.
