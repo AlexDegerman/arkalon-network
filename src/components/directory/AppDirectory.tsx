@@ -5,6 +5,7 @@ import { ChevronDown, Check } from 'lucide-react'
 import { PUBLIC_APPS } from '@/lib/registry/apps'
 import { GENRE_FILTERS } from '@/constants/genres'
 import { AppCard } from './AppCard'
+import Link from 'next/link'
 
 export function AppDirectory() {
   const [activeCategory, setActiveCategory] = useState<string>('all')
@@ -46,23 +47,22 @@ export function AppDirectory() {
 
   return (
     <div className="flex flex-col flex-1 min-w-0 w-full">
-      {/* Filter bar with dropdown */}
       <div
         className="relative mb-4 z-30 flex items-center justify-between"
         ref={dropdownRef}
       >
-        <a
+        <Link
           href="/ai"
-          className="inline-flex items-center px-3 py-1.5 rounded-md text-[0.75rem] font-semibold tracking-wider transition-colors duration-150 cursor-pointer hover:bg-(--bg-surface-hover)"
+          className="inline-flex items-center px-3 py-1.5 rounded-md text-[0.75rem] font-semibold tracking-wider transition-colors duration-150 border hover:bg-(--bg-surface-hover) cursor-pointer"
           style={{
             backgroundColor: 'var(--bg-surface)',
-            border: '1px solid var(--border-default)',
-            color: 'var(--accent-network)',
+            borderColor: 'var(--border-default)',
+            color: 'var(--text-primary)',
             fontFamily: "'JetBrains Mono', monospace"
           }}
         >
           ASK AI
-        </a>
+        </Link>
         <button
           type="button"
           onClick={() => setIsOpen((prev) => !prev)}
@@ -99,7 +99,6 @@ export function AppDirectory() {
           />
         </button>
 
-        {/* Dropdown popover */}
         {isOpen && (
           <div
             role="listbox"

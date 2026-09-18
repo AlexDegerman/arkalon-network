@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest'
 import { render, screen, fireEvent } from '@testing-library/react'
 import { AppCard } from '@/components/directory/AppCard'
-import type { ArkalonApp } from '@/lib/registry/types'
+import { ArkalonApp } from '@/types/registry'
 
 vi.mock('@/components/directory/StatusBadge', () => ({
   StatusBadge: ({ status }: any) => (

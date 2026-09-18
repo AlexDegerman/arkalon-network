@@ -11,7 +11,6 @@ type RateLimitKey = 'identity_creation' | 'recovery_entry'
 
 let checksSinceCleanup = 0
 const CLEANUP_INTERVAL = 100
-// Stale entries older than this are removed during cleanup
 const MAX_WINDOW_MS = 60 * 60 * 1000
 
 function makeKey(ip: string, action: RateLimitKey): string {

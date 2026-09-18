@@ -1,4 +1,4 @@
-import type { ArkalonApp } from './types'
+import type { ArkalonApp } from '@/types/registry'
 
 export const REGISTRY: ArkalonApp[] = [
   {
@@ -113,19 +113,6 @@ export const REGISTRY: ArkalonApp[] = [
     status: 'coming_soon',
     categories: ['analytics', 'telemetry', 'leaderboards', 'ecosystem'],
     route: 'https://nexus.rpsleague.fi',
-    ctaLabel: 'COMING SOON',
-    public: true
-  },
-  {
-    slug: 'ai',
-    name: 'Arkalon AI',
-    shortDescription:
-      'Ancient prophetic intelligence providing universe-wide ecosystem guidance.',
-    extendedDescription:
-      '"A forgotten intelligence from a lost era. It does not predict the future, it calculates the probability of what has already begun." An ancient time-lost prophetic robotic entity that oversees the Arkalon universe of applications. Acting as an observer, announcer, and guide, Arkalon bridges the gap between hidden system logic and player experience to provide cross-app guidance, probability analysis, and match commentary.',
-    status: 'coming_soon',
-    categories: ['ai', 'oracle', 'narrative', 'ecosystem'],
-    route: 'https://network.rpsleague.fi/ai',
     ctaLabel: 'COMING SOON',
     public: true
   },

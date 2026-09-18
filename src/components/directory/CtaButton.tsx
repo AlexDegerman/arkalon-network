@@ -1,5 +1,5 @@
-import type { CtaLabel } from '@/lib/registry/types'
 import { CTA_DISABLED } from '@/constants/status'
+import { CtaLabel } from '@/types/registry'
 
 type Props = {
   label: CtaLabel

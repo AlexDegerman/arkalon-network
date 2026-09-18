@@ -1,5 +1,5 @@
-import type { AppStatus } from '@/lib/registry/types'
 import { STATUS_COLOR, STATUS_FILLED, STATUS_LABEL } from '@/constants/status'
+import { AppStatus } from '@/types/registry'
 
 type Props = {
   status: AppStatus

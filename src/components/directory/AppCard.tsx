@@ -1,13 +1,13 @@
 'use client'
 
 import { memo } from 'react'
-import type { ArkalonApp } from '@/lib/registry/types'
 import { StatusBadge } from './StatusBadge'
 import { PreviewMedia } from './PreviewMedia'
 import { ComingSoonPlaceholder } from './ComingSoonPlaceholder'
 import { CtaButton } from './CtaButton'
 import { HypeSelector } from './HypeSelector'
 import { ChevronDown } from 'lucide-react'
+import { ArkalonApp } from '@/types/registry'
 
 type Props = {
   app: ArkalonApp
@@ -25,7 +25,6 @@ const APP_TITLE_STYLES: Record<string, string> = {
   market: 'title-market',
   dungeons: 'title-dungeons',
   nexus: 'title-nexus',
-  ai: 'title-ai',
   party: 'title-party',
   colony: 'title-colony',
   arena: 'title-arena',
@@ -51,16 +50,17 @@ function AppCardInner({ app, expanded, onToggle }: Props) {
       <button
         type="button"
         onClick={onToggle}
-        className="w-full flex flex-col gap-2 px-4 py-3 text-left rounded-lg transition-colors duration-150"
+        className="w-full flex flex-col gap-2 px-4 py-3 text-left rounded-lg transition-colors duration-150 cursor-pointer"
       >
-        <div className="flex flex-wrap items-start justify-between gap-x-3 gap-y-1 w-full">
+        {/* Responsive Header: Title gets its own line on mobile, joins on desktop */}
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1.5 sm:gap-3 w-full">
           <span
-            className={`min-w-0 flex-1 text-[1.125rem] font-black leading-snug tracking-wide wrap-break-word ${APP_TITLE_STYLES[app.slug] ?? ''}`}
+            className={`text-[1.125rem] font-black leading-snug tracking-wide wrap-break-word ${APP_TITLE_STYLES[app.slug] ?? ''}`}
           >
             {app.name.toUpperCase()}
           </span>
 
-          <div className="flex items-center gap-2 ml-auto shrink-0">
+          <div className="flex items-center justify-between sm:justify-end gap-2 w-full sm:w-auto shrink-0">
             <StatusBadge status={app.status} />
             <ChevronDown
               size={16}

@@ -1,11 +1,7 @@
 'use server'
 
-import { z } from 'zod'
-import {
-  getCoreIdCookie,
-  setCoreIdCookie,
-  setSessionCookie
-} from '@/lib/identity/cookie'
+import { validateOwnership } from '@/lib/identity/validateOwnership'
+import { setCoreIdCookie, setSessionCookie } from '@/lib/identity/cookie'
 import {
   createCoreIdentity,
   findIdentityById,
@@ -24,31 +20,26 @@ import type { CreateIdentityResult } from '@/types/identity'
 
 export type { CreateIdentityResult }
 
-const UuidSchema = z.string().uuid()
-
 export async function createCoreIdentityAction(): Promise<CreateIdentityResult> {
   try {
-    const existingId = await getCoreIdCookie()
-    if (existingId) {
-      const parsed = UuidSchema.safeParse(existingId)
-      if (parsed.success) {
-        await updateLastSeen(parsed.data)
-        const identity = await findIdentityById(parsed.data)
-        if (identity) {
-          return {
-            status: 'existing',
-            coreId: identity.id,
-            shortId: identity.short_id || identity.id.slice(0, 10),
-            nickname: identity.nickname || 'Unknown Player',
-            recoveryCode: identity.recovery_code
-          }
+    const ownership = await validateOwnership()
+    if (ownership.valid) {
+      await updateLastSeen(ownership.coreId)
+      const identity = await findIdentityById(ownership.coreId)
+      if (identity) {
+        return {
+          status: 'existing',
+          coreId: identity.id,
+          shortId: identity.short_id || identity.id.slice(0, 10),
+          nickname: identity.nickname || 'Unknown Player',
+          recoveryCode: identity.recovery_code
         }
       }
     }
 
     const headerList = await headers()
     const ip =
-      headerList.get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'unknown'
+      headerList.get('x-forwarded-for')?.split(',')[0]?.trim() || '127.0.0.1'
     const allowed = checkRateLimit(ip, 'identity_creation', 5, 60 * 60 * 1000)
     if (!allowed) {
       return { status: 'rate_limited' }
@@ -60,7 +51,7 @@ export async function createCoreIdentityAction(): Promise<CreateIdentityResult> 
 
     const coreId = await createCoreIdentity(recoveryCode, nickname, shortId)
 
-    // Issue session token so the new identity has a validated session immediately
+    // Store only the token hash server-side while keeping the signed token client-side
     const sessionToken = signSessionToken(coreId)
     const sessionTokenHash = hashSessionToken(sessionToken)
     const expiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)

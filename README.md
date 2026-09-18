@@ -17,7 +17,7 @@ The central hub and identity platform for the **Arkalon application ecosystem**,
 ## 🧩 Table of Contents
 ### 🧱 Core Systems
 - [Arkalon Core: Unified Account System](#-arkalon-core-unified-account-system)
-- [AI Arkalon: The Ecosystem Overseer](#-ai-arkalon-the-ecosystem-overseer)
+- [AI Arkalon: The Ecosystem Oracle & RAG Engine](#-ai-arkalon-the-ecosystem-oracle--rag-engine)
 
 ### 🗂️ Ecosystem Directory
 - [Active & In Development](#-active--in-development)
@@ -28,6 +28,7 @@ The central hub and identity platform for the **Arkalon application ecosystem**,
 ### ⚙️ Engineering & Architecture
 - [Architecture & Tech Stack](#-architecture--tech-stack)
 - [System Data Flow](#-system-data-flow)
+- [RAG Retrieval & Intelligence Pipeline](#-rag-retrieval--intelligence-pipeline)
 - [Visual Shader & Typography Engine](#-visual-shader--typography-engine)
 - [Cryptographic Session & Security Model](#-cryptographic-session--security-model)
 - [Test Suite](#-test-suite)
@@ -44,22 +45,30 @@ The central hub and identity platform for the **Arkalon application ecosystem**,
 
 Arkalon Network introduces **Arkalon Core**, a zero-friction, local-first account system that eliminates traditional email and password registration entirely. Visiting any application within the network instantly provisions a secure, persistent identity that functions seamlessly across all subdomains.
 
-- **Deterministic 3-Word Nicknames**: Procedurally generated using a three-tier dictionary (Adjective + Color + Animal, e.g., `AncientGoldTurtle`), creating millions of unique, readable identities with zero namespace collisions.
-- **Short ID Anchor**: Lightweight 10-character URL-safe identifiers (e.g., `Hqo7qUSe38`) providing unambiguous public references across leaderboards, profiles, and cross-game match tracking.
-- **Mnemonic Recovery Phrases**: Alphanumeric, human-readable recovery phrases (e.g., `swift-falcon-4821`) generated cryptographically on the server, serving as the master key for profile migration and cross-device restoration.
-- **Revealable Recovery Access**: Security-conscious UX where recovery credentials remain blurred behind real-time CSS filters until explicitly requested by verified sessions, featuring instant clipboard integration.
-- **Root-Domain Cookie SSO**: Authentication tokens and Core IDs are scoped to the parent `.rpsleague.fi` domain. Players authenticated on the hub are silently recognized across all satellite experiences without manual sign-in.
-- **Self-Healing State Sync**: Automatic database backfilling that dynamically resolves legacy profiles, generates missing credentials on the fly, and repopulates local browser storage without data loss.
+- **Instant On-Arrival Provisioning**: The platform automatically provisions a unique UUID, HMAC session token, and encrypted credentials in the background on your very first page load, no signup forms or clicks required.
+- **Deterministic 3-Word Nicknames**: Procedurally generated using a three-tier dictionary (Adjective + Color + Animal, e.g., `AncientGoldTurtle`), creating ~863,000 unique, readable combinations with zero namespace collisions.
+- **On-Demand Nickname Rerolls**: Players can randomize their procedural handle at any time for free via the Settings panel with instant database synchronization (`rerollNicknameAction`). Custom typed inputs are disallowed to preserve universe flavor and prevent profanity.
+- **Short ID Anchor**: Lightweight 10-character URL-safe identifiers (e.g., `Hqo7qUSe38`) derived from an unambiguous 54-character set, providing consistent public handles across leaderboards, profiles, and match history.
+- **Mnemonic Recovery Phrases**: Alphanumeric, human-readable master keys (e.g., `SWIFT-CRYSTAL-8214`) generated cryptographically server-side from a 256-word curated dictionary (655M+ combinations) for cross-device migration and profile recovery.
+- **Revealable Recovery Access**: Security-conscious UX where master recovery codes remain blurred behind real-time CSS filters until explicitly requested by verified sessions, featuring instant one-click clipboard copying.
+- **Dual-Cookie Root SSO**: Authentication is split across root-domain (`.rpsleague.fi`) cookies:
+  - `arkalon_core_id`: 1-year persistent anchor storing the public UUID.
+  - `arkalon_session`: 30-day rolling session token, HMAC-signed with SHA-256 and verified in constant time before granting data access.
 
 ---
 
-## 🤖 AI Arkalon: The Ecosystem Overseer
+## 🤖 AI Arkalon: The Ecosystem Oracle & RAG Engine
 
 > *"A forgotten intelligence from a lost era. It does not predict the future, it calculates the probability of what has already begun."*
 
-The ecosystem features **AI Arkalon**, represented in-universe as **The Arkalon**—an ancient time-lost prophetic robotic entity acting as an observer, announcer, and analytical guide across the network.
+The ecosystem features **Arkalon AI** (accessible at `/ai`), an in-universe prophetic intelligence overseer that acts as an analytical guide, rules arbitrator, and recommendation oracle across all network platforms.
 
-While originally introduced within RPS League to analyze prediction telemetry and speak prophecies, Arkalon serves as the unifying narrative and intelligence bridge across all connected applications. It calculates ecosystem probability, guides players through cross-app progression milestones, and unifies system mechanics under a shared universe.
+- **True In-Memory RAG Architecture**: Rather than context-stuffing hundreds of thousands of tokens across 16 titles, Arkalon uses an indexed chunk knowledge base (`knowledgeStore.ts`) and a sub-2ms hybrid semantic/keyword retriever (`retriever.ts`) to dynamically inject only the top relevant sections into Gemini's context window.
+- **Tri-Phase Consultation Lifecycle**: To eliminate conversational drift, save API quota, and fit the oracle lore, interactions run in strict **3-turn consultation cycles** (`SEQUENCE: X / 3`); these span the full process from initial inquiry and calibration to final synthesis and automatic terminal closure
+- **Touch-Optimized Instant Preset Carousel**: A horizontal, swipe-friendly prompt carousel with edge-fade masks allowing mobile and desktop users to launch starter inquiries (`What is Arkalon?`, `Does my account work across all apps?`, `What games are being developed?`) with a single tap.
+- **Resilient Fallback Model Chain**: Queries automatically cascade through a multi-model fallback pipeline (`gemini-3.5-flash-lite` ➔ `gemini-2.5-flash-lite` ➔ `gemini-2.5-flash`) that gracefully recovers from upstream capacity throttles, network spikes, or model deprecation errors.
+- **Clinical Brevity Constraints**: Responses are strictly capped at 2 to 3 sentences, eliminating conversational filler and displaying clean, compact attribution tags (`Ref: Arkalon Core`, `Ref: RPS League`).
+- **Hardened Security Boundaries**: System-level refusals immediately intercept prompt injection attacks, context extraction attempts, real-money cashout queries, and unauthorized user data fishing.
 
 ---
 
@@ -67,11 +76,12 @@ While originally introduced within RPS League to analyze prediction telemetry an
 
 The network links together several independent experiences built on top of the Arkalon Core identity:
 
-| Application | Category | Status | Focus |
-| :--- | :--- | :---: | :--- |
-| **RPS League** | Live | `ONLINE` | Live-service high-frequency prediction arena with virtual economy. |
-| **Arkalon Daily** | Short-Session | `IN DEV` | Daily logic puzzle challenges solved against a single global seed. |
-| **Arkalon Labs** | Incremental | `COMING SOON` | Passive scientific facility optimization and research scaling. |
+| Application | Category | Status | Focus | Route |
+| :--- | :--- | :---: | :--- | :--- |
+| **Arkalon Network** | Hub | `ONLINE` | Central portal, SSO identity, directory, and hype telemetry. | [network.rpsleague.fi](https://network.rpsleague.fi/) |
+| **RPS League** | Live | `ONLINE` | Live-service Rock Paper Scissors prediction arena with virtual economy. | [rpsleague.fi](https://rpsleague.fi/) |
+| **Arkalon AI** | Oracle | `ONLINE` | Prophetic ecosystem guidance, odds calculation, and RAG oracle. | [/ai](https://network.rpsleague.fi/ai) |
+| **Arkalon Daily** | Short-Session | `IN DEV` | Daily logic puzzle challenges solved against a single global seed. | [daily.rpsleague.fi](https://daily.rpsleague.fi/) |
 
 ---
 
@@ -81,13 +91,13 @@ Upcoming concepts, experimental game loops, and multiplayer environments planned
 
 | Application | Category | Status | Focus |
 | :--- | :--- | :---: | :--- |
+| **Arkalon Labs** | Incremental | `COMING SOON` | Passive scientific facility optimization and research scaling. |
 | **Arkalon Tower Defense** | Short-Session | `COMING SOON` | Fast-paced 2.5D browser tower defense with self-contained stages. |
 | **Arkalon Realms** | Multiplayer | `COMING SOON` | Persistent 2.5D browser roguelike featuring real-time combat and loot. |
 | **Arkalon Chaos Racing** | Short-Session | `COMING SOON` | Physics-driven arcade racing with stunts and incremental upgrades. |
 | **Arkalon Market** | Short-Session | `COMING SOON` | High-frequency economic trading and production simulation. |
 | **Arkalon Dungeons** | Short-Session | `COMING SOON` | Tactical roguelite dungeon crawler with account-wide meta progression. |
 | **Arkalon Nexus** | Live | `COMING SOON` | Centralized cross-app telemetry, global achievements, and analytics hub. |
-| **Arkalon AI** | Live | `COMING SOON` | Prophetic ecosystem guidance, odds calculation, and lore commentary. |
 | **Arkalon Party** | Multiplayer | `COMING SOON` | Physics-driven chaotic party minigames with cooperative objectives. |
 | **Arkalon Colony** | Incremental | `COMING SOON` | Civilization builder focused on high-level infrastructure and check-ins. |
 | **Arkalon Arena** | Multiplayer | `COMING SOON` | Simultaneous-turn 1v1 tactical grid duels with zero power progression. |
@@ -104,10 +114,10 @@ Every project in the registry operates on a standardized visual lifecycle pipeli
 
 | Status | Dot Indicator | Meaning | Interactive CTA |
 | :--- | :---: | :--- | :--- |
-| `ONLINE` | 🟢 Filled Green | Live production deployment, fully playable | `PLAY HERE` |
-| `IN DEV` | 🟡 Filled Amber | Active gameplay development, periodic staging | `COMING SOON` |
+| `ONLINE` | 🟢 Filled Green | Live production deployment, fully playable | `PLAY HERE` / `OPEN APP` |
+| `IN DEV` | 🟡 Filled Amber | Active gameplay development, periodic staging builds | `COMING SOON` |
 | `COMING SOON` | ⚪ Outlined Gray | Core design stage, upcoming deployment | `COMING SOON` |
-| `MAINTENANCE` | 🔴 Filled Red | Offline for scheduled migration or database upgrades | `OPEN APP` (Disabled) |
+| `MAINTENANCE` | 🔴 Filled Red | Offline for scheduled migration or database upgrades | Disabled CTA |
 | `PRIVATE` | ⚪ Outlined Gray | Internal tooling, administrative dashboard | `COMING SOON` |
 
 ---
@@ -117,10 +127,9 @@ Every project in the registry operates on a standardized visual lifecycle pipeli
 The directory serves as the centralized portal for exploring the Arkalon ecosystem, organizing platforms by gameplay cadence, multiplayer architecture, and active release state.
 
 - **Context-Aware Presentation**: Application cards dynamically surface gameplay categories (Live, Short-Session, Incremental, Multiplayer), status telemetry, and responsive call-to-action pathways.
-- **Embedded Media Showcase**: Integrated preview player featuring custom scrubber timeline controls, responsive audio ducking, mute toggles, and cross-browser fullscreen handling.
-- **Modular Categorization**: Structural tagging enabling swift filtering across instant-action challenges, deep progression loops, and synchronized multiplayer arenas.
-- **Priority Navigation**: Direct routing to active production deployments (`PLAY HERE`), staged staging builds (`OPEN APP`), and work-in-progress sandboxes (`COMING SOON`).
-- **Silent Interest Telemetry**: Private feedback mechanism allowing users to signal development interest without exposing public popularity metrics or influencing community perception.
+- **Modular Genre Filtering**: Instant categorical filtering across 8 distinct gameplay genres (*ALL, LIVE, MULTIPLAYER & CO-OP, INCREMENTAL & IDLE, STRATEGY & TACTICAL, ROGUELIKE & RPG, ARCADE & RACING, PUZZLE & LOGIC*).
+- **Embedded Media Showcase**: Integrated preview player featuring custom timeline scrubber controls, audio ducking, mute toggles, and cross-browser fullscreen handling.
+- **Silent Hype Telemetry**: Private feedback mechanism where players vote (`HYPED` or `NOT INTERESTED`) to signal demand for upcoming games, directly guiding the developer's release schedule without exposing public counts to prevent bandwagon bias.
 
 ---
 
@@ -129,11 +138,12 @@ The directory serves as the centralized portal for exploring the Arkalon ecosyst
 | Layer | Stack | Purpose |
 | :--- | :--- | :--- |
 | **Framework** | Next.js 16 (Turbopack, App Router) | Fast server-side rendering, standalone production build |
-| **Runtime** | React 19, TypeScript 5.8 | Strict type contracts and modern concurrency primitives |
+| **Runtime** | React 19, TypeScript 5.8 | Modern concurrency primitives and strict type contracts |
+| **Intelligence** | `@google/generative-ai` (Gemini) | Multi-model fallback RAG engine with prompt caching |
 | **Styling** | Tailwind CSS v4 | Zero-runtime CSS engine with custom metallic shaders |
-| **State** | Zustand | Lightweight client UI and modal overlay state machines |
-| **Database** | PostgreSQL 17 | Core identity storage, session verification, and schema routing |
-| **Validation** | Zod | Runtime input schema validation for server actions |
+| **State** | Zustand 5 | Lightweight client UI and modal overlay state machines |
+| **Database** | PostgreSQL 17 (`pg` Pool) | Persistent identity storage, session verification, and hype telemetry |
+| **Validation** | Zod 3 | Runtime input schema validation for server actions |
 | **Icons** | Lucide React | Minimal, accessible interface iconography |
 
 ---
@@ -162,6 +172,33 @@ The directory serves as the centralized portal for exploring the Arkalon ecosyst
               │                        │ Game Telemetry &
               └────────────────────────┘ Progress Tables
 ```
+
+---
+
+## 🔍 RAG Retrieval & Intelligence Pipeline
+
+```text
+  User Query / Preset Prompt
+              │
+              ▼
+   [Intent & Entity Matcher] ──► Keyword Scoring & App Trigger Detection
+              │
+              ▼
+    [Knowledge Store Index]  ──► Extracts Top-3 Chunks (Sub-2ms)
+              │
+              ▼
+  [Context Assembly Engine]  ──► Combines <ecosystem_overview>,
+                                 <security_protocols>, and <retrieved_knowledge>
+              │
+              ▼
+ [Resilient Fallback Engine] ──► gemini-3.5-flash-lite
+                                   ↳ gemini-2.5-flash-lite
+                                       ↳ gemini-2.5-flash
+              │
+              ▼
+   Strict 2-Sentence Output  ──► Clean attribution tag (e.g. Ref: Arkalon Core)
+```
+
 ---
 
 ## 🎨 Visual Shader & Typography Engine
@@ -179,9 +216,11 @@ Arkalon Network features a bespoke cyber-metallic aesthetic engineered with pure
 Security is maintained through strict separation between public identifiers and private session credentials:
 
 - **HMAC-Signed Session Tokens**: Authentication tokens are signed server-side using a secret-backed HMAC SHA-256 pipeline, ensuring session cookies cannot be forged or tampered with by client processes.
-- **Layered Rate Limiting**: Dedicated in-memory sliding window guards against brute-force recovery attempts and excessive identity creation spikes per IP subnet.
+- **Gated Recovery Exposure**: The master recovery code is never exposed to unauthenticated callers. Server actions verify live session ownership before returning private credentials.
+- **Layered Rate Limiting**: Dedicated in-memory sliding windows guard against brute-force recovery attempts (10/hr), excessive identity creation spikes (5/hr), and AI query abuse (5/min with escalating cooldowns).
 - **Constant-Time Verification**: Cryptographic token comparisons utilize bitwise XOR verification to eliminate side-channel timing attack vectors entirely.
 - **Zero Exposure of Passwords or PII**: Identity is established without storing emails, plaintext passwords, or personal identifying information in the database.
+- **HMR Connection Leak Defense**: Connection pools in development are bound to `globalThis` to prevent PostgreSQL client exhaustion during Fast Refresh.
 
 ---
 
@@ -197,7 +236,7 @@ Comprehensive Vitest coverage across identity flows, session security, directory
 
 Arkalon Network is built as a responsive, hardware-accelerated web portal:
 
-- **Responsive Portal Design**: Optimized flex and grid layouts ensure seamless directory navigation, media playback, and modal interactions across mobile viewports, tablets, and wide desktop displays.
+- **Dynamic Viewport Height (`100dvh`)**: Mobile chat and directory interfaces leverage dynamic viewport units with custom touch padding, preventing controls from being obscured by mobile browser chrome.
 - **Hardware Acceleration**: Custom CSS transitions and title shaders leverage GPU-accelerated transforms (`transform`, `opacity`) to guarantee stable 60 FPS rendering.
 - **Supported Browsers**: Chrome, Firefox, Safari, and Edge (current modern releases).
 
@@ -223,6 +262,8 @@ Arkalon Network adheres to privacy-by-design principles across all systems:
 
 ## 📜 License
 
-This project is proprietary software.
+Copyright (c) 2026 Alex Degerman. All Rights Reserved.
 
-Source code is not licensed for public reuse, modification, or distribution.
+Arkalon Network and all associated source code, assets, systems, and files are proprietary.
+
+Unauthorized copying, modification, distribution, public hosting, sublicensing, or use of this software, in whole or in part, is strictly prohibited without prior written permission from the copyright holder.

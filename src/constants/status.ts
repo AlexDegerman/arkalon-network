@@ -1,4 +1,4 @@
-import type { AppStatus, CtaLabel } from '@/lib/registry/types'
+import type { AppStatus, CtaLabel } from '@/types/registry'
 
 // Color token per status - maps to CSS custom properties
 export const STATUS_COLOR: Record<AppStatus, string> = {

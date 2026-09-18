@@ -1,14 +1,6 @@
 import 'server-only'
 import pool from '@/lib/db'
-
-export type CoreIdentityRow = {
-  id: string
-  short_id: string
-  nickname: string
-  recovery_code: string
-  created_at: Date
-  last_seen_at: Date
-}
+import { CoreIdentityRow } from '@/types/identity'
 
 export async function createCoreIdentity(
   recoveryCode: string,
@@ -53,4 +45,14 @@ export async function findIdentityByRecoveryCode(
     [code.toLowerCase().trim()]
   )
   return result.rows[0] ?? null
+}
+
+export async function updateNickname(
+  coreId: string,
+  nickname: string
+): Promise<void> {
+  await pool.query(
+    `UPDATE core_identities SET nickname = $1, last_seen_at = now() WHERE id = $2`,
+    [nickname, coreId]
+  )
 }

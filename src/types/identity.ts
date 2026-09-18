@@ -7,6 +7,13 @@ export interface CoreIdentity {
 
 export type SessionStatus = ({ valid: true } & CoreIdentity) | { valid: false }
 
+export type OwnershipResult =
+  | { valid: true; coreId: string }
+  | {
+      valid: false
+      reason: 'no_cookie' | 'invalid_token' | 'expired' | 'not_found'
+    }
+
 export type CreateIdentityResult =
   | ({ status: 'created' | 'existing' } & CoreIdentity)
   | { status: 'rate_limited' }
@@ -17,6 +24,11 @@ export type RestoreResult =
   | { status: 'not_found' }
   | { status: 'rate_limited' }
   | { status: 'error' }
+
+export type RerollNicknameResult =
+  | { status: 'success'; nickname: string }
+  | { status: 'unauthorized' }
+  | { status: 'error'; message: string }
 
 export interface CoreIdentityRow {
   id: string

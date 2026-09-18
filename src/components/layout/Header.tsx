@@ -1,11 +1,34 @@
 'use client'
 
+import { useEffect, useRef } from 'react'
 import { Settings } from 'lucide-react'
 import { useUiStore } from '@/app/stores/uiStore'
 import { SettingsPanel } from '@/components/settings/SettingsPanel'
+import { validateSessionAction } from '@/app/actions/validateSession'
+import { createCoreIdentityAction } from '@/app/actions/createCoreIdentity'
 
 export function Header() {
   const setSettingsPanelOpen = useUiStore((s) => s.setSettingsPanelOpen)
+  const bootstrapped = useRef(false)
+
+  // Auto-creates identity on first visit
+  useEffect(() => {
+    if (bootstrapped.current) return
+    bootstrapped.current = true
+
+    async function ensureIdentity() {
+      try {
+        const session = await validateSessionAction()
+        if (!session.valid) {
+          await createCoreIdentityAction()
+        }
+      } catch (err) {
+        console.error('[Header] Auto-provisioning failed:', err)
+      }
+    }
+
+    ensureIdentity()
+  }, [])
 
   return (
     <>

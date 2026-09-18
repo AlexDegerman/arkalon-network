@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { REGISTRY, PUBLIC_APPS } from '@/lib/registry/apps'
-import type { ArkalonApp } from '@/lib/registry/types'
+import { ArkalonApp } from '@/types/registry'
 
 describe('App Registry', () => {
   it('exports a non-empty array of apps in REGISTRY', () => {

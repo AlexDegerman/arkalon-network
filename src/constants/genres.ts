@@ -1,4 +1,4 @@
-import type { ArkalonApp } from '@/lib/registry/types'
+import { ArkalonApp } from "@/types/registry"
 
 export interface GenreFilter {
   id: string

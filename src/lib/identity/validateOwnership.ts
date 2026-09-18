@@ -6,19 +6,12 @@ import {
   verifySessionToken,
   hashSessionToken
 } from '@/lib/identity/recoveryCode'
-
-export type OwnershipResult =
-  | { valid: true; coreId: string }
-  | {
-      valid: false
-      reason: 'no_cookie' | 'invalid_token' | 'expired' | 'not_found'
-    }
+import { OwnershipResult } from '@/types/identity'
 
 const UuidSchema = z.string().uuid()
 
-// Validates that the request has a session token that matches a live
-// validated_sessions row for the core_id in the cookie.
-// Every protected Server Action must call this before touching identity data.
+// Validates ownership by matching the session token with a live validated_sessions record.
+// Protected Server Actions must call this before accessing identity data.
 export async function validateOwnership(): Promise<OwnershipResult> {
   const coreIdCookie = await getCoreIdCookie()
   const sessionToken = await getSessionCookie()
@@ -38,7 +31,7 @@ export async function validateOwnership(): Promise<OwnershipResult> {
     return { valid: false, reason: 'invalid_token' }
   }
 
-  // Token coreId must match the cookie coreId
+  // Prevent mismatched identity and session cookies
   if (tokenPayload.coreId !== coreIdParsed.data) {
     return { valid: false, reason: 'invalid_token' }
   }

@@ -1,11 +1,12 @@
 'use client'
 
-import { useEffect, useRef, useState, useCallback } from 'react'
-import { X, Copy, Check } from 'lucide-react'
+import { useEffect, useRef, useState, useCallback, useTransition } from 'react'
+import { X, Copy, Check, Dices } from 'lucide-react'
 import { useUiStore } from '@/app/stores/uiStore'
 import { RecoveryCodeEntry } from './RecoveryCodeEntry'
 import { validateSessionAction } from '@/app/actions/validateSession'
 import { createCoreIdentityAction } from '@/app/actions/createCoreIdentity'
+import { rerollNicknameAction } from '@/app/actions/rerollNickname'
 import type { CoreIdentity } from '@/types/identity'
 
 type PanelState =
@@ -21,6 +22,7 @@ export function SettingsPanel() {
   const [activeTab, setActiveTab] = useState<'identity' | 'restore'>('identity')
   const [codeRevealed, setCodeRevealed] = useState(false)
   const [copied, setCopied] = useState(false)
+  const [isRerolling, startRerollTransition] = useTransition()
 
   const panelRef = useRef<HTMLDivElement>(null)
   const closeRef = useRef<HTMLButtonElement>(null)
@@ -32,9 +34,7 @@ export function SettingsPanel() {
     setPanelState({ phase: 'loading' })
 
     try {
-      // Check for validated session first
       const sessionResult = await validateSessionAction()
-
       if (sessionResult.valid) {
         setPanelState({
           phase: 'ready',
@@ -48,9 +48,7 @@ export function SettingsPanel() {
         return
       }
 
-      // No validated session - try to create or detect existing identity
       const identityResult = await createCoreIdentityAction()
-
       if (
         identityResult.status === 'created' ||
         identityResult.status === 'existing'
@@ -72,30 +70,22 @@ export function SettingsPanel() {
     }
   }, [])
 
-  // Bootstrap identity and session state when panel opens
   useEffect(() => {
     if (!settingsPanelOpen) {
       setCodeRevealed(false)
       setCopied(false)
       return
     }
-
     bootstrap()
   }, [settingsPanelOpen, bootstrap])
 
-  // Trap focus inside panel and close on Escape
   useEffect(() => {
     if (!settingsPanelOpen) return
-
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        setSettingsPanelOpen(false)
-      }
+      if (e.key === 'Escape') setSettingsPanelOpen(false)
     }
-
     document.addEventListener('keydown', handleKeyDown)
     closeRef.current?.focus()
-
     return () => document.removeEventListener('keydown', handleKeyDown)
   }, [settingsPanelOpen, setSettingsPanelOpen])
 
@@ -104,18 +94,27 @@ export function SettingsPanel() {
       await navigator.clipboard.writeText(code)
       setCopied(true)
       setTimeout(() => setCopied(false), 2000)
-    } catch {
-      // Clipboard unavailable
-    }
+    } catch {}
+  }
+
+  const handleReroll = () => {
+    startRerollTransition(async () => {
+      const res = await rerollNicknameAction()
+      if (res.status === 'success') {
+        setPanelState((prev) =>
+          prev.phase === 'ready'
+            ? { ...prev, data: { ...prev.data, nickname: res.nickname } }
+            : prev
+        )
+      }
+    })
   }
 
   if (!settingsPanelOpen) return null
-
   const identity = panelState.phase === 'ready' ? panelState.data : null
 
   return (
     <>
-      {/* Backdrop */}
       <div
         className="fixed inset-0 z-40"
         style={{ backgroundColor: 'rgba(0,0,0,0.6)' }}
@@ -123,7 +122,6 @@ export function SettingsPanel() {
         onClick={() => setSettingsPanelOpen(false)}
       />
 
-      {/* Panel */}
       <div
         ref={panelRef}
         role="dialog"
@@ -136,7 +134,6 @@ export function SettingsPanel() {
           animation: 'fade-in 0.15s ease-out both'
         }}
       >
-        {/* Panel header */}
         <div
           className="flex items-center justify-between px-5 py-4 border-b shrink-0"
           style={{ borderColor: 'var(--border-default)' }}
@@ -152,7 +149,7 @@ export function SettingsPanel() {
             type="button"
             onClick={() => setSettingsPanelOpen(false)}
             aria-label="Close settings"
-            className="p-1.5 rounded transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2"
+            className="p-1.5 rounded transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 cursor-pointer"
             style={
               {
                 color: 'var(--text-muted)',
@@ -164,11 +161,9 @@ export function SettingsPanel() {
           </button>
         </div>
 
-        {/* Panel body */}
         <div className="flex flex-col gap-5 px-5 py-5 overflow-y-auto flex-1">
-          {/* Identity display */}
           {identity && (
-            <div className="flex flex-col gap-1">
+            <div className="flex flex-col gap-1.5">
               <span
                 className="text-[0.6875rem] font-semibold tracking-widest"
                 style={{
@@ -178,12 +173,35 @@ export function SettingsPanel() {
               >
                 CURRENT IDENTITY
               </span>
-              <span
-                className="text-[1.25rem] font-black tracking-tight leading-tight"
-                style={{ color: 'var(--text-primary)' }}
-              >
-                {identity.nickname}
-              </span>
+
+              <div className="flex items-center justify-between gap-2">
+                <span
+                  className="text-[1.25rem] font-black tracking-tight leading-tight truncate"
+                  style={{ color: 'var(--text-primary)' }}
+                >
+                  {identity.nickname}
+                </span>
+                <button
+                  type="button"
+                  onClick={handleReroll}
+                  disabled={isRerolling}
+                  title="Reroll procedural nickname"
+                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded text-[0.6875rem] font-bold tracking-wider transition-all duration-150 border shrink-0 cursor-pointer disabled:opacity-50"
+                  style={{
+                    backgroundColor: 'var(--bg-primary)',
+                    borderColor: 'var(--border-active)',
+                    color: 'var(--accent-network)',
+                    fontFamily: "'JetBrains Mono', monospace"
+                  }}
+                >
+                  <Dices
+                    size={13}
+                    className={isRerolling ? 'animate-spin' : ''}
+                  />
+                  <span>REROLL</span>
+                </button>
+              </div>
+
               <span
                 className="text-[0.75rem] tracking-wider"
                 style={{
@@ -202,7 +220,6 @@ export function SettingsPanel() {
             </div>
           )}
 
-          {/* Loading state */}
           {panelState.phase === 'loading' && (
             <p
               className="text-[0.8125rem]"
@@ -212,7 +229,6 @@ export function SettingsPanel() {
             </p>
           )}
 
-          {/* Error state */}
           {panelState.phase === 'error' && (
             <p
               className="text-[0.8125rem]"
@@ -222,10 +238,8 @@ export function SettingsPanel() {
             </p>
           )}
 
-          {/* Tabs - identity / restore */}
           {identity && (
             <>
-              {/* Tab bar */}
               <div
                 className="flex border-b"
                 style={{ borderColor: 'var(--border-default)' }}
@@ -239,7 +253,7 @@ export function SettingsPanel() {
                     role="tab"
                     aria-selected={activeTab === tab}
                     onClick={() => setActiveTab(tab)}
-                    className="px-3 pb-2 text-[0.8125rem] font-semibold tracking-wide transition-colors duration-150 border-b-2 -mb-px focus-visible:outline-2 focus-visible:outline-offset-2"
+                    className="px-3 pb-2 text-[0.8125rem] font-semibold tracking-wide transition-colors duration-150 border-b-2 -mb-px focus-visible:outline-2 focus-visible:outline-offset-2 cursor-pointer"
                     style={
                       {
                         borderColor:
@@ -259,7 +273,6 @@ export function SettingsPanel() {
                 ))}
               </div>
 
-              {/* Identity tab */}
               {activeTab === 'identity' && (
                 <div role="tabpanel" className="flex flex-col gap-3">
                   <p
@@ -328,7 +341,6 @@ export function SettingsPanel() {
                 </div>
               )}
 
-              {/* Restore tab */}
               {activeTab === 'restore' && (
                 <div role="tabpanel">
                   <RecoveryCodeEntry onRestored={bootstrap} />

@@ -14,12 +14,12 @@ export function generateRecoveryCode(): string {
   return `${word1}-${word2}-${digits}`
 }
 
-// One-way hash for storage - recovery code is never stored in plain text
+// Hashes recovery codes before storage; plaintext codes are never persisted
 export function hashRecoveryCode(code: string): string {
   return createHash('sha256').update(code.toUpperCase().trim()).digest('hex')
 }
 
-// HMAC-signed session token using SESSION_SECRET
+// Creates a signed session token using the server secret
 export function signSessionToken(coreId: string): string {
   const secret = process.env.SESSION_SECRET
   if (!secret) throw new Error('SESSION_SECRET is not set')
@@ -28,7 +28,6 @@ export function signSessionToken(coreId: string): string {
   return `${Buffer.from(payload).toString('base64url')}.${sig}`
 }
 
-// Verify and extract coreId from a session token
 export function verifySessionToken(token: string): { coreId: string } | null {
   const secret = process.env.SESSION_SECRET
   if (!secret) return null

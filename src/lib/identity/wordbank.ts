@@ -1,7 +1,6 @@
 import 'server-only'
 
-// 256-word bank for recovery code generation
-// WORD-WORD-DIGITS format gives 256 x 256 x 10000 = ~655 million combinations
+// Recovery code word bank: WORD-WORD-DIGITS format provides ~655 million combinations
 export const WORD_BANK: readonly string[] = [
   'AMBER',
   'ANVIL',
@@ -261,7 +260,7 @@ export const WORD_BANK: readonly string[] = [
   'ZONE'
 ] as const
 
-// Verify word bank has exactly 256 entries at module load
+// Prevent invalid recovery code generation if the word bank changes
 if (WORD_BANK.length !== 256) {
   throw new Error(
     `Word bank must contain exactly 256 words, got ${WORD_BANK.length}`

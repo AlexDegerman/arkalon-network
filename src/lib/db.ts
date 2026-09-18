@@ -19,9 +19,7 @@ function getPoolConfig(): PoolConfig {
   try {
     const url = new URL(connectionString)
     searchPath = url.searchParams.get('search_path')
-  } catch {
-    // If not a valid URL, ignore
-  }
+  } catch {}
 
   return {
     connectionString,
@@ -36,9 +34,15 @@ function getPoolConfig(): PoolConfig {
   }
 }
 
-const pool = new Pool(getPoolConfig())
+// Ignore malformed connection strings and use default pool settings
+const globalForPg = globalThis as unknown as { pgPool?: Pool }
 
-// Ensure search_path is set when a client connection opens
+const pool = globalForPg.pgPool ?? new Pool(getPoolConfig())
+
+if (process.env.NODE_ENV !== 'production') {
+  globalForPg.pgPool = pool
+}
+
 const connStr = process.env.DATABASE_URL
 if (connStr) {
   try {
@@ -49,9 +53,7 @@ if (connStr) {
         client.query(`SET search_path TO "${searchPath}", public`)
       })
     }
-  } catch {
-    // ignore
-  }
+  } catch {}
 }
 
 export default pool

@@ -1,2 +1,23 @@
-// Re-export registry domain types for use outside lib/
-export type { ArkalonApp, AppStatus, CtaLabel } from '@/lib/registry/types'
+export type AppStatus =
+  | 'online'
+  | 'development'
+  | 'coming_soon'
+  | 'maintenance'
+  | 'private'
+
+export type CtaLabel = 'PLAY HERE' | 'OPEN APP' | 'COMING SOON'
+
+export type InterestVote = 'hyped' | 'not_interested'
+
+export interface ArkalonApp {
+  slug: string
+  name: string
+  shortDescription: string
+  extendedDescription?: string
+  status: AppStatus
+  categories: string[]
+  previewMediaUrl?: string
+  route: string
+  ctaLabel: CtaLabel
+  public: boolean
+}
