@@ -117,7 +117,7 @@ export function NewsModal({ onClose }: NewsModalProps) {
                 color: '#ffffff'
               }}
             >
-              Acknowledge
+              GOT IT
             </button>
           </div>
         </div>
