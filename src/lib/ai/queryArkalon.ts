@@ -8,6 +8,9 @@ import { buildContext } from './contextBuilder'
 import { generateWithFallback } from './fallbackModel'
 import { getCached, setCache } from './cache'
 import { ArkalonQueryResult, ChatMessage } from '@/types/ai'
+import { logQueryToDiscord } from './discordWebhook'
+import { validateOwnership } from '@/lib/identity/validateOwnership'
+import { findIdentityById } from '@/lib/identity/coreId'
 
 const MessageSchema = z.object({
   role: z.enum(['user', 'assistant']),
@@ -98,6 +101,26 @@ export async function queryArkalonAction(
     if (isFirstTurn) {
       setCache(cacheKey, response, source)
     }
+
+    ;(async () => {
+      let nickname: string | undefined
+      try {
+        const ownership = await validateOwnership()
+        if (ownership.valid) {
+          const identity = await findIdentityById(ownership.coreId)
+          if (identity) nickname = identity.nickname
+        }
+      } catch {}
+
+      await logQueryToDiscord({
+        userPrompt: latestMessage,
+        aiResponse: response,
+        source,
+        ip,
+        turnCount: userTurnCount,
+        nickname
+      })
+    })().catch(() => {})
 
     return { status: 'success', response, source }
   } catch (err) {

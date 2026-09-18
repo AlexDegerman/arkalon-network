@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 import { ArkalonOracle } from '@/components/ai/ArkalonOracle'
+import { InfoDisclaimer } from '@/lib/ai/InfoDisclaimer'
 
 export default function AIPage() {
   return (
@@ -21,9 +22,12 @@ export default function AIPage() {
           <span>HUB</span>
         </Link>
 
-        <h1 className="text-sm sm:text-base font-black tracking-wider title-ai">
-          ARKALON AI
-        </h1>
+        <div className="flex items-center gap-1.5">
+          <h1 className="text-sm sm:text-base font-black tracking-wider title-ai">
+            ARKALON AI
+          </h1>
+          <InfoDisclaimer />
+        </div>
 
         {/* Keeps title centered by balancing the navigation button width */}
         <div className="w-14 shrink-0" aria-hidden="true" />
