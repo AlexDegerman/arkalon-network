@@ -75,6 +75,18 @@ export function AppDirectory() {
           >
             ASK AI
           </Link>
+          <Link
+            href="/feedback"
+            className="inline-flex items-center px-3 py-1.5 rounded-md text-[0.75rem] font-semibold tracking-wider transition-colors duration-150 border hover:bg-(--bg-surface-hover) cursor-pointer"
+            style={{
+              backgroundColor: 'var(--bg-surface)',
+              borderColor: 'var(--border-default)',
+              color: 'var(--text-primary)',
+              fontFamily: "'JetBrains Mono', monospace"
+            }}
+          >
+            FEEDBACK
+          </Link>
         </div>
 
         <button

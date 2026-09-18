@@ -18,6 +18,8 @@ The central hub and identity platform for the **Arkalon application ecosystem**,
 ### 🧱 Core Systems
 - [Arkalon Core: Unified Account System](#-arkalon-core-unified-account-system)
 - [AI Arkalon: The Ecosystem Oracle & RAG Engine](#-ai-arkalon-the-ecosystem-oracle--rag-engine)
+- [Onboarding & Transmission Modals](#-onboarding--transmission-modals)
+- [Feedback & Moderation System](#-feedback--moderation-system)
 
 ### 🗂️ Ecosystem Directory
 - [Active & In Development](#-active--in-development)
@@ -69,6 +71,25 @@ The ecosystem features **Arkalon AI** (accessible at `/ai`), an in-universe prop
 - **Resilient Fallback Model Chain**: Queries automatically cascade through a multi-model fallback pipeline (`gemini-3.5-flash-lite` ➔ `gemini-2.5-flash-lite` ➔ `gemini-2.5-flash`) that gracefully recovers from upstream capacity throttles, network spikes, or model deprecation errors.
 - **Clinical Brevity Constraints**: Responses are strictly capped at 2 to 3 sentences, eliminating conversational filler and displaying clean, compact attribution tags (`Ref: Arkalon Core`, `Ref: RPS League`).
 - **Hardened Security Boundaries**: System-level refusals immediately intercept prompt injection attacks, context extraction attempts, real-money cashout queries, and unauthorized user data fishing.
+
+---
+
+## 🎬 Onboarding & Transmission Modals
+
+First-time and returning visitor experiences are managed through lore-friendly modal overlays that introduce the ecosystem and broadcast important updates.
+
+- **Welcome Modal**: Triggers on first arrival (`arkalon_welcomed` flag). Displays the newly provisioned Core Identity nickname, provides a one-click procedural nickname reroll (`rerollNicknameAction`), and introduces the recovery code system before granting Hub access.
+- **News Modal (What's New)**: Automatically appears when the local `arkalon_news_seen` version differs from the live `NEWS_VERSION` constant. Features a scrollable "Transmission Log" layout with a gradient fade mask, ensuring users stay informed about patch notes, feature releases, and ecosystem announcements.
+
+---
+
+## 📡 Feedback & Moderation System
+
+A dedicated communication channel (`/feedback`) allows players to submit bug reports, suggestions, and screenshots directly to the developer through Discord webhooks, with built-in abuse mitigation.
+
+- **App-Aware Routing & Dynamic Categories**: A unified dropdown selector routes feedback to any of the 16 ecosystem apps or the Network hub. Categories and textarea placeholders dynamically adapt to the selected context (e.g., exposing "AI Arkalon" for the Hub, "Gameplay & Balance" for live games, or restricting to core essentials for analytics apps like Nexus).
+- **Rich Media & Context**: Supports optional clipboard-paste or drag-and-drop screenshot uploads (max 5MB, PNG/JPG/WEBP) alongside an optional email field for developer follow-ups. Each Discord embed includes masked IP, user Short ID, and nickname context.
+- **Admin Ban & Moderation**: Every Discord embed includes a secure one-click `[Ban User]` moderation action for handling abuse, spam, malicious submissions, or repeated misuse of the feedback channel. Verified moderation actions can add the user's `core_id` to the `feedback_bans` PostgreSQL table, restricting future feedback submissions without affecting Core Identity or gameplay access.
 
 ---
 
