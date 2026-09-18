@@ -5,7 +5,7 @@ import { ChevronDown, Check } from 'lucide-react'
 import { PUBLIC_APPS } from '@/lib/registry/apps'
 import { GENRE_FILTERS } from '@/constants/genres'
 import { AppCard } from './AppCard'
-import Link from 'next/link'
+import { DirectoryNav } from './DirectoryNav'
 
 export function AppDirectory() {
   const [activeCategory, setActiveCategory] = useState<string>('all')
@@ -50,44 +50,7 @@ export function AppDirectory() {
         className="relative mb-4 z-30 flex items-center justify-between"
         ref={dropdownRef}
       >
-        <div className="flex items-center gap-2">
-          <Link
-            href="/news"
-            className="inline-flex items-center px-3 py-1.5 rounded-md text-[0.75rem] font-semibold tracking-wider transition-colors duration-150 border hover:bg-(--bg-surface-hover) cursor-pointer"
-            style={{
-              backgroundColor: 'var(--bg-surface)',
-              borderColor: 'var(--border-default)',
-              color: 'var(--text-primary)',
-              fontFamily: "'JetBrains Mono', monospace"
-            }}
-          >
-            NEWS
-          </Link>
-          <Link
-            href="/ai"
-            className="inline-flex items-center px-3 py-1.5 rounded-md text-[0.75rem] font-semibold tracking-wider transition-colors duration-150 border hover:bg-(--bg-surface-hover) cursor-pointer"
-            style={{
-              backgroundColor: 'var(--bg-surface)',
-              borderColor: 'var(--border-default)',
-              color: 'var(--text-primary)',
-              fontFamily: "'JetBrains Mono', monospace"
-            }}
-          >
-            ASK AI
-          </Link>
-          <Link
-            href="/feedback"
-            className="inline-flex items-center px-3 py-1.5 rounded-md text-[0.75rem] font-semibold tracking-wider transition-colors duration-150 border hover:bg-(--bg-surface-hover) cursor-pointer"
-            style={{
-              backgroundColor: 'var(--bg-surface)',
-              borderColor: 'var(--border-default)',
-              color: 'var(--text-primary)',
-              fontFamily: "'JetBrains Mono', monospace"
-            }}
-          >
-            FEEDBACK
-          </Link>
-        </div>
+        <DirectoryNav />
 
         <button
           type="button"

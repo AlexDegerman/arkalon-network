@@ -74,20 +74,8 @@ export default function FeedbackPage() {
   const [errorMsg, setErrorMsg] = useState('')
   const [isDragging, setIsDragging] = useState(false)
   const [isBanned, setIsBanned] = useState(false)
-  const [banCheckDone, setBanCheckDone] = useState(false)
-
   const fileInputRef = useRef<HTMLInputElement>(null)
   const appSelectRef = useRef<HTMLSelectElement>(null)
-
-  useEffect(() => {
-    fetch('/api/feedback')
-      .then((r) => r.json())
-      .then((d) => {
-        if (d.banned) setIsBanned(true)
-      })
-      .catch(() => {})
-      .finally(() => setBanCheckDone(true))
-  }, [])
 
   const handleFile = useCallback((file: File) => {
     const allowedTypes = ['image/png', 'image/jpeg', 'image/webp']
@@ -213,16 +201,6 @@ export default function FeedbackPage() {
       </main>
     )
   }
-  if (!banCheckDone) {
-    return (
-      <main className="mx-auto w-full max-w-2xl px-3 sm:px-4 pt-3 pb-6 sm:py-5 min-h-dvh flex flex-col items-center justify-center">
-        <p style={{ color: 'var(--text-muted)' }}>
-          Verifying transmission rights...
-        </p>
-      </main>
-    )
-  }
-
   if (isBanned) {
     return (
       <main className="mx-auto w-full max-w-2xl px-3 sm:px-4 pt-3 pb-6 sm:py-5 min-h-dvh flex flex-col items-center justify-center text-center">
