@@ -145,14 +145,24 @@ export async function submitFeedbackAction(formData: FormData) {
       method: 'POST',
       body: discordFormData
     })
-
     if (!response.ok) {
-      throw new Error(`Discord webhook failed: ${response.statusText}`)
+      const errorText = await response.text()
+      console.error(
+        `[submitFeedbackAction] Discord webhook failed: ${response.status} ${response.statusText}`,
+        errorText
+      )
+      return {
+        status: 'error',
+        message: `Discord webhook error: ${response.status}`
+      }
     }
-
     return { status: 'success' }
   } catch (err) {
     console.error('[submitFeedbackAction]', err)
-    return { status: 'error', message: 'Failed to submit feedback.' }
+    const errorMessage = err instanceof Error ? err.message : 'Unknown error'
+    return {
+      status: 'error',
+      message: `Failed to submit feedback: ${errorMessage}`
+    }
   }
 }

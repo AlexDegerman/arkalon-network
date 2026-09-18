@@ -18,7 +18,10 @@ export async function logQueryToDiscord({
   nickname
 }: LogPromptParams): Promise<void> {
   const webhookUrl = process.env.DISCORD_AI_WEBHOOK_URL
-  if (!webhookUrl) return
+  if (!webhookUrl) {
+    console.warn('[Discord AI Webhook] DISCORD_AI_WEBHOOK_URL is not set')
+    return
+  }
 
   // Mask IP for privacy (e.g. 192.168.1.42 -> 192.168.1.xxx)
   const maskedIp = ip.includes('.')
@@ -72,12 +75,19 @@ export async function logQueryToDiscord({
   }
 
   try {
-    await fetch(webhookUrl, {
+    const response = await fetch(webhookUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ embeds: [embed] })
     })
+    if (!response.ok) {
+      const errorText = await response.text()
+      console.error(
+        `[Discord AI Webhook] Failed: ${response.status} ${response.statusText}`,
+        errorText
+      )
+    }
   } catch (err) {
-    console.error('[Discord Webhook Error]:', err)
+    console.error('[Discord AI Webhook Error]:', err)
   }
 }

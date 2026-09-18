@@ -166,6 +166,7 @@ The directory serves as the centralized portal for exploring the Arkalon ecosyst
 | **Database** | PostgreSQL 17 (`pg` Pool) | Persistent identity storage, session verification, and hype telemetry |
 | **Validation** | Zod 3 | Runtime input schema validation for server actions |
 | **Icons** | Lucide React | Minimal, accessible interface iconography |
+| **Infrastructure** | Docker, Rclone, Backblaze B2 | Automated daily off-site database backups and resilient deployments |
 
 ---
 

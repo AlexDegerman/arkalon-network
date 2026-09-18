@@ -43,10 +43,10 @@ export function WelcomeModal() {
   const handleContinue = () => {
     if (typeof window !== 'undefined') {
       localStorage.setItem('arkalon_welcomed', '1')
+      localStorage.setItem('arkalon_news_seen', 'v1.0-network-launch')
     }
     setShowWelcomeModal(false)
   }
-
   if (!showWelcomeModal) return null
 
   return (
