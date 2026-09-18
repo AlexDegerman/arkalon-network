@@ -7,10 +7,14 @@ import { SettingsPanel } from '@/components/settings/SettingsPanel'
 import { validateSessionAction } from '@/app/actions/validateSession'
 import { createCoreIdentityAction } from '@/app/actions/createCoreIdentity'
 import { WelcomeModal } from '@/components/modals/WelcomeModal'
+import { NewsModal } from '@/components/modals/NewsModal'
+import { NEWS_VERSION } from '@/constants/news'
 
 export function Header() {
   const setSettingsPanelOpen = useUiStore((s) => s.setSettingsPanelOpen)
-  const setShowWelcomeModal = useUiStore((s) => s.setShowWelcomeModal) 
+  const setShowWelcomeModal = useUiStore((s) => s.setShowWelcomeModal)
+  const setShowNewsModal = useUiStore((s) => s.setShowNewsModal)
+  const showNewsModal = useUiStore((s) => s.showNewsModal)
   const bootstrapped = useRef(false)
 
   // Auto-creates identity on first visit
@@ -25,11 +29,19 @@ export function Header() {
           await createCoreIdentityAction()
         }
 
-        if (
-          typeof window !== 'undefined' &&
-          localStorage.getItem('arkalon_welcomed') !== '1'
-        ) {
-          setShowWelcomeModal(true)
+        if (typeof window !== 'undefined') {
+          const hasWelcomed = localStorage.getItem('arkalon_welcomed') === '1'
+
+          if (!hasWelcomed) {
+            setShowWelcomeModal(true)
+          } else {
+            const seenNewsVersion = localStorage.getItem('arkalon_news_seen')
+            if (seenNewsVersion !== NEWS_VERSION) {
+              setTimeout(() => {
+                setShowNewsModal(true)
+              }, 600)
+            }
+          }
         }
       } catch (err) {
         console.error('[Header] Auto-provisioning failed:', err)
@@ -37,7 +49,14 @@ export function Header() {
     }
 
     ensureIdentity()
-  }, [setShowWelcomeModal])
+  }, [setShowWelcomeModal, setShowNewsModal])
+
+  const handleNewsClose = () => {
+    setShowNewsModal(false)
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('arkalon_news_seen', NEWS_VERSION)
+    }
+  }
 
   return (
     <>
@@ -72,6 +91,7 @@ export function Header() {
 
       <SettingsPanel />
       <WelcomeModal />
+      {showNewsModal && <NewsModal onClose={handleNewsClose} />}
     </>
   )
 }
