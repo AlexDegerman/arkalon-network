@@ -15,6 +15,30 @@ const SUGGESTIONS = [
   'What games are currently in development?'
 ] as const
 
+function renderFormattedContent(text: string) {
+  const parts = text.split(/(\*\*.*?\*\*|`.*?`)/g)
+  return parts.map((part, i) => {
+    if (part.startsWith('**') && part.endsWith('**')) {
+      return (
+        <strong key={i} className="font-bold text-white">
+          {part.slice(2, -2)}
+        </strong>
+      )
+    }
+    if (part.startsWith('`') && part.endsWith('`')) {
+      return (
+        <code
+          key={i}
+          className="px-1 py-0.5 rounded bg-black/40 text-[11px] font-mono text-indigo-300"
+        >
+          {part.slice(1, -1)}
+        </code>
+      )
+    }
+    return part
+  })
+}
+
 export function ArkalonOracle() {
   const [query, setQuery] = useState('')
   const [messages, setMessages] = useState<ChatMessage[]>([])
@@ -205,7 +229,9 @@ export function ArkalonOracle() {
                     : '1px solid var(--border-default)'
               }}
             >
-              <p className="whitespace-pre-wrap">{message.content}</p>
+              <p className="whitespace-pre-wrap">
+                {renderFormattedContent(message.content)}
+              </p>
 
               {message.source && message.role === 'assistant' && (
                 <div className="mt-1 pt-1 flex items-center gap-1.5 border-t border-(--border-default)/40">
