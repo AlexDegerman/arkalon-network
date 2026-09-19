@@ -258,6 +258,7 @@ Comprehensive Vitest coverage across identity flows, session security, directory
 
 Arkalon Network is built as a responsive, hardware-accelerated web portal:
 
+- **Progressive Web App (PWA)**: Fully installable directly from the browser on desktop and mobile (Android & iOS), running in a borderless standalone window with adaptive light/dark system icons and zero app-store friction.
 - **Dynamic Viewport Height (`100dvh`)**: Mobile chat and directory interfaces leverage dynamic viewport units with custom touch padding, preventing controls from being obscured by mobile browser chrome.
 - **Hardware Acceleration**: Custom CSS transitions and title shaders leverage GPU-accelerated transforms (`transform`, `opacity`) to guarantee stable 60 FPS rendering.
 - **Supported Browsers**: Chrome, Firefox, Safari, and Edge (current modern releases).

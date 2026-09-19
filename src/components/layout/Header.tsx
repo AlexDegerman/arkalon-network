@@ -62,7 +62,14 @@ export function Header() {
     <>
       <header className="w-full mb-4">
         <div className="flex items-center justify-between gap-2">
-          <h1 className="text-[1.375rem] min-[390px]:text-[1.5rem] sm:text-[1.75rem] font-black leading-tight tracking-wide select-none whitespace-nowrap">
+          <h1 className="flex items-center gap-2 sm:gap-2.5 text-[1.375rem] min-[390px]:text-[1.5rem] sm:text-[1.75rem] font-black leading-tight tracking-wide select-none whitespace-nowrap">
+            <img
+              src="/brand/arkalon-emblem-mono-white.svg"
+              alt="Arkalon"
+              width={28}
+              height={28}
+              className="w-6 h-6 min-[390px]:w-7 min-[390px]:h-7 sm:w-8 sm:h-8 shrink-0 select-none"
+            />
             <span className="g-dqgs">ARKALON NETWORK</span>
           </h1>
 
