@@ -12,11 +12,7 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  ci:
-    uses: ./.github/workflows/ci.yml
-
   deploy:
-    needs: ci
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -46,17 +42,31 @@ jobs:
           script: |
             set -euo pipefail
             cd /opt/arkalon/arkalon-network
+            
             export DEPLOY_SHA="${{ steps.sha.outputs.short }}"
-
-            echo "Building image for commit: ${DEPLOY_SHA}"
-            docker build -t "arkalon-network:${DEPLOY_SHA}" .
-
-            echo "Restarting container with new image..."
-            docker compose up -d --force-recreate
-
+            
+            echo "Building image with tags: latest and ${DEPLOY_SHA}"
+            docker build -t "arkalon-network:latest" -t "arkalon-network:${DEPLOY_SHA}" .
+            
+            echo "Stopping and removing old container..."
+            docker stop arkalon-network || true
+            docker rm arkalon-network || true
+            
+            echo "Starting new container..."
+            docker run -d \
+              --name arkalon-network \
+              --restart unless-stopped \
+              -p 3000:3000 \
+              --env-file .env \
+              arkalon-network:latest
+            
             echo "Waiting 10s for Next.js healthcheck..."
             sleep 10
-
+            
+            echo "Running healthcheck..."
             docker exec arkalon-network node -e "fetch('http://localhost:3000').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))"
-
+            
+            echo "Cleaning up unused docker images..."
+            docker image prune -f
+            
             echo "Deployment of ${DEPLOY_SHA} complete and healthy!"
