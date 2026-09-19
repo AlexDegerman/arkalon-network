@@ -9,6 +9,7 @@ import { createCoreIdentityAction } from '@/app/actions/createCoreIdentity'
 import { WelcomeModal } from '@/components/modals/WelcomeModal'
 import { NewsModal } from '@/components/modals/NewsModal'
 import { NEWS_VERSION } from '@/constants/news'
+import { AudioControls } from './AudioControls'
 
 export function Header() {
   const setSettingsPanelOpen = useUiStore((s) => s.setSettingsPanelOpen)
@@ -62,31 +63,34 @@ export function Header() {
     <>
       <header className="w-full mb-4">
         <div className="flex items-center justify-between gap-2">
-          <h1 className="flex items-center gap-2 sm:gap-2.5 text-[1.375rem] min-[390px]:text-[1.5rem] sm:text-[1.75rem] font-black leading-tight tracking-wide select-none whitespace-nowrap">
+          <h1 className="flex items-center gap-1.5 sm:gap-2.5 text-[1.0625rem] min-[360px]:text-[1.1875rem] min-[390px]:text-[1.3125rem] min-[420px]:text-[1.5rem] sm:text-[1.75rem] font-black leading-tight tracking-wide select-none whitespace-nowrap">
             <img
               src="/brand/arkalon-emblem-mono-white.svg"
               alt="Arkalon"
               width={28}
               height={28}
-              className="w-6 h-6 min-[390px]:w-7 min-[390px]:h-7 sm:w-8 sm:h-8 shrink-0 select-none"
+              className="w-5 h-5 min-[360px]:w-5.5 min-[360px]:h-5.5 sm:w-7 sm:h-7 shrink-0 select-none"
             />
-            <span className="g-dqgs">ARKALON NETWORK</span>
+            <span className="g-dqgs whitespace-nowrap">ARKALON NETWORK</span>
           </h1>
 
-          <button
-            type="button"
-            onClick={() => setSettingsPanelOpen(true)}
-            aria-label="Open settings"
-            className="p-2 rounded-md transition-colors duration-150 shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 hover:text-(--text-primary) hover:bg-(--bg-surface) cursor-pointer"
-            style={
-              {
-                color: 'var(--text-muted)',
-                '--tw-outline-color': 'var(--accent-network)'
-              } as React.CSSProperties
-            }
-          >
-            <Settings size={18} aria-hidden="true" />
-          </button>
+          <div className="flex items-center gap-0.5 sm:gap-1 shrink-0 pr-1 sm:pr-0">
+            <AudioControls />
+            <button
+              type="button"
+              onClick={() => setSettingsPanelOpen(true)}
+              aria-label="Open settings"
+              className="p-1.5 sm:p-2 rounded-md transition-colors duration-150 shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 hover:text-(--text-primary) hover:bg-(--bg-surface) cursor-pointer"
+              style={
+                {
+                  color: 'var(--text-muted)',
+                  '--tw-outline-color': 'var(--accent-network)'
+                } as React.CSSProperties
+              }
+            >
+              <Settings size={17} aria-hidden="true" />
+            </button>
+          </div>
         </div>
         <p
           className="mt-0.5 text-[0.8125rem] sm:text-[0.875rem] tracking-wide"
