@@ -62,6 +62,29 @@ function removeUnlockListeners(): void {
   })
 }
 
+function playAudio(
+  audio: HTMLAudioElement,
+  onError?: () => void,
+  onSuccess?: () => void
+): void {
+  try {
+    const res = audio.play()
+    if (res && typeof res.then === 'function') {
+      res
+        .then(() => {
+          if (onSuccess) onSuccess()
+        })
+        .catch(() => {
+          if (onError) onError()
+        })
+    } else if (onSuccess) {
+      onSuccess()
+    }
+  } catch {
+    if (onError) onError()
+  }
+}
+
 function tryUnlock(): void {
   const audio = getAudio()
   if (!audio) return
@@ -76,13 +99,10 @@ function tryUnlock(): void {
   }
   audio.volume = state.isMuted ? 0 : state.volume
 
-  audio
-    .play()
-    .then(() => {
-      removeUnlockListeners()
-      useMusicStore.setState({ isPlaying: true })
-    })
-    .catch(() => {})
+  playAudio(audio, undefined, () => {
+    removeUnlockListeners()
+    useMusicStore.setState({ isPlaying: true })
+  })
 }
 
 export function initBGM(): void {
@@ -121,14 +141,7 @@ export function initBGM(): void {
     window.addEventListener(evt, tryUnlock, { passive: true })
   })
 
-  const playPromise = audio.play()
-  if (playPromise !== undefined) {
-    playPromise
-      .then(() => {
-        removeUnlockListeners()
-      })
-      .catch(() => {})
-  }
+  playAudio(audio, undefined, () => removeUnlockListeners())
 }
 
 interface MusicState {
@@ -167,7 +180,7 @@ export const useMusicStore = create<MusicState>((set, get) => ({
         audio.src = BGM_TRACKS[get().currentTrackIndex].src
       }
       audio.volume = get().isMuted ? 0 : get().volume
-      audio.play().catch(() => set({ isPlaying: false }))
+      playAudio(audio, () => set({ isPlaying: false }))
       if (typeof window !== 'undefined')
         localStorage.removeItem('arkalon_bgm_paused')
     } else {
@@ -200,7 +213,9 @@ export const useMusicStore = create<MusicState>((set, get) => ({
         audio.src = BGM_TRACKS[get().currentTrackIndex].src
       }
       audio.volume = get().isMuted ? 0 : get().volume
-      audio.play().catch(() => set({ isPlaying: false }))
+      playAudio(audio, () => set({ isPlaying: false }))
+      if (typeof window !== 'undefined')
+        localStorage.removeItem('arkalon_bgm_paused')
     } else {
       audio.pause()
       removeUnlockListeners()
@@ -245,7 +260,7 @@ export const useMusicStore = create<MusicState>((set, get) => ({
       audio.src = BGM_TRACKS[nextTrackIdx].src
       if (get().isPlaying) {
         audio.volume = get().isMuted ? 0 : get().volume
-        audio.play().catch(() => set({ isPlaying: false }))
+        playAudio(audio, () => set({ isPlaying: false }))
       }
     }
 
@@ -269,7 +284,7 @@ export const useMusicStore = create<MusicState>((set, get) => ({
       audio.src = BGM_TRACKS[prevTrackIdx].src
       if (get().isPlaying) {
         audio.volume = get().isMuted ? 0 : get().volume
-        audio.play().catch(() => set({ isPlaying: false }))
+        playAudio(audio, () => set({ isPlaying: false }))
       }
     }
 
@@ -285,7 +300,7 @@ export const useMusicStore = create<MusicState>((set, get) => ({
       audio.src = BGM_TRACKS[index].src
       if (get().isPlaying) {
         audio.volume = get().isMuted ? 0 : get().volume
-        audio.play().catch(() => set({ isPlaying: false }))
+        playAudio(audio, () => set({ isPlaying: false }))
       }
     }
     set({ currentTrackIndex: index })
