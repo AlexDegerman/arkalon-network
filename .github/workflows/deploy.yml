@@ -26,6 +26,7 @@ jobs:
         id: sha
         run: echo "short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
 
+      # Preserve server-managed files (.env) during sync
       - name: Deploy source code to VPS
         uses: appleboy/scp-action@v0.1.7
         with:
@@ -37,7 +38,6 @@ jobs:
           overwrite: true
           rm: false
 
-      # Preserve server-managed files (.env) during sync
       - name: Build and restart on VPS
         uses: appleboy/ssh-action@v1
         with:
@@ -52,6 +52,9 @@ jobs:
             
             echo "Building image for commit: ${DEPLOY_SHA}"
             docker build -t "arkalon-network:${DEPLOY_SHA}" .
+            
+            docker stop arkalon-network || true
+            docker rm arkalon-network || true
             
             echo "Restarting container with compose..."
             docker compose up -d --force-recreate
