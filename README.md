@@ -65,6 +65,10 @@ Arkalon Network introduces **Arkalon Core**, a zero-friction, local-first accoun
 
 The ecosystem features **Arkalon AI** (accessible at `/ai`), an in-universe prophetic intelligence overseer that acts as an analytical guide, rules arbitrator, and recommendation oracle across all network platforms.
 
+<p align="center">
+  <img src="./assets/arkalon-network-ai-query-demo.gif" width="280" alt="Arkalon AI Query Demo" />
+</p>
+
 - **True In-Memory RAG Architecture**: Rather than context-stuffing hundreds of thousands of tokens across 16 titles, Arkalon uses an indexed chunk knowledge base (`knowledgeStore.ts`) and a sub-2ms hybrid semantic/keyword retriever (`retriever.ts`) to dynamically inject only the top relevant sections into Gemini's context window.
 - **Tri-Phase Consultation Lifecycle**: To eliminate conversational drift, save API quota, and fit the oracle lore, interactions run in strict **3-turn consultation cycles** (`SEQUENCE: X / 3`); these span the full process from initial inquiry and calibration to final synthesis and automatic terminal closure
 - **Touch-Optimized Instant Preset Carousel**: A horizontal, swipe-friendly prompt carousel with edge-fade masks allowing mobile and desktop users to launch starter inquiries (`What is Arkalon?`, `Does my account work across all apps?`, `What games are being developed?`) with a single tap.
