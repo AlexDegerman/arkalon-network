@@ -6,15 +6,15 @@ The Arkalon Network is the central hub and identity anchor for the entire Arkalo
 --- APPLICATION DIRECTORY (17 TITLES) ---
 
 1. ARKALON NETWORK (The Central Hub)
-  - Purpose: Master portal, application directory, and Arkalon Core identity management.
+  - Purpose: Master portal, application directory, and Arkalon Core identity management (Portal Hub, not a playable game).
   - Features: Procedural nickname generation/reroll, encrypted recovery access, silent hype voting.
-  - Status: ONLINE (Production)
+  - Status: ONLINE (Portal Hub - Live)
 
 2. RPS LEAGUE
   - Purpose: High-frequency live-service Rock Paper Scissors prediction arena with a virtual economy.
   - Features: 5-second rounds, bot league resolution, win streaks, 44 collectible relics, 155 achievements, Player Festivals, Global SSE events, World Boss raids, and Neon Paradise minigames.
   - Economy: Strictly virtual points with zero real money value.
-  - Status: ONLINE (Playable)
+  - Status: ONLINE (Currently the only live playable game)
 
 3. ARKALON DAILY
   - Purpose: Daily logic and puzzle platform with competitive global scoring.
@@ -57,10 +57,10 @@ The Arkalon Network is the central hub and identity anchor for the entire Arkalo
   - Status: COMING SOON
 
 11. ARKALON NEXUS
-  - Purpose: Centralized cross-app telemetry, global achievements, and analytics hub.
+  - Purpose: Centralized cross-app telemetry, global achievements, and analytics hub (Analytics Platform, not a playable game).
   - Features: Global cross-game leaderboards, interactive economy graphs, community milestones.
-  - Status: COMING SOON
-
+  - Status: COMING SOON (Analytics Platform)
+  
 12. ARKALON PARTY
   - Purpose: Chaotic 2.5D multiplayer physics party game.
   - Features: Cooperative minigames, ragdoll physics challenges, lighthearted competitive matches.
