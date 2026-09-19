@@ -65,6 +65,9 @@ export function SettingsPanel() {
       } else {
         setPanelState({ phase: 'error' })
       }
+    } catch (err) {
+      console.error('[SettingsPanel] Bootstrap failed:', err)
+      setPanelState({ phase: 'error' })
     } finally {
       bootstrapInFlight.current = false
     }

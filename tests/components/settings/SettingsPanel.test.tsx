@@ -74,11 +74,14 @@ describe('SettingsPanel', () => {
 
     await waitFor(() => expect(screen.getByRole('dialog')).toBeInTheDocument())
 
-    const restoreTab = screen.getByRole('tab', { name: 'RESTORE' })
-    const identityTab = screen.getByRole('tab', { name: 'RECOVERY ACCESS' })
+    const restoreTab = await screen.findByRole('tab', { name: 'RESTORE' })
+    const identityTab = await screen.findByRole('tab', {
+      name: 'RECOVERY ACCESS'
+    })
 
-    expect(identityTab).toHaveAttribute('aria-selected', 'true')
     expect(restoreTab).toHaveAttribute('aria-selected', 'false')
+    expect(identityTab).toHaveAttribute('aria-selected', 'true')
+    
 
     fireEvent.click(restoreTab)
     expect(restoreTab).toHaveAttribute('aria-selected', 'true')
