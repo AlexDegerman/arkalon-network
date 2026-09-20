@@ -283,6 +283,7 @@ Arkalon Network adheres to privacy-by-design principles across all systems:
 
 - **Ephemeral IP Handling**: IP addresses are used transiently in memory strictly for sliding-window rate limiting and are never persisted to databases, files, or audit logs.
 - **No Third-Party Tracking**: The platform operates with zero third-party behavioral advertising trackers, data brokers, or marketing profiling scripts.
+- **Self-Hosted Campaign Telemetry**: First-party UTM and referrer attribution captured once per session (`sessionStorage`) via Next.js Server Actions directly into PostgreSQL, operating with zero third-party analytics scripts or PII collection.
 - **Credential Hygiene**: Recovery codes and session secrets are managed with constant-time cryptographic comparisons and are strictly isolated from public frontend exposure.
 
 ---

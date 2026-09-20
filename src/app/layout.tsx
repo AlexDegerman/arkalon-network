@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next'
 import './globals.css'
+import { UtmTracker } from '@/components/layout/UtmTracker'
 
 export const viewport: Viewport = {
   themeColor: '#0a0a0f',
@@ -52,6 +53,7 @@ export default function RootLayout({
       </head>
       <body className="min-h-screen relative">
         <div className="metallic-sheen" aria-hidden="true" />
+        <UtmTracker />
         {children}
       </body>
     </html>
