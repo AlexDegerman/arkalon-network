@@ -5,6 +5,12 @@ import { useUiStore } from '@/app/stores/uiStore'
 import { validateSessionAction } from '@/app/actions/validateSession'
 import { createCoreIdentityAction } from '@/app/actions/createCoreIdentity'
 
+vi.mock('next/navigation', () => ({
+  useSearchParams: () => ({
+    get: () => null
+  })
+}))
+
 vi.mock('@/app/actions/validateSession', () => ({
   validateSessionAction: vi.fn()
 }))
@@ -81,7 +87,6 @@ describe('SettingsPanel', () => {
 
     expect(restoreTab).toHaveAttribute('aria-selected', 'false')
     expect(identityTab).toHaveAttribute('aria-selected', 'true')
-    
 
     fireEvent.click(restoreTab)
     expect(restoreTab).toHaveAttribute('aria-selected', 'true')

@@ -56,6 +56,8 @@ Arkalon Network introduces **Arkalon Core**, a zero-friction, local-first accoun
 - **Dual-Cookie Root SSO**: Authentication is split across root-domain (`.rpsleague.fi`) cookies:
   - `arkalon_core_id`: 1-year persistent anchor storing the public UUID.
   - `arkalon_session`: 30-day rolling session token, HMAC-signed with SHA-256 and verified in constant time before granting data access.
+- **Internal Provisioning API**: Satellite apps can securely request new Core Identities through a protected provisioning endpoint, receiving a ready-to-use identity session.
+- **Deep-Linkable Settings Surface**: Applications can open identity management directly through a dedicated settings route for recovery, nickname changes, and account restoration.
 
 ---
 
@@ -177,26 +179,38 @@ The directory serves as the centralized portal for exploring the Arkalon ecosyst
 ## 🔄 System Data Flow
 
 ```text
-       ┌──────────────────────────────┐
-       │        Player Browser        │
-       └──────────────┬───────────────┘
-                      │
-                      │ Root Cookie Scope: .rpsleague.fi
-                      ▼
-       ┌──────────────────────────────┐
-       │     Arkalon Network Hub      │
-       └──────┬────────────────┬──────┘
-              │                │
-   HMAC Token │                │ Shared SSO Session
-   Validation │                │
-              ▼                ▼
-       ┌─────────────┐  ┌────────────────────────────────┐
-       │ PostgreSQL  │  │         Satellite Apps         │
-       │  Database   │  │  (RPS League, Daily, Labs...)  │
-       └─────────────┘  └──────────────┬─────────────────┘
-              ▲                        │
-              │                        │ Game Telemetry &
-              └────────────────────────┘ Progress Tables
+┌──────────────────────────────┐
+│        Player Browser        │
+└──────────────┬───────────────┘
+               │
+               │ Shared Core Session Cookie (.rpsleague.fi)
+               ▼
+┌──────────────────────────────┐
+│     Arkalon Network Hub      │
+│                              │
+│  Core Identity               │
+│  Session Validation          │
+│  /api/identity/provision     │
+└─────────────────────┬───────┘
+           │           │
+           │           │ SSO Session
+           ▼           ▼
+┌────────────────  ┌────────────────────────┐
+│  PostgreSQL    │  │ Connected Applications │
+│ Identity Data  │  │ RPS, Daily, Labs, etc. │
+└────────────────┘  └───────────┬────────────┘
+           ▲                    │
+           │                    │ 1. User visits app (no identity)
+           │                    ▼
+           │          ┌─────────────────────────┐
+           │          │ POST /api/identity/     │
+           │          │ provision               │
+           │          │ (x-internal-secret)     │
+           │          └───────────┬─────────────┘
+           │                      │
+           │                      │ 2. Creates identity + session
+           │                      │
+           └──────────────────────┘
 ```
 
 ---
