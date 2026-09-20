@@ -1,6 +1,13 @@
 'use client'
 
-import { useEffect, useRef, useState, useCallback, useTransition } from 'react'
+import {
+  Suspense,
+  useEffect,
+  useRef,
+  useState,
+  useCallback,
+  useTransition
+} from 'react'
 import { useSearchParams } from 'next/navigation'
 import { X, Copy, Check, Dices } from 'lucide-react'
 import { useUiStore } from '@/app/stores/uiStore'
@@ -21,11 +28,19 @@ type PanelState =
   | { phase: 'ready'; data: CoreIdentity }
   | { phase: 'error' }
 
-export function SettingsPanel({
+export function SettingsPanel(props: SettingsPanelProps = {}) {
+  return (
+    <Suspense fallback={null}>
+      <SettingsPanelInner {...props} />
+    </Suspense>
+  )
+}
+
+function SettingsPanelInner({
   forceOpen = false,
   initialTab,
   returnTo
-}: SettingsPanelProps = {}) {
+}: SettingsPanelProps) {
   const storeOpen = useUiStore((s) => s.settingsPanelOpen)
   const setSettingsPanelOpen = useUiStore((s) => s.setSettingsPanelOpen)
   const isOpen = forceOpen || storeOpen
