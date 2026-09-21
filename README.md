@@ -49,14 +49,14 @@ Arkalon Network introduces **Arkalon Core**, a zero-friction, local-first accoun
 
 - **Instant On-Arrival Provisioning**: The platform automatically provisions a unique UUID, HMAC session token, and encrypted credentials in the background on your very first page load, no signup forms or clicks required.
 - **Deterministic 3-Word Nicknames**: Procedurally generated using a three-tier dictionary (Adjective + Color + Animal, e.g., `AncientGoldTurtle`), creating ~863,000 unique, readable combinations with zero namespace collisions.
-- **On-Demand Nickname Rerolls**: Players can randomize their procedural handle at any time for free via the Settings panel with instant database synchronization (`rerollNicknameAction`). Custom typed inputs are disallowed to preserve universe flavor and prevent profanity.
+- **On-Demand Nickname Rerolls**: Players can randomize their procedural handle at any time for free via the Settings panel, satellite app welcome modals, or in-game profile screens with instant ecosystem synchronization (`rerollNicknameAction` / `/api/identity/reroll`). Custom typed inputs are disallowed to preserve universe flavor and prevent profanity.
 - **Short ID Anchor**: Lightweight 10-character URL-safe identifiers (e.g., `Hqo7qUSe38`) derived from an unambiguous 54-character set, providing consistent public handles across leaderboards, profiles, and match history.
 - **Mnemonic Recovery Phrases**: Alphanumeric, human-readable master keys (e.g., `SWIFT-CRYSTAL-8214`) generated cryptographically server-side from a 256-word curated dictionary (655M+ combinations) for cross-device migration and profile recovery.
 - **Revealable Recovery Access**: Security-conscious UX where master recovery codes remain blurred behind real-time CSS filters until explicitly requested by verified sessions, featuring instant one-click clipboard copying.
 - **Dual-Cookie Root SSO**: Authentication is split across root-domain (`.rpsleague.fi`) cookies:
   - `arkalon_core_id`: 1-year persistent anchor storing the public UUID.
   - `arkalon_session`: 30-day rolling session token, HMAC-signed with SHA-256 and verified in constant time before granting data access.
-- **Internal Provisioning API**: Satellite apps can securely request new Core Identities through a protected provisioning endpoint, receiving a ready-to-use identity session.
+- **Internal Identity & Reroll APIs**: Satellite apps securely communicate with the Hub through secret-protected endpoints (`/api/identity/provision` to bootstrap accounts and `/api/identity/reroll` to randomize names), keeping Arkalon Network as the single source of truth for dictionaries, wordbanks, and identity persistence.
 - **Deep-Linkable Settings Surface**: Applications can open identity management directly through a dedicated settings route for recovery, nickname changes, and account restoration.
 
 ---
@@ -182,34 +182,34 @@ The directory serves as the centralized portal for exploring the Arkalon ecosyst
 ┌──────────────────────────────┐
 │        Player Browser        │
 └──────────────┬───────────────┘
-               │
-               │ Shared Core Session Cookie (.rpsleague.fi)
-               ▼
-┌──────────────────────────────┐
-│     Arkalon Network Hub      │
-│                              │
-│  Core Identity               │
-│  Session Validation          │
-│  /api/identity/provision     │
-└─────────────────────┬───────┘
-           │           │
-           │           │ SSO Session
-           ▼           ▼
+                      │
+                      │ Shared Core Session Cookie (.rpsleague.fi)
+                      ▼
+       ┌──────────────────────────────┐
+       │     Arkalon Network Hub      │
+       │                              │
+       │  Core Identity               │
+       │  Session Validation          │
+       │  /api/identity/*             │
+       └──────────────┬───────────────┘
+           │          │
+           │          │ SSO Session
+           ▼          ▼
 ┌────────────────  ┌────────────────────────┐
 │  PostgreSQL    │  │ Connected Applications │
 │ Identity Data  │  │ RPS, Daily, Labs, etc. │
 └────────────────┘  └───────────┬────────────┘
            ▲                    │
-           │                    │ 1. User visits app (no identity)
+           │                    │ 1. User arrives or rerolls name
            │                    ▼
            │          ┌─────────────────────────┐
            │          │ POST /api/identity/     │
-           │          │ provision               │
+           │          │ provision | reroll      │
            │          │ (x-internal-secret)     │
            │          └───────────┬─────────────┘
            │                      │
-           │                      │ 2. Creates identity + session
-           │                      │
+           │                      │ 2. Provisions identity or updates
+           │                      │    name & returns synced state
            └──────────────────────┘
 ```
 
