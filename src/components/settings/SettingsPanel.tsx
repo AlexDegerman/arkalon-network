@@ -221,8 +221,17 @@ function SettingsPanelInner({
 
               <div className="flex items-center justify-between gap-2">
                 <span
-                  className="text-[1.25rem] font-black tracking-tight leading-tight truncate"
-                  style={{ color: 'var(--text-primary)' }}
+                  className="flex-1 whitespace-nowrap tracking-tight font-black leading-tight text-left"
+                  style={{
+                    fontFamily: "'JetBrains Mono', monospace",
+                    fontSize:
+                      identity.nickname.length > 18
+                        ? '11px'
+                        : identity.nickname.length > 13
+                          ? '13px'
+                          : '16px',
+                    color: 'var(--text-primary)'
+                  }}
                 >
                   {identity.nickname}
                 </span>
