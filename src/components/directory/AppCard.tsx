@@ -1,6 +1,6 @@
 'use client'
 
-import { memo } from 'react'
+import { memo, useState, useEffect } from 'react'
 import { StatusBadge } from './StatusBadge'
 import { PreviewMedia } from './PreviewMedia'
 import { ComingSoonPlaceholder } from './ComingSoonPlaceholder'
@@ -39,6 +39,28 @@ function AppCardInner({ app, expanded, onToggle }: Props) {
     app.status === 'coming_soon' || app.status === 'development'
   const showMedia = !showPlaceholder && app.previewMediaUrl != null
 
+  const [badgeVisible, setBadgeVisible] = useState(false)
+
+  useEffect(() => {
+    if (!app.badge?.type) return
+    try {
+      const seen = localStorage.getItem(`arkalon_seen_app_badge_${app.slug}`)
+      if (seen !== app.badge.id) {
+        setBadgeVisible(true)
+      }
+    } catch {}
+  }, [app.badge, app.slug])
+
+  const handleCtaClick = () => {
+    if (!app.badge?.type) return
+    setBadgeVisible(false)
+    try {
+      localStorage.setItem(`arkalon_seen_app_badge_${app.slug}`, app.badge.id)
+    } catch {}
+  }
+
+  const isUpdated = app.badge?.type === 'updated'
+
   return (
     <article
       className="w-full rounded-lg border transition-colors duration-150 hover:bg-(--bg-surface-hover)"
@@ -54,11 +76,31 @@ function AppCardInner({ app, expanded, onToggle }: Props) {
       >
         {/* Responsive Header: Title gets its own line on mobile, joins on desktop */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1.5 sm:gap-3 w-full">
-          <span
-            className={`text-[1.125rem] font-black leading-snug tracking-wide wrap-break-word ${APP_TITLE_STYLES[app.slug] ?? ''}`}
-          >
-            {app.name.toUpperCase()}
-          </span>
+          <div className="flex items-center gap-2">
+            <span
+              className={`text-[1.125rem] font-black leading-snug tracking-wide wrap-break-word ${APP_TITLE_STYLES[app.slug] ?? ''}`}
+            >
+              {app.name.toUpperCase()}
+            </span>
+            {badgeVisible && app.badge?.type && (
+              <span
+                className="text-[9px] font-mono font-black uppercase px-1.5 py-0.5 rounded border leading-none shrink-0"
+                style={{
+                  backgroundColor: isUpdated
+                    ? 'rgba(245, 158, 11, 0.15)'
+                    : 'rgba(34, 197, 94, 0.15)',
+                  color: isUpdated
+                    ? 'var(--status-development)'
+                    : 'var(--status-online)',
+                  borderColor: isUpdated
+                    ? 'rgba(245, 158, 11, 0.35)'
+                    : 'rgba(34, 197, 94, 0.35)'
+                }}
+              >
+                {isUpdated ? 'UPDATED' : 'NEW'}
+              </span>
+            )}
+          </div>
 
           <div className="flex items-center justify-between sm:justify-end gap-2 w-full sm:w-auto shrink-0">
             <StatusBadge status={app.status} />
@@ -106,7 +148,11 @@ function AppCardInner({ app, expanded, onToggle }: Props) {
                   </p>
                 )}
                 <div className="flex justify-center sm:justify-start">
-                  <CtaButton label={app.ctaLabel} route={app.route} />
+                  <CtaButton
+                    label={app.ctaLabel}
+                    route={app.route}
+                    onClick={handleCtaClick}
+                  />
                 </div>
               </div>
               <div className="shrink-0">
@@ -125,7 +171,11 @@ function AppCardInner({ app, expanded, onToggle }: Props) {
               )}
               {showPlaceholder && <ComingSoonPlaceholder appName={app.name} />}
               <div className="flex justify-center pt-1">
-                <CtaButton label={app.ctaLabel} route={app.route} />
+                <CtaButton
+                  label={app.ctaLabel}
+                  route={app.route}
+                  onClick={handleCtaClick}
+                />
               </div>
             </>
           )}

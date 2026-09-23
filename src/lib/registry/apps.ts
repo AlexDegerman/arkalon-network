@@ -12,7 +12,8 @@ export const REGISTRY: ArkalonApp[] = [
     categories: ['prediction', 'competitive', 'arcade', 'ai'],
     route: 'https://rpsleague.fi',
     ctaLabel: 'PLAY HERE',
-    public: true
+    public: true,
+    badge: { type: null, id: 'rps-v4.4' }
   },
   {
     slug: 'daily',
@@ -25,7 +26,11 @@ export const REGISTRY: ArkalonApp[] = [
     categories: ['puzzle', 'logic', 'daily-challenge'],
     route: 'https://daily.rpsleague.fi',
     ctaLabel: 'COMING SOON',
-    public: true
+    public: true,
+    badge: {
+      type: null,
+      id: 'daily-v1.0'
+    }
   },
   {
     slug: 'labs',
@@ -38,7 +43,8 @@ export const REGISTRY: ArkalonApp[] = [
     categories: ['incremental', 'idle', 'simulation', 'strategy'],
     route: 'https://labs.rpsleague.fi',
     ctaLabel: 'COMING SOON',
-    public: true
+    public: true,
+    badge: { type: null, id: 'labs-v1.0' }
   },
   {
     slug: 'tower-defense',
@@ -51,7 +57,8 @@ export const REGISTRY: ArkalonApp[] = [
     categories: ['tower-defense', 'strategy', 'tactical'],
     route: 'https://td.rpsleague.fi',
     ctaLabel: 'COMING SOON',
-    public: true
+    public: true,
+    badge: { type: null, id: 'tower-defense-v1.0' }
   },
   {
     slug: 'realms',
@@ -63,7 +70,8 @@ export const REGISTRY: ArkalonApp[] = [
     categories: ['multiplayer', 'roguelike', 'action-rpg', 'survival'],
     route: 'https://realms.rpsleague.fi',
     ctaLabel: 'COMING SOON',
-    public: true
+    public: true,
+    badge: { type: null, id: 'realms-v1.0' }
   },
   {
     slug: 'chaos-racing',
@@ -76,7 +84,8 @@ export const REGISTRY: ArkalonApp[] = [
     categories: ['racing', 'arcade', 'physics', 'incremental'],
     route: 'https://racing.rpsleague.fi',
     ctaLabel: 'COMING SOON',
-    public: true
+    public: true,
+    badge: { type: null, id: 'chaos-racing-v1.0' }
   },
   {
     slug: 'market',
@@ -89,7 +98,8 @@ export const REGISTRY: ArkalonApp[] = [
     categories: ['economy', 'simulation', 'trading', 'strategy'],
     route: 'https://market.rpsleague.fi',
     ctaLabel: 'COMING SOON',
-    public: true
+    public: true,
+    badge: { type: null, id: 'market-v1.0' }
   },
   {
     slug: 'dungeons',
@@ -101,7 +111,8 @@ export const REGISTRY: ArkalonApp[] = [
     categories: ['roguelite', 'dungeon-crawler', 'tactical', 'rpg'],
     route: 'https://dungeons.rpsleague.fi',
     ctaLabel: 'COMING SOON',
-    public: true
+    public: true,
+    badge: { type: null, id: 'dungeons-v1.0' }
   },
   {
     slug: 'nexus',
@@ -114,7 +125,8 @@ export const REGISTRY: ArkalonApp[] = [
     categories: ['analytics', 'telemetry', 'leaderboards', 'ecosystem'],
     route: 'https://nexus.rpsleague.fi',
     ctaLabel: 'COMING SOON',
-    public: true
+    public: true,
+    badge: { type: null, id: 'nexus-v1.0' }
   },
   {
     slug: 'party',
@@ -127,7 +139,8 @@ export const REGISTRY: ArkalonApp[] = [
     categories: ['multiplayer', 'party', 'physics', 'co-op'],
     route: 'https://party.rpsleague.fi',
     ctaLabel: 'COMING SOON',
-    public: true
+    public: true,
+    badge: { type: null, id: 'party-v1.0' }
   },
   {
     slug: 'colony',
@@ -139,7 +152,8 @@ export const REGISTRY: ArkalonApp[] = [
     categories: ['city-builder', 'idle', 'incremental', 'strategy'],
     route: 'https://colony.rpsleague.fi',
     ctaLabel: 'COMING SOON',
-    public: true
+    public: true,
+    badge: { type: null, id: 'colony-v1.0' }
   },
   {
     slug: 'arena',
@@ -151,7 +165,8 @@ export const REGISTRY: ArkalonApp[] = [
     categories: ['multiplayer', 'pvp', 'tactical', 'competitive'],
     route: 'https://arena.rpsleague.fi',
     ctaLabel: 'COMING SOON',
-    public: true
+    public: true,
+    badge: { type: null, id: 'arena-v1.0' }
   },
   {
     slug: 'dreadwood',
@@ -164,7 +179,8 @@ export const REGISTRY: ArkalonApp[] = [
     categories: ['horror', 'exploration', 'incremental', 'survival'],
     route: 'https://dreadwood.rpsleague.fi',
     ctaLabel: 'COMING SOON',
-    public: true
+    public: true,
+    badge: { type: null, id: 'dreadwood-v1.0' }
   },
   {
     slug: 'raids',
@@ -176,7 +192,8 @@ export const REGISTRY: ArkalonApp[] = [
     categories: ['multiplayer', 'co-op', 'tactical', 'boss-raid'],
     route: 'https://raids.rpsleague.fi',
     ctaLabel: 'COMING SOON',
-    public: true
+    public: true,
+    badge: { type: null, id: 'raids-v1.0' }
   },
   {
     slug: 'auction',
@@ -188,7 +205,8 @@ export const REGISTRY: ArkalonApp[] = [
     categories: ['multiplayer', 'bidding', 'economy', 'competitive'],
     route: 'https://auction.rpsleague.fi',
     ctaLabel: 'COMING SOON',
-    public: true
+    public: true,
+    badge: { type: null, id: 'auction-v1.0' }
   },
   {
     slug: 'dispatch',
@@ -201,7 +219,8 @@ export const REGISTRY: ArkalonApp[] = [
     categories: ['tactical', 'idle', 'rpg', 'strategy'],
     route: 'https://dispatch.rpsleague.fi',
     ctaLabel: 'COMING SOON',
-    public: true
+    public: true,
+    badge: { type: null, id: 'dispatch-v1.0' }
   }
 ]
 

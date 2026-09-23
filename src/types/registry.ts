@@ -20,4 +20,8 @@ export interface ArkalonApp {
   route: string
   ctaLabel: CtaLabel
   public: boolean
+  badge?: {
+    type: 'new' | 'updated' | null
+    id: string
+  }
 }

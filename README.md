@@ -154,6 +154,7 @@ Every project in the registry operates on a standardized visual lifecycle pipeli
 The directory serves as the centralized portal for exploring the Arkalon ecosystem, organizing platforms by gameplay cadence, multiplayer architecture, and active release state.
 
 - **Context-Aware Presentation**: Application cards dynamically surface gameplay categories (Live, Short-Session, Incremental, Multiplayer), status telemetry, and responsive call-to-action pathways.
+- **Release & Update Highlights**: Directory cards surface dynamic `NEW` (green) and `UPDATED` (amber) badges to flag new launches or major patches; badges automatically dismiss once the user clicks through to the app.
 - **Modular Genre Filtering**: Instant categorical filtering across 8 distinct gameplay genres (*ALL, LIVE, MULTIPLAYER & CO-OP, INCREMENTAL & IDLE, STRATEGY & TACTICAL, ROGUELIKE & RPG, ARCADE & RACING, PUZZLE & LOGIC*).
 - **Embedded Media Showcase**: Integrated preview player featuring custom timeline scrubber controls, audio ducking, mute toggles, and cross-browser fullscreen handling.
 - **Silent Hype Telemetry**: Private feedback mechanism where players vote (`HYPED` or `NOT INTERESTED`) to signal demand for upcoming games, directly guiding the developer's release schedule without exposing public counts to prevent bandwagon bias.
