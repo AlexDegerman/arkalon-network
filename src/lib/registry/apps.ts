@@ -22,15 +22,13 @@ export const REGISTRY: ArkalonApp[] = [
       'Daily puzzle platform - one challenge, one attempt per day.',
     extendedDescription:
       'A daily puzzle platform offering exactly one challenge and one attempt per day. It adapts several minigames into quick, competitive logic puzzles solved against a single global seed.',
-    status: 'development',
+    previewMediaUrl: '/arkalon-daily-showcase.mp4',
+    status: 'online',
     categories: ['puzzle', 'logic', 'daily-challenge'],
     route: 'https://daily.rpsleague.fi',
-    ctaLabel: 'COMING SOON',
+    ctaLabel: 'PLAY HERE',
     public: true,
-    badge: {
-      type: null,
-      id: 'daily-v1.0'
-    }
+    badge: { type: null, id: 'daily-v1.0' }
   },
   {
     slug: 'labs',
@@ -39,7 +37,7 @@ export const REGISTRY: ArkalonApp[] = [
       'Incremental idle game - facility optimization and research scaling.',
     extendedDescription:
       'An incremental idle game focused on passive facility optimization, research, and long-term infrastructure scaling. Players manage an isolated scientific base to study mathematical anomalies and expand technological output.',
-    status: 'coming_soon',
+    status: 'development',
     categories: ['incremental', 'idle', 'simulation', 'strategy'],
     route: 'https://labs.rpsleague.fi',
     ctaLabel: 'COMING SOON',
