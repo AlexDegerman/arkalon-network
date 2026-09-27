@@ -1,7 +1,7 @@
 import 'server-only'
 import { NETWORK_KNOWLEDGE } from './network'
 import { RPS_LEAGUE_KNOWLEDGE } from './rpsleague'
-import { DAILY_KNOWLEDGE } from './daily/daily'
+import { DAILY_KNOWLEDGE } from './daily'
 
 export const COMBINED_KNOWLEDGE = `
 ${NETWORK_KNOWLEDGE}
