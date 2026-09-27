@@ -15,6 +15,27 @@ export async function POST(req: Request) {
   }
 
   try {
+    let body: { coreId?: string } = {}
+    try {
+      body = await req.json()
+    } catch {}
+
+    if (body.coreId) {
+      const existing = await pool.query(
+        `SELECT id, nickname, short_id FROM core_identities WHERE id = $1`,
+        [body.coreId]
+      )
+      if (existing.rows.length > 0) {
+        const row = existing.rows[0]
+        return NextResponse.json({
+          success: true,
+          coreId: row.id,
+          nickname: row.nickname,
+          shortId: row.short_id
+        })
+      }
+    }
+
     const recoveryCode = generateRecoveryCode()
     const nickname = generateNickname()
     const shortId = generateShortId()
