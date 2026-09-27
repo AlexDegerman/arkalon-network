@@ -1,9 +1,12 @@
 import 'server-only'
-import { networkKnowledge } from './network'
-import { GAME_KNOWLEDGE } from './rpsleague'
+import { NETWORK_KNOWLEDGE } from './network'
+import { RPS_LEAGUE_KNOWLEDGE } from './rpsleague'
+import { DAILY_KNOWLEDGE } from './daily/daily'
 
 export const COMBINED_KNOWLEDGE = `
-${networkKnowledge}
+${NETWORK_KNOWLEDGE}
 
-${GAME_KNOWLEDGE}
+${DAILY_KNOWLEDGE}
+
+${RPS_LEAGUE_KNOWLEDGE}
 `.trim()

@@ -17,9 +17,9 @@ The Arkalon Network is the central hub and identity anchor for the entire Arkalo
   - Status: ONLINE (Currently the only live playable game)
 
 3. ARKALON DAILY
-  - Purpose: Daily logic and puzzle platform with competitive global scoring.
-  - Features: Exactly one puzzle challenge and one attempt per day solved against a single global seed.
-  - Status: IN DEVELOPMENT (Active Development)
+- Purpose: Daily logic and puzzle platform with competitive global scoring.
+- Features: Five optional daily puzzles targeting distinct cognitive skills (Recall, Surge, Cipher, Strike, Depths). Players get exactly one attempt per category per day, solving against a single global deterministic seed that resets at 00:00 UTC.
+- Status: ONLINE (Live Deployment)
 
 4. ARKALON LABS
   - Purpose: Incremental idle game focused on scientific facility optimization and research scaling.

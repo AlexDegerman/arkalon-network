@@ -14,7 +14,7 @@ import { futureContent } from './futureContent'
 import { neonParadise } from './neonParadise'
 import { worldBosses } from './worldBosses'
 
-export const GAME_KNOWLEDGE = [
+export const RPS_LEAGUE_KNOWLEDGE = [
   securityResponses,
   matchResolution,
   faq,

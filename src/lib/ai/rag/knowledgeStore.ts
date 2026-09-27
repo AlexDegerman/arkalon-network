@@ -21,6 +21,8 @@ import { controls } from '../knowledge/rpsleague/controls'
 import { pwaAndIdentity } from '../knowledge/rpsleague/pwaAndIdentity'
 import { faq as rpsFaq } from '../knowledge/rpsleague/faq'
 
+// Daily Knowledge
+import { dailyInfo } from '../knowledge/daily/daily'
 
 export const KNOWLEDGE_REGISTRY: KnowledgeChunk[] = [
   // --- NETWORK ECOSYSTEM & IDENTITY ---
@@ -322,7 +324,34 @@ export const KNOWLEDGE_REGISTRY: KnowledgeChunk[] = [
       'payout'
     ],
     content: rpsFaq
+  },
+  // --- ARKALON DAILY ---
+  {
+    id: 'daily:comprehensive',
+    appSlug: 'daily',
+    title: 'Arkalon Daily Comprehensive Mechanics & FAQ',
+    keywords: [
+      'daily',
+      'puzzle',
+      'recall',
+      'surge',
+      'cipher',
+      'strike',
+      'depths',
+      'streak',
+      'puzzle',
+      'milestone',
+      'leaderboard',
+      'deterministic',
+      'seed',
+      'attempt',
+      'trial',
+      'yesterday review',
+      'hmac',
+      'mulberry32',
+      'utc reset'
+    ],
+    content: dailyInfo
   }
-
-  // Future apps (e.g. daily, labs, td, realms) plug directly into this registry
+  // Future apps (e.g. labs, td, realms) plug directly into this registry
 ]

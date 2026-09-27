@@ -19,16 +19,16 @@ export const REGISTRY: ArkalonApp[] = [
     slug: 'daily',
     name: 'Arkalon Daily',
     shortDescription:
-      'Daily puzzle platform - one challenge, one attempt per day.',
+      'Five optional daily puzzles targeting distinct cognitive skills.',
     extendedDescription:
-      'A daily puzzle platform offering exactly one challenge and one attempt per day. It adapts several minigames into quick, competitive logic puzzles solved against a single global seed.',
+      'A daily puzzle platform offering five distinct cognitive challenges (Recall, Surge, Cipher, Strike, Depths). Players get exactly one attempt per category per day, solving against a single global deterministic seed that resets at 00:00 UTC.',
     previewMediaUrl: '/arkalon-daily-showcase.mp4',
     status: 'online',
     categories: ['puzzle', 'logic', 'daily-challenge'],
     route: 'https://daily.rpsleague.fi',
     ctaLabel: 'PLAY HERE',
     public: true,
-    badge: { type: null, id: 'daily-v1.0' }
+    badge: { type: 'new', id: 'daily-v1.0' }
   },
   {
     slug: 'labs',
