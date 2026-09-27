@@ -1,7 +1,7 @@
 'use client'
-
 import { useRef, useState } from 'react'
 import { Play, Pause, Volume2, VolumeX, Maximize2 } from 'lucide-react'
+import { useMusicStore } from '@/app/stores/musicStore'
 
 type Props = {
   url: string
@@ -21,6 +21,7 @@ export function PreviewMedia({ url, appName }: Props) {
   const [isMuted, setIsMuted] = useState(true)
   const [currentTime, setCurrentTime] = useState(0)
   const [duration, setDuration] = useState(0)
+  const bgmInterruptedByVideo = useRef(false)
 
   const togglePlay = () => {
     const video = videoRef.current
@@ -38,6 +39,20 @@ export function PreviewMedia({ url, appName }: Props) {
     const nextMuted = !videoRef.current.muted
     videoRef.current.muted = nextMuted
     setIsMuted(nextMuted)
+
+    const musicState = useMusicStore.getState()
+
+    if (!nextMuted) {
+      if (musicState.isPlaying && !musicState.isMuted) {
+        bgmInterruptedByVideo.current = true
+        musicState.setIsPlaying(false)
+      }
+    } else {
+      if (bgmInterruptedByVideo.current) {
+        useMusicStore.getState().setIsPlaying(true)
+        bgmInterruptedByVideo.current = false
+      }
+    }
   }
 
   const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
