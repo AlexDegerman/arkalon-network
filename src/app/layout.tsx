@@ -24,7 +24,13 @@ export const metadata: Metadata = {
         type: 'image/svg+xml'
       }
     ],
-    apple: '/brand/arkalon-app-icon.svg'
+    apple: [
+      {
+        url: '/brand/apple-touch-icon.png',
+        sizes: '180x180',
+        type: 'image/png'
+      }
+    ]
   },
   appleWebApp: {
     capable: true,
@@ -32,6 +38,7 @@ export const metadata: Metadata = {
     title: 'Arkalon Network'
   }
 }
+
 export default function RootLayout({
   children
 }: {
