@@ -4,12 +4,13 @@ export const REGISTRY: ArkalonApp[] = [
   {
     slug: 'rps',
     name: 'RPS League',
-    shortDescription: 'Live-service Rock Paper Scissors predicting platform.',
+    shortDescription:
+      'High-frequency Rock Paper Scissors prediction arena with infinite scaling and live events.',
     extendedDescription:
-      'A live-service Rock Paper Scissors predicting platform where players wager cosmetic points, track global rankings, and use an AI-powered assistant for match analysis and game guidance.',
+      'A live-service Rock Paper Scissors prediction arena where players wager cosmetic points across 5-second rounds. Features infinite BigInt progression, collectible relics, Ascension prestige laps, and a high density of synchronized global events, including World Boss raids, Festivals, and Flash Events.',
     previewMediaUrl: '/rpsleaguehalfanniv.mp4',
     status: 'online',
-    categories: ['prediction', 'competitive', 'arcade', 'ai'],
+    categories: ['prediction', 'competitive', 'arcade', 'live-service'],
     route: 'https://rpsleague.fi',
     ctaLabel: 'PLAY HERE',
     public: true,
@@ -21,7 +22,7 @@ export const REGISTRY: ArkalonApp[] = [
     shortDescription:
       'Five optional daily puzzles targeting distinct cognitive skills.',
     extendedDescription:
-      'A daily puzzle platform offering five distinct cognitive challenges (Recall, Surge, Cipher, Strike, Depths). Players get exactly one attempt per category per day, solving against a single global deterministic seed that resets at 00:00 UTC.',
+      'A daily puzzle platform offering five distinct cognitive challenges (Recall, Surge, Cipher, Strike, Depths) generated deterministically from a single global UTC seed. Features guided practice trials, server-verified scoring, streak milestones, and competitive leaderboards.',
     previewMediaUrl: '/arkalon-daily-showcase.mp4',
     status: 'online',
     categories: ['puzzle', 'logic', 'daily-challenge'],
