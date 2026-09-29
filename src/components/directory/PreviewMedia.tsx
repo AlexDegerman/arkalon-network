@@ -1,6 +1,14 @@
 'use client'
-import { useRef, useState } from 'react'
-import { Play, Pause, Volume2, VolumeX, Maximize2 } from 'lucide-react'
+
+import { useRef, useState, useEffect, useCallback } from 'react'
+import {
+  Play,
+  Pause,
+  Volume2,
+  VolumeX,
+  Maximize2,
+  Minimize2
+} from 'lucide-react'
 import { useMusicStore } from '@/app/stores/musicStore'
 
 type Props = {
@@ -16,28 +24,52 @@ function formatTime(seconds: number): string {
 }
 
 export function PreviewMedia({ url, appName }: Props) {
+  const containerRef = useRef<HTMLDivElement>(null)
   const videoRef = useRef<HTMLVideoElement>(null)
+
   const [isPlaying, setIsPlaying] = useState(true)
   const [isMuted, setIsMuted] = useState(true)
   const [currentTime, setCurrentTime] = useState(0)
   const [duration, setDuration] = useState(0)
+  const [isFullscreen, setIsFullscreen] = useState(false)
   const bgmInterruptedByVideo = useRef(false)
 
-  const togglePlay = () => {
+  useEffect(() => {
+    return () => {
+      if (bgmInterruptedByVideo.current) {
+        useMusicStore.getState().setIsPlaying(true)
+        bgmInterruptedByVideo.current = false
+      }
+    }
+  }, [])
+
+  // Track fullscreen state changes (e.g. user presses Escape)
+  useEffect(() => {
+    const handleFsChange = () => {
+      setIsFullscreen(Boolean(document.fullscreenElement))
+    }
+    document.addEventListener('fullscreenchange', handleFsChange)
+    return () =>
+      document.removeEventListener('fullscreenchange', handleFsChange)
+  }, [])
+
+  const togglePlay = useCallback(() => {
     const video = videoRef.current
     if (!video) return
     if (video.paused) {
-      video.play()
+      video.play().catch(() => {})
     } else {
       video.pause()
     }
-  }
+  }, [])
 
-  const toggleSound = (e: React.MouseEvent) => {
+  const toggleSound = useCallback((e: React.MouseEvent) => {
     e.stopPropagation()
-    if (!videoRef.current) return
-    const nextMuted = !videoRef.current.muted
-    videoRef.current.muted = nextMuted
+    const video = videoRef.current
+    if (!video) return
+
+    const nextMuted = !video.muted
+    video.muted = nextMuted
     setIsMuted(nextMuted)
 
     const musicState = useMusicStore.getState()
@@ -53,7 +85,7 @@ export function PreviewMedia({ url, appName }: Props) {
         bgmInterruptedByVideo.current = false
       }
     }
-  }
+  }, [])
 
   const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
     const time = parseFloat(e.target.value)
@@ -65,27 +97,38 @@ export function PreviewMedia({ url, appName }: Props) {
 
   const handleFullscreen = (e: React.MouseEvent) => {
     e.stopPropagation()
+    const container = containerRef.current
     const video = videoRef.current
-    if (!video) return
+    if (!container || !video) return
 
-    if (video.requestFullscreen) {
-      video.requestFullscreen()
-    } else if (
-      (video as HTMLVideoElement & { webkitEnterFullscreen?: () => void })
-        .webkitEnterFullscreen
-    ) {
-      ;(video as HTMLVideoElement & { webkitEnterFullscreen?: () => void })
-        .webkitEnterFullscreen!()
+    if (!document.fullscreenElement) {
+      if (container.requestFullscreen) {
+        container.requestFullscreen().catch(() => {})
+      } else if (
+        (video as HTMLVideoElement & { webkitEnterFullscreen?: () => void })
+          .webkitEnterFullscreen
+      ) {
+        ;(video as HTMLVideoElement & { webkitEnterFullscreen?: () => void })
+          .webkitEnterFullscreen!()
+      }
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen().catch(() => {})
+      }
     }
   }
 
   return (
     <div
+      ref={containerRef}
       onClick={togglePlay}
-      className="relative w-40 sm:w-55 max-w-full overflow-hidden rounded-xl border shadow-xl cursor-pointer group select-none"
+      className={`relative w-40 sm:w-52 aspect-320/670 max-w-full overflow-hidden rounded-xl border shadow-xl cursor-pointer group select-none bg-black ${
+        isFullscreen
+          ? 'w-full h-full max-w-none flex items-center justify-center rounded-none border-0'
+          : ''
+      }`}
       style={{
-        borderColor: 'var(--border-active)',
-        backgroundColor: '#000000'
+        borderColor: isFullscreen ? 'transparent' : 'var(--border-active)'
       }}
     >
       <video
@@ -101,7 +144,7 @@ export function PreviewMedia({ url, appName }: Props) {
         onPause={() => setIsPlaying(false)}
         onTimeUpdate={() => setCurrentTime(videoRef.current?.currentTime || 0)}
         onLoadedMetadata={() => setDuration(videoRef.current?.duration || 0)}
-        className="w-full h-auto block rounded-xl"
+        className="w-full h-full object-contain block"
       >
         Your browser does not support the video tag.
       </video>
@@ -110,7 +153,7 @@ export function PreviewMedia({ url, appName }: Props) {
       {!isPlaying && (
         <div className="absolute inset-0 flex items-center justify-center bg-black/40 z-10 pointer-events-none">
           <div className="p-3 rounded-full bg-black/70 text-white shadow-lg">
-            <Play size={24} fill="currentColor" />
+            <Play size={22} fill="currentColor" />
           </div>
         </div>
       )}
@@ -118,7 +161,7 @@ export function PreviewMedia({ url, appName }: Props) {
       {/* Bottom control bar */}
       <div
         onClick={(e) => e.stopPropagation()}
-        className="absolute bottom-0 inset-x-0 bg-linear-to-t from-black/90 via-black/60 to-transparent px-2.5 pt-4 pb-2 z-20 flex flex-col gap-1"
+        className="absolute bottom-0 inset-x-0 bg-linear-to-t from-black/95 via-black/70 to-transparent px-2.5 pt-4 pb-2 z-20 flex flex-col gap-1"
       >
         {/* Scrubber slider */}
         <input
@@ -132,19 +175,19 @@ export function PreviewMedia({ url, appName }: Props) {
           className="w-full h-1 bg-white/30 rounded-lg appearance-none cursor-pointer accent-indigo-400"
         />
 
-        {/* Control buttons on the left + Duration timer on the right */}
+        {/* Control buttons & Duration */}
         <div className="flex items-center justify-between text-[10px] text-zinc-300 font-mono pt-0.5">
           <div className="flex items-center gap-2 text-white">
             <button
               type="button"
               onClick={togglePlay}
               aria-label={isPlaying ? 'Pause' : 'Play'}
-              className="hover:text-indigo-400 transition-colors"
+              className="hover:text-indigo-400 transition-colors p-0.5"
             >
               {isPlaying ? (
-                <Pause size={13} fill="currentColor" />
+                <Pause size={12} fill="currentColor" />
               ) : (
-                <Play size={13} fill="currentColor" />
+                <Play size={12} fill="currentColor" />
               )}
             </button>
 
@@ -152,7 +195,7 @@ export function PreviewMedia({ url, appName }: Props) {
               type="button"
               onClick={toggleSound}
               aria-label={isMuted ? 'Unmute video' : 'Mute video'}
-              className="hover:text-indigo-400 transition-colors"
+              className="hover:text-indigo-400 transition-colors p-0.5"
             >
               {isMuted ? <VolumeX size={13} /> : <Volume2 size={13} />}
             </button>
@@ -160,15 +203,19 @@ export function PreviewMedia({ url, appName }: Props) {
             <button
               type="button"
               onClick={handleFullscreen}
-              aria-label="Open fullscreen"
-              className="hover:text-indigo-400 transition-colors"
+              aria-label={isFullscreen ? 'Exit fullscreen' : 'Open fullscreen'}
+              className="hover:text-indigo-400 transition-colors p-0.5"
             >
-              <Maximize2 size={12} />
+              {isFullscreen ? <Minimize2 size={12} /> : <Maximize2 size={12} />}
             </button>
           </div>
 
-          <span>
-            {formatTime(currentTime)} / {formatTime(duration)}
+          <span className="text-[9px] sm:text-[10px] tabular-nums shrink-0">
+            {formatTime(currentTime)}
+            <span className="hidden min-[380px]:inline">
+              {' '}
+              / {formatTime(duration)}
+            </span>
           </span>
         </div>
       </div>

@@ -6,9 +6,6 @@ ARKALON NETWORK COMPREHENSIVE FAQ:
 Q: What is the Arkalon Network?
 A: The central hub and identity platform for the Arkalon application ecosystem, connecting live games, simulations, and experimental prototypes under a unified account architecture.
 
-Q: Who created the Arkalon Network?
-A: Arkalon Network and all associated applications were created and developed independently by Alex Degerman. It is proprietary software with all rights reserved.
-
 Q: Are all Arkalon games free to play?
 A: Yes. Every game in the Arkalon ecosystem is completely free with zero microtransactions, subscriptions, or pay-to-win mechanics. All progression is earned purely through gameplay.
 
