@@ -1,5 +1,16 @@
 export const NEWS_ITEMS = [
   {
+  id: 'v1.0-daily-launch',
+  date: 'September 29, 2026',
+  title: 'Arkalon Daily is Live!',
+  notes: [
+    'Five daily cognitive puzzles: Recall, Surge, Cipher, Strike, and Depths, each resetting at midnight UTC.',
+    'Deterministic seeds: every player receives the identical challenge each day, with one attempt per puzzle.',
+    'Server-authoritative scoring on a 0 to 100 scale with global leaderboards, streaks, and shareable result cards.',
+    'Zero friction: anonymous Core Identity on arrival, no accounts, no ads, no payments.'
+  ]
+},
+  {
     id: 'v1.0-network-launch',
     date: 'September 19, 2026',
     title: 'Arkalon Network is Live!',
