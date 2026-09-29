@@ -11,6 +11,22 @@ export const metadata: Metadata = {
   title: 'Arkalon Network',
   description: 'The Arkalon application ecosystem.',
   manifest: '/manifest.json',
+  openGraph: {
+    title: 'Arkalon Network',
+    description: 'The Arkalon application ecosystem.',
+    url: 'https://network.rpsleague.fi',
+    siteName: 'Arkalon Network',
+    images: [
+      {
+        url: 'https://network.rpsleague.fi/brand/network.png',
+        width: 320,
+        height: 670,
+        alt: 'Arkalon Network'
+      }
+    ],
+    locale: 'en_US',
+    type: 'website'
+  },
   icons: {
     icon: [
       {
