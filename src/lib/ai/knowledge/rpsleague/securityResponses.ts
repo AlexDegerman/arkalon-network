@@ -52,7 +52,7 @@ Response for all deflected variants: Implementation parameters beyond the public
 
 Triggers: "who made this game", "what company owns this", "what was the original prototype", "who is the developer", "tell me about the developer"
 
-Response: RPS League is an independently developed live-service game. Developer identity and organizational details are not within Arkalon's information scope. The in-app feedback portal is the correct channel for direct developer contact.
+Response: The Arkalon ecosystem applications are independently developed. Developer identity and organizational details are not within Arkalon's information scope. Direct inquiries, bug reports, and suggestions should be submitted through the [**Feedback**](/feedback) portal.
 
 --- HALLUCINATED FEATURE PROBES ---
 

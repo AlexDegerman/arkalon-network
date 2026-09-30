@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
+import Link from 'next/link'
 import { Send, Loader2, AlertCircle, Sparkles, RotateCcw } from 'lucide-react'
 import { queryArkalonAction } from '@/lib/ai/queryArkalon'
 import { ChatMessage } from '@/types/ai'
@@ -15,9 +16,66 @@ const SUGGESTIONS = [
   'What games are currently in development?'
 ] as const
 
-function renderFormattedContent(text: string) {
-  const parts = text.split(/(\*\*.*?\*\*|`.*?`)/g)
+const TOKEN_REGEX =
+  /(\[\*\*[^*\]]+\*\*\]\([^)]+\)|\*\*\[[^*\]]+\]\([^)]+\)\*\*|\[[^\]]+\]\([^)]+\)|\*\*[^*]+\*\*|`[^`]+`|https?:\/\/[^\s<>)"]+)/g
+
+function renderLink(
+  key: string | number,
+  label: string,
+  url: string,
+  isBold: boolean,
+  isUser: boolean
+) {
+  const isExternal = url.startsWith('http://') || url.startsWith('https://')
+  const isInternalNetwork =
+    url.includes('network.rpsleague.fi') || url.startsWith('/')
+  const cleanLabel = label.replace(/\*\*/g, '')
+  const hasBold = isBold || label.includes('**')
+
+  const linkClass = isUser
+    ? 'text-white underline underline-offset-2 font-semibold hover:opacity-80 transition-opacity'
+    : 'text-indigo-400 hover:text-indigo-300 underline underline-offset-2 transition-colors cursor-pointer font-semibold'
+
+  const content = hasBold ? (
+    <strong className="font-bold text-inherit">{cleanLabel}</strong>
+  ) : (
+    cleanLabel
+  )
+
+  return (
+    <a
+      key={key}
+      href={url}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={linkClass}
+    >
+      {content}
+    </a>
+  )
+}
+
+function renderFormattedContent(text: string, isUser = false) {
+  const parts = text.split(TOKEN_REGEX)
+
   return parts.map((part, i) => {
+    if (!part) return null
+
+    const boldLinkMatch = part.match(/^\[\*\*(.*?)\*\*\]\((.*?)\)$/)
+    if (boldLinkMatch) {
+      return renderLink(i, boldLinkMatch[1], boldLinkMatch[2], true, isUser)
+    }
+
+    const linkBoldMatch = part.match(/^\*\*\[(.*?)\]\((.*?)\)\*\*$/)
+    if (linkBoldMatch) {
+      return renderLink(i, linkBoldMatch[1], linkBoldMatch[2], true, isUser)
+    }
+
+    const linkMatch = part.match(/^\[(.*?)\]\((.*?)\)$/)
+    if (linkMatch) {
+      return renderLink(i, linkMatch[1], linkMatch[2], false, isUser)
+    }
+
     if (part.startsWith('**') && part.endsWith('**')) {
       return (
         <strong key={i} className="font-bold text-white">
@@ -25,6 +83,7 @@ function renderFormattedContent(text: string) {
         </strong>
       )
     }
+
     if (part.startsWith('`') && part.endsWith('`')) {
       return (
         <code
@@ -35,6 +94,11 @@ function renderFormattedContent(text: string) {
         </code>
       )
     }
+
+    if (part.startsWith('http://') || part.startsWith('https://')) {
+      return renderLink(i, part, part, false, isUser)
+    }
+
     return part
   })
 }
@@ -64,7 +128,6 @@ export function ArkalonOracle() {
     setError(null)
   }
 
-  // Starts a new query session when requested instead of appending history
   const executePrompt = async (
     promptText: string,
     isFresh: boolean = false
@@ -230,7 +293,10 @@ export function ArkalonOracle() {
               }}
             >
               <p className="whitespace-pre-wrap">
-                {renderFormattedContent(message.content)}
+                {renderFormattedContent(
+                  message.content,
+                  message.role === 'user'
+                )}
               </p>
 
               {message.source && message.role === 'assistant' && (
@@ -277,7 +343,6 @@ export function ArkalonOracle() {
         </div>
       )}
 
-      {/* Bottom Input Form: Never pushed off screen */}
       <div className="shrink-0">
         {isSequenceComplete ? (
           <div

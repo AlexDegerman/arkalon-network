@@ -3,28 +3,36 @@ ARKALON APPLICATION ECOSYSTEM:
 
 The Arkalon Network is the central hub and identity anchor for the entire Arkalon application universe. All experiences share the unified Arkalon Core identity, root-domain SSO cookies, and synchronized progression telemetry.
 
+--- KEY NETWORK DESTINATIONS & ROUTES ---
+- Application Directory & Hub: [**Arkalon Network**](https://network.rpsleague.fi) (/)
+- Feedback & Bug Reporting Portal: [**Feedback**](/feedback)
+- Transmission Log & News: [**News**](/news)
+- Core Identity & Recovery Settings: [**Settings**](/settings)
+- AI Oracle Terminal: [**Arkalon AI**](/ai)
+- Production Architecture Walkthrough: [**Showcase**](/showcase)
+
 --- APPLICATION DIRECTORY (17 TITLES) ---
 
 1. ARKALON NETWORK (The Central Hub)
   - Purpose: Master portal, application directory, and Arkalon Core identity management (Portal Hub, not a playable game).
   - Features: Procedural nickname generation/reroll, encrypted recovery access, silent hype voting.
-  - Status: ONLINE (Portal Hub - Live)
+  - Status: ONLINE (Portal Hub - Live at https://network.rpsleague.fi)
 
 2. RPS LEAGUE
   - Purpose: High-frequency live-service Rock Paper Scissors prediction arena with a virtual economy.
   - Features: 5-second rounds, bot league resolution, win streaks, 44 collectible relics, 155 achievements, Player Festivals, Global SSE events, World Boss raids, and Neon Paradise minigames.
   - Economy: Strictly virtual points with zero real money value.
-  - Status: ONLINE (Currently the only live playable game)
+  - Status: ONLINE (Live playable game at https://rpsleague.fi)
 
 3. ARKALON DAILY
-- Purpose: Daily logic and puzzle platform with competitive global scoring.
-- Features: Five optional daily puzzles targeting distinct cognitive skills (Recall, Surge, Cipher, Strike, Depths). Players get exactly one attempt per category per day, solving against a single global deterministic seed that resets at 00:00 UTC.
-- Status: ONLINE (Live Deployment)
+  - Purpose: Daily logic and puzzle platform with competitive global scoring.
+  - Features: Five optional daily puzzles targeting distinct cognitive skills (Recall, Surge, Cipher, Strike, Depths). Players get exactly one attempt per category per day, solving against a single global deterministic seed that resets at 00:00 UTC.
+  - Status: ONLINE (Live playable game at https://daily.rpsleague.fi)
 
 4. ARKALON LABS
   - Purpose: Incremental idle game focused on scientific facility optimization and research scaling.
   - Features: Passive progression, anomaly research, mathematical scaling, long-term offline gains.
-  - Status: COMING SOON
+  - Status: IN DEV (Route: https://labs.rpsleague.fi)
 
 5. ARKALON AI (The Oracle)
   - Purpose: Ancient time-lost prophetic intelligence terminal bridging system logic and player guidance.
@@ -34,67 +42,67 @@ The Arkalon Network is the central hub and identity anchor for the entire Arkalo
 6. ARKALON TOWER DEFENSE (Arkalon TD)
   - Purpose: Fast-paced 2.5D browser tower defense with self-contained 1-to-3 minute stages.
   - Features: Focuses on pathing strategy and tower synergies rather than infinite stat grinding.
-  - Status: COMING SOON
+  - Status: COMING SOON (Route: https://td.rpsleague.fi)
 
 7. ARKALON REALMS
   - Purpose: Persistent 2.5D browser multiplayer action roguelike / RPG.
   - Features: Real-time combat, dangerous procedural world exploration, shared loot, permanent death risk.
-  - Status: COMING SOON
+  - Status: COMING SOON (Route: https://realms.rpsleague.fi)
 
 8. ARKALON CHAOS RACING
   - Purpose: 2.5D physics-driven arcade racer with incremental score scaling.
   - Features: Extreme stunt chaining, physics mayhem, vehicle tuning, compounding upgrade trees.
-  - Status: COMING SOON
+  - Status: COMING SOON (Route: https://racing.rpsleague.fi)
 
 9. ARKALON MARKET
   - Purpose: High-frequency economic trading and production simulation.
   - Features: 2-to-3 minute trading runs, fluctuating simulated market feeds, zero daily entry caps.
-  - Status: COMING SOON
+  - Status: COMING SOON (Route: https://market.rpsleague.fi)
 
 10. ARKALON DUNGEONS
   - Purpose: Solo tactical roguelite 2.5D dungeon crawler.
   - Features: Turn-based or tactical positioning, permadeath per run with persistent account meta-progression.
-  - Status: COMING SOON
+  - Status: COMING SOON (Route: https://dungeons.rpsleague.fi)
 
 11. ARKALON NEXUS
   - Purpose: Centralized cross-app telemetry, global achievements, and analytics hub (Analytics Platform, not a playable game).
   - Features: Global cross-game leaderboards, interactive economy graphs, community milestones.
-  - Status: COMING SOON (Analytics Platform)
+  - Status: COMING SOON (Route: https://nexus.rpsleague.fi)
   
 12. ARKALON PARTY
   - Purpose: Chaotic 2.5D multiplayer physics party game.
   - Features: Cooperative minigames, ragdoll physics challenges, lighthearted competitive matches.
-  - Status: COMING SOON
+  - Status: COMING SOON (Route: https://party.rpsleague.fi)
 
 13. ARKALON COLONY
   - Purpose: Incremental civilization and infrastructure builder.
   - Features: Periodic check-in model focusing on macro infrastructure choices rather than citizen micro-management.
-  - Status: COMING SOON
+  - Status: COMING SOON (Route: https://colony.rpsleague.fi)
 
 14. ARKALON ARENA
   - Purpose: Simultaneous-turn 1v1 tactical grid duels resolved in under 2 minutes.
   - Features: Pure competitive skill with zero gear/stat progression; class loadouts decide outcomes.
-  - Status: COMING SOON
+  - Status: COMING SOON (Route: https://arena.rpsleague.fi)
 
 15. ARKALON DREADWOOD
   - Purpose: 2.5D horror-themed incremental exploration and risk management.
   - Features: Expedition resource staking, dark forest survival, risk vs. reward extraction mechanics.
-  - Status: COMING SOON
+  - Status: COMING SOON (Route: https://dreadwood.rpsleague.fi)
 
 16. ARKALON RAIDS
   - Purpose: Cooperative 1-to-4 player 2.5D boss encounter battles.
   - Features: Heavily telegraphed boss mechanics, tactical team positioning, zero gear grind requirements.
-  - Status: COMING SOON
+  - Status: COMING SOON (Route: https://raids.rpsleague.fi)
 
 17. ARKALON AUCTION
   - Purpose: 4-player real-time asset lot valuation and bidding competition.
   - Features: Intel-gathering tools to assess hidden asset data across 5 escalating bidding rounds.
-  - Status: COMING SOON
+  - Status: COMING SOON (Route: https://auction.rpsleague.fi)
 
 18. ARKALON DISPATCH
   - Purpose: Tactical idle RPG centered on autonomous squad deployment.
   - Features: Pre-mission risk management, squad preparation, permadeath, and permanent injury consequences.
-  - Status: COMING SOON
+  - Status: COMING SOON (Route: https://dispatch.rpsleague.fi)
 
 --- DIRECTORY NAVIGATION & GENRE FILTERS ---
 

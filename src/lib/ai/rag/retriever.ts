@@ -33,7 +33,16 @@ const APP_TRIGGERS: Record<string, string[]> = {
     'restore',
     'portal',
     'ecosystem',
-    'hub'
+    'hub',
+    'feedback',
+    'bug',
+    'bugs',
+    'report',
+    'reporting',
+    'issue',
+    'issues',
+    'suggestion',
+    'contact'
   ],
   daily: [
     'daily',

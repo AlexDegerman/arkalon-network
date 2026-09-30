@@ -42,11 +42,19 @@ export async function buildContext(
 
       <ecosystem_overview>
         <active_applications>
-          ${activeApps.map((app) => `<app slug="${app.slug}" name="${app.name}" status="${app.status}">${app.shortDescription}</app>`).join('\n    ')}
+          ${activeApps.map((app) => `<app slug="${app.slug}" name="${app.name}" status="${app.status}" url="${app.route}">${app.shortDescription}</app>`).join('\n    ')}
         </active_applications>
         <upcoming_applications>
-          ${upcomingApps.map((app) => `<app slug="${app.slug}" name="${app.name}">${app.shortDescription}</app>`).join('\n    ')}
+          ${upcomingApps.map((app) => `<app slug="${app.slug}" name="${app.name}" url="${app.route}">${app.shortDescription}</app>`).join('\n    ')}
         </upcoming_applications>
+        <system_routes>
+          <route name="Hub Directory" url="https://network.rpsleague.fi" path="/" />
+          <route name="Feedback &amp; Bug Reports" url="https://network.rpsleague.fi/feedback" path="/feedback" />
+          <route name="News &amp; Transmissions" url="https://network.rpsleague.fi/news" path="/news" />
+          <route name="Settings &amp; Identity" url="https://network.rpsleague.fi/settings" path="/settings" />
+          <route name="Ecosystem Showcase" url="https://network.rpsleague.fi/showcase" path="/showcase" />
+          <route name="Arkalon AI Oracle" url="https://network.rpsleague.fi/ai" path="/ai" />
+        </system_routes>
       </ecosystem_overview>
 
       <security_protocols>

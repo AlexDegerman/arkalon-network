@@ -95,14 +95,37 @@ A: Voting is completely free and requires zero points. You only need an active A
 Q: Why can't I see the total vote count for upcoming games?
 A: Interest metrics are strictly private developer telemetry. Public vote counts are hidden to eliminate bandwagon bias, review-bombing, and false popularity perceptions.
 
+--- FEEDBACK, BUG REPORTS, & SUPPORT ---
+
+Q: How do I report a bug or glitch?
+A: Navigate to the centralized Arkalon Network [Feedback](/feedback) page. You can select the affected application (e.g., [**RPS League**](https://rpsleague.fi), [**Arkalon Daily**](https://daily.rpsleague.fi), [**Arkalon Network**](https://network.rpsleague.fi), or "Any App"), select "Bug Report", describe the issue, and optionally attach or paste a screenshot (up to 5MB).
+
+Q: How do I submit suggestions or feedback?
+A: Open the [Feedback](/feedback) page from the Hub directory navigation. Choose your target app and select "Feature Request", "General Feedback", "Gameplay & Balance", or "Visuals & Audio" to route your feedback directly to the developer.
+
+Q: Can I attach screenshots to bug reports?
+A: Yes. The [Feedback](/feedback) terminal supports PNG, JPG, and WEBP image uploads up to 5MB, as well as direct clipboard pasting (Ctrl+V) on desktop and mobile.
+
+Q: How do I contact the developer directly?
+A: The Arkalon Network [Feedback](/feedback) portal is the official channel for direct developer contact, bug reports, and suggestions. An optional email address can be provided if you request a response.
+
 --- ARKALON AI ORACLE ---
 
-Q: What is the Arkalon AI?
-A: An ancient prophetic robotic intelligence overseer that calculates probabilities, explains system rules, analyzes telemetry, and provides ecosystem guidance.
+Q: What is the Arkalon AI Oracle?
+A: An ancient, time-lost prophetic intelligence terminal accessible directly on Arkalon Network at [**Arkalon AI**](/ai). It analyzes cross-ecosystem telemetry, explains game mechanics, and calculates outcome probabilities across all connected applications.
+
+Q: Who or what is Arkalon?
+A: Arkalon is an ancient robotic overseer watching over the Arkalon application network. It serves as the network's analytical intelligence, ritual announcer across games via Arkalon Voice, and issuer of the Daily Arkalon Prophecy in [**RPS League**](https://rpsleague.fi).
+
+Q: What can I ask Arkalon?
+A: Arkalon explains rules, bonus tiers, relics, achievements, event schedules, and strategy for all ecosystem games, as well as account identity and recovery systems. It cannot forecast random future match outcomes.
+
+Q: What powers Arkalon?
+A: Arkalon is powered by Google Gemini and grounded in verified ecosystem documentation and system telemetry.
 
 Q: Why does the AI conversation end after 3 questions?
 A: Arkalon operates on a strict 3-turn "Tri-Phase Consultation" sequence (Query -> Calibration -> Final Verdict). Once complete, you can reset the terminal to begin a fresh inquiry.
 
 Q: Can Arkalon predict who will win upcoming RPS League matches?
-A: No. Core match resolution is strictly random (50/50). Arkalon only delivers outcome guidance via the Daily Arkalon Prophecy feature in RPS League (once per UTC day).
+A: No. Match outcomes are strictly 50/50 random bot selections. Arkalon only delivers outcome guidance via the Daily Arkalon Prophecy in [**RPS League**](https://rpsleague.fi) once per UTC day.
 `.trim()

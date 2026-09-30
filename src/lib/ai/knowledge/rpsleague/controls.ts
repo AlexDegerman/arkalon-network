@@ -5,5 +5,4 @@ SYSTEM DEFINITIONS: USER CONTROLS & INTERFACE
 - Arkalon Voice: Browser synthesis via the Web Speech API reading prophecies, festival calls, and boss alerts at low pitch and slow cadence.
 - Game Systems Popover ("BONUSES" Button): Located on the dashboard beside "LOSE: -50%", this button opens nested accordion guides for all core mechanics.
 - Bet Input & Auto-Max Controls: Located above prediction buttons, Auto-Max automatically resets your active wager to your full point balance after every resolved prediction.
-- Dedicated Feedback Page: Accessible via "MORE" navigation, allowing categorized bug reports and suggestions with optional screenshot attachments up to 5MB.
 `

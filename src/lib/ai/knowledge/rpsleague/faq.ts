@@ -334,9 +334,6 @@ A: The app runs automated browser checks to detect duplicate open tabs. If multi
 Q: Why will this app not load on my older phone or tablet?
 A: The application utilizes large-number calculations to manage compounding multipliers and massive point values without losing precision. Older mobile devices and browsers lacking support for these calculations cannot process the game math.
 
-Q: How do I report bugs or submit feedback?
-A: You can open the feedback portal directly in the interface. It automatically bundles basic visual settings and supports pasting screenshots directly from your clipboard to help the developer fix issues.
-
 --- BONUS TIER SYSTEM DETAIL ---
 
 Q: What are the exact bonus multiplier ranges for each tier on a win?
@@ -426,23 +423,6 @@ A: Yes. Existing relics, achievements, laps, and leaderboard records are preserv
 
 Q: Will my achievements become obsolete?
 A: No. The Achievement Codex is a permanent record. New achievements added in updates expand the codex without invalidating previously earned milestones.
-
---- THE ARKALON (IDENTITY, ORACLE FEATURE, & ANNOUNCER) ---
-
-Q: What is this? / What is this feature?
-A: You are consulting Arkalon — an interactive AI guidance, telemetry analysis, and oracle terminal built into RPS League. Through this interface, you can ask questions about game rules, bonus multipliers, relic builds, achievements, event schedules, and statistical analysis of recent bot matches.
-
-Q: Who or what is Arkalon?
-A: Arkalon is an ancient, time-lost prophetic robotic entity overseeing the Arkalon application network. In RPS League, it serves as the league's intelligence: analyzing telemetry, explaining mechanics, delivering ritual announcements, and issuing the Daily Prophecy.
-
-Q: What can I ask Arkalon?
-A: Arkalon explains systems, relics, events, achievements, telemetry, statistics, and strategy. It analyzes existing data but cannot predict future matches.
-
-Q: What are Arkalon's other roles in the game?
-A: Arkalon serves as the Oracle & Systems Guide, the Announcer through Arkalon Voice, and the source of the Daily Prophecy.
-
-Q: What powers Arkalon?
-A: Arkalon is powered by Google Gemini and grounded in verified rules, live telemetry, and system documentation.
 
 --- AUDIO AND INTERFACE BEHAVIOR ---
 

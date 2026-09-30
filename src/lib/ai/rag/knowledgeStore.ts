@@ -42,7 +42,12 @@ export const KNOWLEDGE_REGISTRY: KnowledgeChunk[] = [
       'in dev',
       'roadmap',
       'upcoming',
-      'status'
+      'status',
+      'routes',
+      'links',
+      'pages',
+      'url',
+      'urls'
     ],
     content: ecosystemInfo
   },
@@ -107,7 +112,21 @@ export const KNOWLEDGE_REGISTRY: KnowledgeChunk[] = [
       'real money',
       'cashout',
       'third-party cookies',
-      'brute force'
+      'brute force',
+      'feedback',
+      'bug',
+      'bugs',
+      'report',
+      'reporting',
+      'issue',
+      'issues',
+      'glitch',
+      'support',
+      'suggestion',
+      'suggestions',
+      'feature request',
+      'screenshot',
+      'contact'
     ],
     content: networkFaq
   },
@@ -285,15 +304,7 @@ export const KNOWLEDGE_REGISTRY: KnowledgeChunk[] = [
     id: 'rps:controls',
     appSlug: 'rps',
     title: 'RPS League UI Controls & Audio Settings',
-    keywords: [
-      'controls',
-      'audio',
-      'auto max',
-      'voice',
-      'sound',
-      'popover',
-      'feedback'
-    ],
+    keywords: ['controls', 'audio', 'auto max', 'voice', 'sound', 'popover'],
     content: controls
   },
   {
