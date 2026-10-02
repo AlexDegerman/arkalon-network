@@ -11,6 +11,7 @@ import { ArkalonQueryResult, ChatMessage } from '@/types/ai'
 import { logQueryToDiscord } from './discordWebhook'
 import { validateOwnership } from '@/lib/identity/validateOwnership'
 import { findIdentityById } from '@/lib/identity/coreId'
+import { isBanned } from '@/lib/bans'
 
 const MessageSchema = z.object({
   role: z.enum(['user', 'assistant']),
@@ -86,6 +87,25 @@ export async function queryArkalonAction(
       }
     }
 
+    let nickname: string | undefined
+    let coreId: string | undefined
+
+    try {
+      const ownership = await validateOwnership()
+      if (ownership.valid) {
+        coreId = ownership.coreId
+        const banned = await isBanned(ownership.coreId, 'ai')
+        if (banned) {
+          return {
+            status: 'error',
+            message: 'Your oracle access has been restricted.'
+          }
+        }
+        const identity = await findIdentityById(ownership.coreId)
+        if (identity) nickname = identity.nickname
+      }
+    } catch {}
+
     const userTurnCount = parsed.data.filter((m) => m.role === 'user').length
 
     const { context, source: fallbackSource } = await buildContext(
@@ -103,22 +123,13 @@ export async function queryArkalonAction(
     }
 
     ;(async () => {
-      let nickname: string | undefined
-      try {
-        const ownership = await validateOwnership()
-        if (ownership.valid) {
-          const identity = await findIdentityById(ownership.coreId)
-          if (identity) nickname = identity.nickname
-        }
-      } catch {}
-
       await logQueryToDiscord({
         userPrompt: latestMessage,
         aiResponse: response,
         source,
-        ip,
         turnCount: userTurnCount,
-        nickname
+        nickname,
+        coreId
       })
     })().catch(() => {})
 

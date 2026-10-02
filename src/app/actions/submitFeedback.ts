@@ -96,11 +96,15 @@ export async function submitFeedbackAction(formData: FormData) {
               value: app.name,
               inline: true
             },
-            {
-              name: ' Admin',
-              value: `[Ban User](${getBanUrl(ownership?.valid ? ownership.coreId : 'anonymous', 'feedback')})`,
-              inline: true
-            }
+            ...(ownership?.valid
+              ? [
+                  {
+                    name: ' Admin',
+                    value: `[Ban User](${getBanUrl(ownership.coreId, 'feedback')})`,
+                    inline: true
+                  }
+                ]
+              : [])
           ],
           timestamp: new Date().toISOString()
         }
