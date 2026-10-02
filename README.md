@@ -94,7 +94,7 @@ First-time and returning visitor experiences are managed through lore-friendly m
 A dedicated communication channel (`/feedback`) allows players to submit bug reports, suggestions, and screenshots directly to the developer through Discord webhooks, with built-in abuse mitigation.
 
 - **App-Aware Routing & Dynamic Categories**: A unified dropdown selector routes feedback to any of the 16 ecosystem apps or the Network hub. Categories and textarea placeholders dynamically adapt to the selected context (e.g., exposing "AI Arkalon" for the Hub, "Gameplay & Balance" for live games, or restricting to core essentials for analytics apps like Nexus).
-- **Rich Media & Context**: Supports optional clipboard-paste or drag-and-drop screenshot uploads (max 5MB, PNG/JPG/WEBP) alongside an optional email field for developer follow-ups. Each Discord embed includes masked IP, user Short ID, and nickname context.
+- **Rich Media & Context**: Supports optional clipboard-paste or drag-and-drop screenshot uploads (max 5MB, PNG/JPG/WEBP) alongside an optional email field for developer follow-ups. Each Discord embed includes user Short ID and nickname context.
 - **Admin Ban & Moderation**: Every Discord embed includes a secure one-click `[Ban User]` moderation action for handling abuse, spam, malicious submissions, or repeated misuse of the feedback channel. Verified moderation actions can add the user's `core_id` to the `feedback_bans` PostgreSQL table, restricting future feedback submissions without affecting Core Identity or gameplay access.
 
 ---
@@ -296,7 +296,7 @@ All points, virtual credits, ratings, cosmetics, and rewards are purely virtual 
 
 Arkalon Network adheres to privacy-by-design principles across all systems:
 
-- **Ephemeral IP Handling**: IP addresses are used transiently in memory strictly for sliding-window rate limiting and are never persisted to databases, files, or audit logs.
+- **Zero IP Logging**: IP addresses are never gathered, logged, or sent to audit webhooks or databases. Ephemeral IP strings are processed transiently in volatile memory strictly to enforce sliding-window rate limits against automated abuse.
 - **No Third-Party Tracking**: The platform operates with zero third-party behavioral advertising trackers, data brokers, or marketing profiling scripts.
 - **Self-Hosted Campaign Telemetry**: First-party UTM and referrer attribution captured once per session (`sessionStorage`) via Next.js Server Actions directly into PostgreSQL, operating with zero third-party analytics scripts or PII collection.
 - **Credential Hygiene**: Recovery codes and session secrets are managed with constant-time cryptographic comparisons and are strictly isolated from public frontend exposure.

@@ -109,9 +109,9 @@ A: Yes. The [Feedback](/feedback) terminal supports PNG, JPG, and WEBP image upl
 Q: How do I contact the developer directly?
 A: The Arkalon Network [Feedback](/feedback) portal is the official channel for direct developer contact, bug reports, and suggestions. An optional email address can be provided if you request a response.
 
---- ARKALON AI ORACLE ---
+--- ARKALON AI ---
 
-Q: What is the Arkalon AI Oracle?
+Q: What is the Arkalon AI?
 A: An ancient, time-lost prophetic intelligence terminal accessible directly on Arkalon Network at [**Arkalon AI**](/ai). It analyzes cross-ecosystem telemetry, explains game mechanics, and calculates outcome probabilities across all connected applications.
 
 Q: Who or what is Arkalon?

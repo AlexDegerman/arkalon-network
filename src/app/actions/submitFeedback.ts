@@ -18,10 +18,6 @@ export async function submitFeedbackAction(formData: FormData) {
       return { status: 'error', message: 'Message is required.' }
     }
 
-    const headerList = await headers()
-    const ip =
-      headerList.get('x-forwarded-for')?.split(',')[0]?.trim() ?? '127.0.0.1'
-
     let nickname = 'Anonymous'
     let shortId = 'n/a'
     let ownership: OwnershipResult | null = null
@@ -101,11 +97,6 @@ export async function submitFeedbackAction(formData: FormData) {
             {
               name: '📱 App',
               value: app.name,
-              inline: true
-            },
-            {
-              name: ' Context',
-              value: `IP: \`${ip.split('.').slice(0, 3).join('.')}.xxx\``,
               inline: true
             },
             {

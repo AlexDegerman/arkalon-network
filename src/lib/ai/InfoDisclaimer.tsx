@@ -30,8 +30,8 @@ export function InfoDisclaimer() {
           color: 'var(--text-secondary)'
         }}
       >
-        Prompts are logged for safety monitoring. IP addresses are masked and no
-        personal data is stored.
+        Prompts are logged anonymously to improve answers and system accuracy.
+        No personal data is stored.
       </div>
     </div>
   )

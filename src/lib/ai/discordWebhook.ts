@@ -4,7 +4,6 @@ interface LogPromptParams {
   userPrompt: string
   aiResponse: string
   source: string
-  ip: string
   turnCount: number
   nickname?: string
 }
@@ -13,7 +12,6 @@ export async function logQueryToDiscord({
   userPrompt,
   aiResponse,
   source,
-  ip,
   turnCount,
   nickname
 }: LogPromptParams): Promise<void> {
@@ -22,13 +20,6 @@ export async function logQueryToDiscord({
     console.warn('[Discord AI Webhook] DISCORD_AI_WEBHOOK_URL is not set')
     return
   }
-
-  // Mask IP for privacy (e.g. 192.168.1.42 -> 192.168.1.xxx)
-  const maskedIp = ip.includes('.')
-    ? ip.replace(/\.\d+$/, '.xxx')
-    : ip.includes(':')
-      ? ip.replace(/:[^:]+$/, ':xxxx')
-      : 'unknown'
 
   // Embed color based on consultation turn
   const turnColors = [0x6366f1, 0xf59e0b, 0x10b981] // Turn 1 (Indigo), Turn 2 (Amber), Turn 3 (Emerald)
@@ -46,11 +37,6 @@ export async function logQueryToDiscord({
       {
         name: '🏷️ Reference',
         value: `\`${source}\``,
-        inline: true
-      },
-      {
-        name: '🌐 Masked IP',
-        value: `\`${maskedIp}\``,
         inline: true
       },
       {
