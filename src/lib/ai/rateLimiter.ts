@@ -2,6 +2,7 @@ import { RateLimitResult } from '@/types/ai'
 import 'server-only'
 
 const RATE_LIMIT = 5 // 5 requests per minute
+const VIOLATION_WINDOW_MS = 2 * 60 * 60 * 1000 // 2 hours
 
 interface RateLimitState {
   requestTimestamps: number[]
@@ -30,7 +31,7 @@ export function checkRateLimit(ip: string): RateLimitResult {
 
   if (userState.requestTimestamps.length >= RATE_LIMIT) {
     userState.violations = userState.violations.filter(
-      (t) => now - t < 10 * 60 * 1000
+      (t) => now - t < VIOLATION_WINDOW_MS
     )
     userState.violations.push(now)
     const violationCount = userState.violations.length
@@ -45,6 +46,7 @@ export function checkRateLimit(ip: string): RateLimitResult {
             : 60 * 60 * 1000
 
     userState.cooldownUntil = now + cooldownDuration
+    userState.requestTimestamps = []
     rateLimitMap.set(ip, userState)
     return { allowed: false, error: 'RATE_LIMITED' }
   }
@@ -60,7 +62,9 @@ export function pruneRateLimiter(): void {
     state.requestTimestamps = state.requestTimestamps.filter(
       (t) => now - t < 60 * 1000
     )
-    state.violations = state.violations.filter((t) => now - t < 10 * 60 * 1000)
+    state.violations = state.violations.filter(
+      (t) => now - t < VIOLATION_WINDOW_MS
+    )
     const isActive =
       now < state.cooldownUntil ||
       state.requestTimestamps.length > 0 ||
