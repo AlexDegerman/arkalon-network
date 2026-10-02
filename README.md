@@ -95,6 +95,7 @@ A dedicated communication channel (`/feedback`) allows players to submit bug rep
 
 - **App-Aware Routing & Dynamic Categories**: A unified dropdown selector routes feedback to any of the 16 ecosystem apps or the Network hub. Categories and textarea placeholders dynamically adapt to the selected context (e.g., exposing "AI Arkalon" for the Hub, "Gameplay & Balance" for live games, or restricting to core essentials for analytics apps like Nexus).
 - **Rich Media & Context**: Supports optional clipboard-paste or drag-and-drop screenshot uploads (max 5MB, PNG/JPG/WEBP) alongside an optional email field for developer follow-ups. Each Discord embed includes user Short ID and nickname context.
+- **Discord Dispatch Rationale**: Replaces traditional email ticketing with direct Discord webhooks to ensure immediate 24/7 developer push notifications, inline screenshot rendering, zero deliverability/DNS maintenance, and one-click in-channel moderation.
 - **Admin Ban & Moderation**: Webhook alerts include a secure one-click `[Ban User]` moderation action for handling spam, botting, or repeated abuse. Verified actions flag the user's `core_id` to restrict feedback submissions or AI Oracle queries without affecting Core Identity or gameplay access.
 
 ---
