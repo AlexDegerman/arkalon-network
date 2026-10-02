@@ -1,10 +1,10 @@
 'use server'
-import { headers } from 'next/headers'
-import pool from '@/lib/db'
 import { validateOwnership } from '@/lib/identity/validateOwnership'
 import { findIdentityById } from '@/lib/identity/coreId'
 import { OwnershipResult } from '@/types/identity'
 import { PUBLIC_APPS } from '@/lib/registry/apps'
+import { isBanned, getBanUrl } from '@/lib/bans'
+import { sendDiscordWebhook } from '@/lib/discord'
 
 export async function submitFeedbackAction(formData: FormData) {
   try {
@@ -42,11 +42,8 @@ export async function submitFeedbackAction(formData: FormData) {
     }
 
     if (ownership?.valid) {
-      const banCheck = await pool.query(
-        'SELECT 1 FROM feedback_bans WHERE core_id = $1',
-        [ownership.coreId]
-      )
-      if (banCheck.rowCount && banCheck.rowCount > 0) {
+      const banned = await isBanned(ownership.coreId, 'feedback')
+      if (banned) {
         return { status: 'banned' }
       }
     }
@@ -101,7 +98,7 @@ export async function submitFeedbackAction(formData: FormData) {
             },
             {
               name: ' Admin',
-              value: `[Ban User](${process.env.NEXT_PUBLIC_SITE_URL || 'https://network.rpsleague.fi'}/api/feedback/ban/${ownership?.valid ? ownership.coreId : 'anonymous'}?key=${process.env.FEEDBACK_ADMIN_KEY || 'missing_key'})`,
+              value: `[Ban User](${getBanUrl(ownership?.valid ? ownership.coreId : 'anonymous', 'feedback')})`,
               inline: true
             }
           ],
@@ -109,9 +106,6 @@ export async function submitFeedbackAction(formData: FormData) {
         }
       ]
     }
-
-    const discordFormData = new FormData()
-    discordFormData.append('payload_json', JSON.stringify(payload))
 
     if (screenshot && screenshot.size > 0) {
       if (screenshot.size > 5 * 1024 * 1024) {
@@ -125,26 +119,18 @@ export async function submitFeedbackAction(formData: FormData) {
           message: 'Only PNG, JPG, and WEBP images are allowed.'
         }
       }
-      discordFormData.append(
-        'files[0]',
-        screenshot,
-        screenshot.name || 'screenshot.png'
-      )
     }
 
-    const response = await fetch(webhookUrl, {
-      method: 'POST',
-      body: discordFormData
+    const sent = await sendDiscordWebhook({
+      webhookUrl,
+      payload,
+      file: screenshot
     })
-    if (!response.ok) {
-      const errorText = await response.text()
-      console.error(
-        `[submitFeedbackAction] Discord webhook failed: ${response.status} ${response.statusText}`,
-        errorText
-      )
+
+    if (!sent) {
       return {
         status: 'error',
-        message: `Discord webhook error: ${response.status}`
+        message: 'Discord webhook error.'
       }
     }
     return { status: 'success' }

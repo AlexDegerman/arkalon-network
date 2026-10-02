@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import pool from '@/lib/db'
+import { banCoreId } from '@/lib/bans'
 
 export async function GET(
   req: NextRequest,
@@ -14,10 +14,7 @@ export async function GET(
   }
 
   try {
-    await pool.query(
-      'INSERT INTO feedback_bans (core_id, banned_at) VALUES ($1, NOW()) ON CONFLICT (core_id) DO NOTHING',
-      [coreId]
-    )
+    await banCoreId(coreId, 'feedback')
 
     const safeId = String(coreId).replace(/</g, '&lt;')
 
