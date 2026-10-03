@@ -49,7 +49,7 @@ describe('coreId database operations', () => {
       expect(result).toBe(mockCoreId)
       expect(pool.query).toHaveBeenCalledWith(
         expect.stringContaining('INSERT INTO core_identities'),
-        [mockShortId, mockNickname, mockHash]
+        [mockShortId, mockNickname, mockHash, null, null]
       )
     })
   })

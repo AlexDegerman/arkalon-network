@@ -35,6 +35,8 @@ export interface CoreIdentityRow {
   short_id: string
   nickname: string
   recovery_code: string
+  signup_town?: string | null
+  signup_country?: string | null
   created_at: Date
   last_seen_at: Date
 }

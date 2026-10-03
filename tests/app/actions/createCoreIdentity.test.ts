@@ -20,7 +20,11 @@ vi.mock('@/lib/identity/cookie', () => ({
 vi.mock('@/lib/identity/coreId', () => ({
   createCoreIdentity: vi.fn(),
   findIdentityById: vi.fn(),
-  updateLastSeen: vi.fn()
+  updateLastSeen: vi.fn(),
+  updateIdentityLocation: vi.fn()
+}))
+vi.mock('@/lib/geo', () => ({
+  getCoarseLocation: vi.fn(() => ({ town: null, country: null }))
 }))
 vi.mock('@/lib/identity/recoveryCode', () => ({
   generateRecoveryCode: vi.fn(() => 'TEST-CODE-1234'),
@@ -94,7 +98,9 @@ describe('createCoreIdentityAction', () => {
     expect(createCoreIdentity).toHaveBeenCalledWith(
       'TEST-CODE-1234',
       'TestNickname',
-      'Short123'
+      'Short123',
+      null,
+      null
     )
     expect(setCoreIdCookie).toHaveBeenCalledWith('new-uuid')
     expect(setSessionCookie).toHaveBeenCalledWith('signed-token')

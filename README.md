@@ -57,6 +57,7 @@ Arkalon Network introduces **Arkalon Core**, a zero-friction, local-first accoun
   - `arkalon_core_id`: 1-year persistent anchor storing the public UUID.
   - `arkalon_session`: 30-day rolling session token, HMAC-signed with SHA-256 and verified in constant time before granting data access.
 - **Internal Identity & Reroll APIs**: Satellite apps securely communicate with the Hub through secret-protected endpoints (`/api/identity/provision` to bootstrap accounts and `/api/identity/reroll` to randomize names), keeping Arkalon Network as the single source of truth for dictionaries, wordbanks, and identity persistence.
+- **Offline Regional Demographics**: Resolves coarse geographic demographics (city and country) entirely in-memory via offline GeoIP lookups during account provisioning, discarding client IP subnets immediately to preserve zero-PII privacy.
 - **Deep-Linkable Settings Surface**: Applications can open identity management directly through a dedicated settings route for recovery, nickname changes, and account restoration.
 
 ---
@@ -94,7 +95,7 @@ First-time and returning visitor experiences are managed through lore-friendly m
 A dedicated communication channel (`/feedback`) allows players to submit bug reports, suggestions, and screenshots directly to the developer through Discord webhooks, with built-in abuse mitigation.
 
 - **App-Aware Routing & Dynamic Categories**: A unified dropdown selector routes feedback to any of the 16 ecosystem apps or the Network hub. Categories and textarea placeholders dynamically adapt to the selected context (e.g., exposing "AI Arkalon" for the Hub, "Gameplay & Balance" for live games, or restricting to core essentials for analytics apps like Nexus).
-- **Rich Media & Context**: Supports optional clipboard-paste or drag-and-drop screenshot uploads (max 5MB, PNG/JPG/WEBP) alongside an optional email field for developer follow-ups. Each Discord embed includes user Short ID and nickname context.
+- **Rich Media & Context**: Supports optional clipboard-paste or drag-and-drop screenshot uploads (max 5MB, PNG/JPG/WEBP) alongside an optional email field for developer follow-ups. Each Discord embed includes user Short ID, nickname, and coarse regional origin.
 - **Discord Dispatch Rationale**: Replaces traditional email ticketing with direct Discord webhooks to ensure immediate 24/7 developer push notifications, inline screenshot rendering, zero deliverability/DNS maintenance, and one-click in-channel moderation.
 - **Admin Ban & Moderation**: Webhook alerts include a secure one-click `[Ban User]` moderation action for handling spam, botting, or repeated abuse. Verified actions flag the user's `core_id` to restrict feedback submissions or AI Oracle queries without affecting Core Identity or gameplay access.
 
@@ -297,7 +298,7 @@ All points, virtual credits, ratings, cosmetics, and rewards are purely virtual 
 
 Arkalon Network adheres to privacy-by-design principles across all systems:
 
-- **Zero IP Logging**: IP addresses are never gathered, logged, or sent to audit webhooks or databases. Ephemeral IP strings are processed transiently in volatile memory strictly to enforce sliding-window rate limits against automated abuse.
+- **Coarse Geolocation (Zero IP Storage)**: Client IP addresses are processed transiently in volatile memory during initial account provisioning strictly to resolve non-identifying regional statistics (city and country). Raw and masked IP addresses are immediately discarded and are never stored in databases, audit logs, or third-party webhooks.
 - **No Third-Party Tracking**: The platform operates with zero third-party behavioral advertising trackers, data brokers, or marketing profiling scripts.
 - **Self-Hosted Campaign Telemetry**: First-party UTM and referrer attribution captured once per session (`sessionStorage`) via Next.js Server Actions directly into PostgreSQL, operating with zero third-party analytics scripts or PII collection.
 - **Credential Hygiene**: Recovery codes and session secrets are managed with constant-time cryptographic comparisons and are strictly isolated from public frontend exposure.

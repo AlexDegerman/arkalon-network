@@ -9,6 +9,7 @@ interface LogPromptParams {
   turnCount: number
   nickname?: string
   coreId?: string
+  location?: string
 }
 
 export async function logQueryToDiscord({
@@ -17,7 +18,8 @@ export async function logQueryToDiscord({
   source,
   turnCount,
   nickname,
-  coreId
+  coreId,
+  location
 }: LogPromptParams): Promise<void> {
   const webhookUrl = process.env.DISCORD_AI_WEBHOOK_URL
   if (!webhookUrl) {
@@ -41,6 +43,14 @@ export async function logQueryToDiscord({
       inline: true
     }
   ]
+
+  if (location) {
+    fields.push({
+      name: '📍 Location',
+      value: `\`${location}\``,
+      inline: true
+    })
+  }
 
   if (coreId) {
     fields.push({

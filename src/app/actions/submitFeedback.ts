@@ -20,6 +20,7 @@ export async function submitFeedbackAction(formData: FormData) {
 
     let nickname = 'Anonymous'
     let shortId = 'n/a'
+    let location: string | undefined
     let ownership: OwnershipResult | null = null
 
     try {
@@ -29,6 +30,10 @@ export async function submitFeedbackAction(formData: FormData) {
         if (identity) {
           nickname = identity.nickname
           shortId = identity.short_id || 'n/a'
+          location =
+            [identity.signup_town, identity.signup_country]
+              .filter(Boolean)
+              .join(', ') || undefined
         }
       }
     } catch {}
@@ -96,6 +101,15 @@ export async function submitFeedbackAction(formData: FormData) {
               value: app.name,
               inline: true
             },
+            ...(location
+              ? [
+                  {
+                    name: '📍 Location',
+                    value: `\`${location}\``,
+                    inline: true
+                  }
+                ]
+              : []),
             ...(ownership?.valid
               ? [
                   {

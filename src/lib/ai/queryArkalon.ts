@@ -10,8 +10,9 @@ import { getCached, setCache } from './cache'
 import { ArkalonQueryResult, ChatMessage } from '@/types/ai'
 import { logQueryToDiscord } from './discordWebhook'
 import { validateOwnership } from '@/lib/identity/validateOwnership'
-import { findIdentityById } from '@/lib/identity/coreId'
+import { findIdentityById, updateIdentityLocation } from '@/lib/identity/coreId'
 import { isBanned } from '@/lib/bans'
+import { getCoarseLocation } from '../geo'
 
 const MessageSchema = z.object({
   role: z.enum(['user', 'assistant']),
@@ -89,6 +90,7 @@ export async function queryArkalonAction(
 
     let nickname: string | undefined
     let coreId: string | undefined
+    let location: string | undefined
 
     try {
       const ownership = await validateOwnership()
@@ -102,7 +104,22 @@ export async function queryArkalonAction(
           }
         }
         const identity = await findIdentityById(ownership.coreId)
-        if (identity) nickname = identity.nickname
+        if (identity) {
+          nickname = identity.nickname
+          let town = identity.signup_town
+          let country = identity.signup_country
+          if (!town && !country) {
+            const geo = getCoarseLocation(ip)
+            town = geo.town
+            country = geo.country
+            if (town || country) {
+              updateIdentityLocation(ownership.coreId, town, country).catch(
+                () => {}
+              )
+            }
+          }
+          location = [town, country].filter(Boolean).join(', ') || undefined
+        }
       }
     } catch {}
 
@@ -129,7 +146,8 @@ export async function queryArkalonAction(
         source,
         turnCount: userTurnCount,
         nickname,
-        coreId
+        coreId,
+        location
       })
     })().catch(() => {})
 

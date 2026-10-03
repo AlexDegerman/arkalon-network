@@ -5,6 +5,7 @@ import { setCoreIdCookie, setSessionCookie } from '@/lib/identity/cookie'
 import {
   createCoreIdentity,
   findIdentityById,
+  updateIdentityLocation,
   updateLastSeen
 } from '@/lib/identity/coreId'
 import {
@@ -14,6 +15,7 @@ import {
 } from '@/lib/identity/recoveryCode'
 import { generateNickname, generateShortId } from '@/lib/identity/nicknames'
 import { checkRateLimit } from '@/lib/identity/rateLimit'
+import { getCoarseLocation } from '@/lib/geo'
 import { headers } from 'next/headers'
 import pool from '@/lib/db'
 import type { CreateIdentityResult } from '@/types/identity'
@@ -22,11 +24,21 @@ export type { CreateIdentityResult }
 
 export async function createCoreIdentityAction(): Promise<CreateIdentityResult> {
   try {
+    const headerList = await headers()
+    const ip =
+      headerList.get('x-forwarded-for')?.split(',')[0]?.trim() || '127.0.0.1'
+
     const ownership = await validateOwnership()
     if (ownership.valid) {
       await updateLastSeen(ownership.coreId)
       const identity = await findIdentityById(ownership.coreId)
       if (identity) {
+        if (!identity.signup_town && !identity.signup_country) {
+          const { town, country } = getCoarseLocation(ip)
+          if (town || country) {
+            updateIdentityLocation(identity.id, town, country).catch(() => {})
+          }
+        }
         return {
           status: 'existing',
           coreId: identity.id,
@@ -36,10 +48,6 @@ export async function createCoreIdentityAction(): Promise<CreateIdentityResult> 
         }
       }
     }
-
-    const headerList = await headers()
-    const ip =
-      headerList.get('x-forwarded-for')?.split(',')[0]?.trim() || '127.0.0.1'
     const allowed = checkRateLimit(ip, 'identity_creation', 5, 60 * 60 * 1000)
     if (!allowed) {
       return { status: 'rate_limited' }
@@ -49,7 +57,15 @@ export async function createCoreIdentityAction(): Promise<CreateIdentityResult> 
     const nickname = generateNickname()
     const shortId = generateShortId()
 
-    const coreId = await createCoreIdentity(recoveryCode, nickname, shortId)
+    const { town, country } = getCoarseLocation(ip)
+
+    const coreId = await createCoreIdentity(
+      recoveryCode,
+      nickname,
+      shortId,
+      town,
+      country
+    )
 
     // Store only the token hash server-side while keeping the signed token client-side
     const sessionToken = signSessionToken(coreId)

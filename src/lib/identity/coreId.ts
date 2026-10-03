@@ -5,13 +5,21 @@ import { CoreIdentityRow } from '@/types/identity'
 export async function createCoreIdentity(
   recoveryCode: string,
   nickname: string,
-  shortId: string
+  shortId: string,
+  town?: string | null,
+  country?: string | null
 ): Promise<string> {
   const result = await pool.query<{ id: string }>(
-    `INSERT INTO core_identities (id, short_id, nickname, recovery_code, created_at, last_seen_at)
-      VALUES (gen_random_uuid(), $1, $2, $3, now(), now())
+    `INSERT INTO core_identities (id, short_id, nickname, recovery_code, signup_town, signup_country, created_at, last_seen_at)
+      VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, now(), now())
       RETURNING id`,
-    [shortId, nickname, recoveryCode.toLowerCase().trim()]
+    [
+      shortId,
+      nickname,
+      recoveryCode.toLowerCase().trim(),
+      town || null,
+      country || null
+    ]
   )
   return result.rows[0].id
 }
@@ -27,7 +35,7 @@ export async function findIdentityById(
   coreId: string
 ): Promise<CoreIdentityRow | null> {
   const result = await pool.query<CoreIdentityRow>(
-    `SELECT id, short_id, nickname, recovery_code, created_at, last_seen_at
+    `SELECT id, short_id, nickname, recovery_code, signup_town, signup_country, created_at, last_seen_at
       FROM core_identities
       WHERE id = $1`,
     [coreId]
@@ -39,7 +47,7 @@ export async function findIdentityByRecoveryCode(
   code: string
 ): Promise<CoreIdentityRow | null> {
   const result = await pool.query<CoreIdentityRow>(
-    `SELECT id, short_id, nickname, recovery_code, created_at, last_seen_at
+    `SELECT id, short_id, nickname, recovery_code, signup_town, signup_country, created_at, last_seen_at
       FROM core_identities
       WHERE recovery_code = $1`,
     [code.toLowerCase().trim()]
@@ -54,5 +62,19 @@ export async function updateNickname(
   await pool.query(
     `UPDATE core_identities SET nickname = $1, last_seen_at = now() WHERE id = $2`,
     [nickname, coreId]
+  )
+}
+
+export async function updateIdentityLocation(
+  coreId: string,
+  town: string | null,
+  country: string | null
+): Promise<void> {
+  await pool.query(
+    `UPDATE core_identities 
+      SET signup_town = COALESCE(signup_town, $1), 
+          signup_country = COALESCE(signup_country, $2) 
+      WHERE id = $3 AND (signup_town IS NULL OR signup_country IS NULL)`,
+    [town, country, coreId]
   )
 }
